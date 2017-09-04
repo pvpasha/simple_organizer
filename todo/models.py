@@ -6,3 +6,12 @@ class ToDo(models.Model):
     body = models.TextField(blank=True, null=True)
     owner = models.EmailField()
     finished = models.BooleanField(default=False)
+
+
+class Task(models.Model):
+    pass
+
+
+class Contact(models.Model):
+    pass
+
