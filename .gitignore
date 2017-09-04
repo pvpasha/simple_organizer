@@ -1,6 +1,7 @@
-.env/
+env/
 .idea/
 
 migrations/
 
 *.pyc
+db.sqlite3
