@@ -5,13 +5,13 @@ from .models import ToDo, Task, Contact
 
 class ToDoAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'owner', 'finished')
-    list_filter = ('id', 'owner', 'finished')
+    list_filter = ('id', 'owner')
     search_fields = ('id', 'title', 'owner', 'finished')
     empty_value_display = '-empty-'
     readonly_field = ['id',]
 
 class TaskAdmin (admin.ModelAdmin):
-    list_display = ('id', 'task_text', 'time_for_work', 'finished_time', 'check_task')
+    list_display = ('id', 'task_text', 'time_for_work', 'check_task')
     #list_filter = ('time_for_work', 'finished_time', 'check_task')
 
 

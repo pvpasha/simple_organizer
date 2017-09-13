@@ -9,23 +9,23 @@ class OrganizerUserAdmin(BaseUserAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
 
-    list_display = ('id', 'first_name', 'second_name', 'user_mail')
+    list_display = ('id', 'first_name', 'second_name', 'image_thumb', 'avatar', 'user_mail')
     list_filter = ('first_name', 'second_name', 'user_mail')
 
     fieldsets = (
-        (None, {'fields': ('user_mail', 'password')}),
+        (None, {'fields': ('user_mail', 'password', 'avatar')}),
         ('Personal info', {'fields': ('first_name', 'second_name', 'is_staff',
                                       'is_active', 'date_joined')}),
     )
     add_fieldsets = (
         (None, {'fields': ('user_mail', 'password1', 'password2')}),
         ('Extra info', {'classes': ('collapse',),
-                        'fields': ('first_name', 'second_name')}),
+                        'fields': ('first_name', 'second_name' , 'avatar')}),
     )
 
     search_fields = ('first_name', 'second_name', 'user_mail')
     empty_value_display = '-empty-'
-    readonly_field = ['id',]
+    readonly_field = ['image_thumb']
 
     ordering = ('user_mail',)
 

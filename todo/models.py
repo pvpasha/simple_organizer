@@ -12,8 +12,8 @@ class ToDo(models.Model):
 class Task(models.Model):
     task_text = models.TextField(max_length=30)
     time_for_work = models.DurationField(default=0)
-    finished_time = models.DateTimeField(default=datetime.now)
-    alarm_clock_task = models.DateTimeField('Alarm clock:', default=datetime.now)
+    #finished_time = models.DateTimeField(default=datetime.now)
+    #alarm_clock_task = models.DateTimeField('Alarm clock:', default=datetime.now)
     check_task = models.BooleanField(default=False)
 
 

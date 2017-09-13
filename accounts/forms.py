@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import (ReadOnlyPasswordHashField,
                                        UserCreationForm as _UserCreationForm,
                                        UserChangeForm as _UserChangeForm)
+#from PIL
 
 from .models import OrganizerUser
 
@@ -12,7 +13,7 @@ class UserCreationForm(_UserCreationForm):
 
     class Meta:
         model = OrganizerUser
-        fields = ('user_mail', 'password1', 'password2', 'first_name', 'second_name')
+        fields = ('user_mail', 'password1', 'password2', 'first_name', 'second_name', 'avatar')
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
