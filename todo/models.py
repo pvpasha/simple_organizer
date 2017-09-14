@@ -48,11 +48,6 @@ class Task(models.Model):
     reminder = models.BooleanField(default=False)
     reminder_timedelta = models.IntegerField(choices=REMINDER_TIMEDELTA_CHOICES, default=MIN15)
 
-    # time_for_work = models.DurationField(default=0)
-    # finished_time = models.DateTimeField(default=datetime.now)
-    # alarm_clock_task = models.DateTimeField('Alarm clock:', default=datetime.now)
-    # check_task = models.BooleanField(default=False)
-
     def get_timeleft(self):
         return self.finishing_datetime - self.creation_datetime
 
@@ -60,10 +55,52 @@ class Task(models.Model):
         #if self.reminder = True
         return self.finishing_datetime - timedelta(seconds=self.reminder_timedelta)
 
+    PER0 = 0
+    PER25 = 25
+    PER50 = 50
+    PER75 = 75
+    PER100 = 100
+
+    TASK_PERCENT_CHOICES = (
+        (PER0, '0%'), (PER25, '25%'), (PER50, '50%'), (PER75, '75%'), (
+            PER100, '100%')
+    )
+
+    percent = models.IntegerField(choices=TASK_PERCENT_CHOICES, default=PER0)
+
+    def get_percent(self):
+        return self.percent
+
+    category = models.CharField(max_length=30)
+
+
+class Event(models.Model):
+    owner = models.EmailField()
+    title = models.CharField(max_length=30)
+    body = models.TextField(blank=True, null=True)
+    category = models.CharField(max_length=30) # IntegerField and CHOICES ??
+    event_datetime = models.DateTimeField(default=datetime.now)
+
+    E_DAY = event_datetime.day + 1
+    E_WEEK = event_datetime.day + 7
+    E_MONTH = event_datetime.day + 30 # EVERY Month its not good
+    E_YEAR = event_datetime.year + 1
+
+    REPEAT_EVERY_CHOICES = (
+        (E_DAY, 'every day'), (E_WEEK, 'every week'), (E_MONTH, 'every month'), (
+            E_YEAR, 'every year')
+    )
+
+    repeat = models.BooleanField(default=False)
+    repeat_every = models.IntegerField(choices=REPEAT_EVERY_CHOICES, default=None)
+
+    def get_repeate_time(self):
+        return self.repeat_every
 
 
 class Contact(models.Model):
-    name_c = models.CharField(max_length=20)
-    forename_c = models.CharField(max_length=20)
-    phone_num = models.IntegerField(default=0)
-    birthday_c = models.DateField(default=date.today)
+    name = models.CharField(max_length=20)
+    forename = models.CharField(max_length=20)
+    phone = models.CharField(max_length=20)
+    birthday = models.DateField(default=date.today)
+    add_reminder = models.BooleanField(default=False) #add birthday to reminder

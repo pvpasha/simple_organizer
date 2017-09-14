@@ -1,2 +1,2 @@
 django==1.10
-sorl.thumbnail
+sorl.thumbnail=12.3
