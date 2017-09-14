@@ -97,6 +97,14 @@ class Event(models.Model):
     def get_repeate_time(self):
         return self.repeat_every
 
+class Diary(models.Model):
+    owner = models.EmailField()
+    title = models.CharField(max_length=30)
+    body = models.TextField(blank=True, null=True)
+    creation_date = models.DateTimeField(default=datetime.now)
+
+class Budget(models.Model):
+    pass
 
 class Contact(models.Model):
     name = models.CharField(max_length=20)
@@ -104,3 +112,6 @@ class Contact(models.Model):
     phone = models.CharField(max_length=20)
     birthday = models.DateField(default=date.today)
     add_reminder = models.BooleanField(default=False) #add birthday to reminder
+
+class PasswordOrganizer(models.Model):
+    pass
