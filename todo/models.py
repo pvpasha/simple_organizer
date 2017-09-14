@@ -1,5 +1,5 @@
 from django.db import models
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 
 class ToDo(models.Model):
@@ -17,7 +17,7 @@ class Task(models.Model):
     creation_datetime = models.DateTimeField(default=datetime.now)
     finishing_datetime = models.DateTimeField()
     ####
-    # TODO Чого так не можна кодити?????
+    # TODO Чого так не можна кодити????? --- незнаю...))
     MIN15 = 900
     MIN30 = 1800
     MIN45 = 2700
@@ -41,7 +41,9 @@ class Task(models.Model):
     ####
 
     REMINDER_TIMEDELTA_CHOICES = (
-        (MIN15, '15 min'), (MIN30, '30 min'), (MIN45, '45 min'),
+        (MIN15, '15 min'), (MIN30, '30 min'), (MIN45, '45 min'), (HOUR1, '1 hour'), (
+            HOUR1_5, '1.5 hour'), (HOUR2, '2 hours'), (DAY1, '1 day'), (DAY2, '2 days'), (
+            MONTH, 'month')
     )
     reminder = models.BooleanField(default=False)
     reminder_timedelta = models.IntegerField(choices=REMINDER_TIMEDELTA_CHOICES, default=MIN15)
@@ -52,11 +54,12 @@ class Task(models.Model):
     # check_task = models.BooleanField(default=False)
 
     def get_timeleft(self):
-        # TODO: calculate finishing_datetime - creation_datetime
-        pass
+        return self.finishing_datetime - self.creation_datetime
 
     def get_reminder_timedate(self):
+        #if self.reminder = True
         return self.finishing_datetime - timedelta(seconds=self.reminder_timedelta)
+
 
 
 class Contact(models.Model):
@@ -64,4 +67,3 @@ class Contact(models.Model):
     forename_c = models.CharField(max_length=20)
     phone_num = models.IntegerField(default=0)
     birthday_c = models.DateField(default=date.today)
-
