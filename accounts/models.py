@@ -38,11 +38,9 @@ class OrganizerUser(AbstractBaseUser, PermissionsMixin):
 
     def image_thumb(self):
         im = get_thumbnail(self.avatar, '150x150', crop='center', quality=99)
-        #return u'<img src="%s" />' % im.url
         return u'<img src="%s" width="50"/>' % im.url
     image_thumb.short_description = 'Image'
     image_thumb.allow_tags = True
-
 
 
     is_staff = models.BooleanField(default=False)
