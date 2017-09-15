@@ -71,7 +71,7 @@ class Task(models.Model):
     def get_percent(self):
         return self.percent
 
-    category = models.CharField(max_length=30)
+    category = models.CharField(max_length=30) # Add IntegerField and CHOICES for category
 
 
 class Event(models.Model):
@@ -101,10 +101,27 @@ class Diary(models.Model):
     owner = models.EmailField()
     title = models.CharField(max_length=30)
     body = models.TextField(blank=True, null=True)
-    creation_date = models.DateTimeField(default=datetime.now)
+    creation_date = models.DateTimeField(default=datetime.now) #auto_now_add=True
 
 class Budget(models.Model):
-    pass
+    cash = models.FloatField(null=True, blank=True, default=0)
+
+    class Currency(models.Model):
+        USD = 1
+        EUR = 1
+        UAH = 1
+        CURRENCY_CHOICES = ((USD, '$'), (EUR, 'E'), (UAH, 'hrn'))
+        currency = models.IntegerField(choices=CURRENCY_CHOICES, default=USD)
+
+    income = models.FloatField(null=True, blank=True, default=0)
+    outcome = models.FloatField(null=True, blank=True, default=0)
+
+    def get_income(self):
+        return self.cash + self.income
+
+    def get_outcome(self):
+        return self.cash - self.outcome
+
 
 class Contact(models.Model):
     name = models.CharField(max_length=20)
