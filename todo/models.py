@@ -27,23 +27,22 @@ class Task(models.Model):
     DAY1 = 3600 * 24
     DAY2 = 3600 * 48
     WEEK = DAY1 * 7
-
-    if finishing_datetime.month - 1 in [1, 3, 5, 7, 8, 10, 12]:
-        MONTH = DAY1 * 31
-    elif finishing_datetime.month - 1 in [4, 6, 9, 11]:
-        MONTH = DAY1 * 30
-    else:
-        if finishing_datetime.year % 4 == 2:
-            MONTH = DAY1 * 29
-        else:
-            MONTH = DAY1 * 28
+    #
+    # if finishing_datetime.month - 1 in [1, 3, 5, 7, 8, 10, 12]:
+    #     MONTH = DAY1 * 31
+    # elif finishing_datetime.month - 1 in [4, 6, 9, 11]:
+    #     MONTH = DAY1 * 30
+    # else:
+    #     if finishing_datetime.year % 4 == 2:
+    #         MONTH = DAY1 * 29
+    #     else:
+    #         MONTH = DAY1 * 28
 
     ####
 
     REMINDER_TIMEDELTA_CHOICES = (
         (MIN15, '15 min'), (MIN30, '30 min'), (MIN45, '45 min'), (HOUR1, '1 hour'), (
-            HOUR1_5, '1.5 hour'), (HOUR2, '2 hours'), (DAY1, '1 day'), (DAY2, '2 days'), (
-            MONTH, 'month')
+            HOUR1_5, '1.5 hour'), (HOUR2, '2 hours'), (DAY1, '1 day'), (DAY2, '2 days')
     )
     reminder = models.BooleanField(default=False)
     reminder_timedelta = models.IntegerField(choices=REMINDER_TIMEDELTA_CHOICES, default=MIN15)
@@ -81,18 +80,18 @@ class Event(models.Model):
     category = models.CharField(max_length=30) # IntegerField and CHOICES ??
     event_datetime = models.DateTimeField(default=datetime.now)
 
-    E_DAY = event_datetime.day + 1
-    E_WEEK = event_datetime.day + 7
-    E_MONTH = event_datetime.day + 30 # EVERY Month its not good
-    E_YEAR = event_datetime.year + 1
-
-    REPEAT_EVERY_CHOICES = (
-        (E_DAY, 'every day'), (E_WEEK, 'every week'), (E_MONTH, 'every month'), (
-            E_YEAR, 'every year')
-    )
+    # E_DAY = event_datetime.day + 1
+    # E_WEEK = event_datetime.day + 7
+    # E_MONTH = event_datetime.day + 30 # EVERY Month its not good
+    # E_YEAR = event_datetime.year + 1
+    #
+    # REPEAT_EVERY_CHOICES = (
+    #     (E_DAY, 'every day'), (E_WEEK, 'every week'), (E_MONTH, 'every month'), (
+    #         E_YEAR, 'every year')
+    # )
 
     repeat = models.BooleanField(default=False)
-    repeat_every = models.IntegerField(choices=REPEAT_EVERY_CHOICES, default=None)
+    #repeat_every = models.IntegerField(choices=REPEAT_EVERY_CHOICES, default=None)
 
     def get_repeate_time(self):
         return self.repeat_every
