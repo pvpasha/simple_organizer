@@ -26,6 +26,9 @@ def contact(request):
 def passorg(request):
     return render_to_response('passorg.html', {'PasswordOrganizer': PasswordOrganizer.objects.all()})
 
+def about(request):
+    return render_to_response('about.html')
+
 def test2(request):
     html = "<html><body>THIS TEXT</body></html>"
     return HttpResponse(html)

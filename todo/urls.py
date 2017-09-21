@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^budget/$', views.budget),
     url(r'^contact/$', views.contact),
     url(r'^passorg/$', views.passorg),
+    url(r'^about/$', views.about),
 
     url(r'^222/', views.test2),
     # url(r'^articles/all/$', views.articles),

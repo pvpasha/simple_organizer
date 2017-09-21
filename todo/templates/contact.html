@@ -7,64 +7,18 @@
         <title>Contact</title>
     </head>
     <body>
-        <div class="navbar navbar-default">
-            <div class="container">
-              <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                  <span class="sr-only">Toggle navigation</span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/organizer/main">SP_lutsk</a>
-              </div>
-              <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                  <li class="active"><a href="/organizer/main">Home</a></li>
-                  <li><a href="#about">About</a></li>
-                  <li><a href="#contact">Contact</a></li>
-                  <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                      <li><a href="#">Action</a></li>
-                      <li><a href="#">Another action</a></li>
-                      <li><a href="#">Something else here</a></li>
-                      <li class="divider"></li>
-                      <li class="dropdown-header">Nav header</li>
-                      <li><a href="#">Separated link</a></li>
-                      <li><a href="#">One more separated link</a></li>
-                    </ul>
-                  </li>
-                </ul>
-              </div><!--/.nav-collapse -->
-            </div>
-        </div>
-        <div class="col-md-12">
-
-            <div class="col-md-2">
-              <div class="list-group">
-                <a href="/organizer/main" class="list-group-item active">SIMPLE ORGANIZER_ _splutsk</a>
-                <a href="/organizer/todo" class="list-group-item">ToDo</a>
-                <a href="/organizer/task" class="list-group-item">Task</a>
-                <a href="/organizer/event" class="list-group-item">Event</a>
-                  <a href="/organizer/diary" class="list-group-item">Diary</a>
-                <a href="/organizer/budget" class="list-group-item">Budget</a>
-                <a href="/organizer/contact" class="list-group-item">Contact</a>
-                <a href="/organizer/passorg" class="list-group-item">Password Organizer</a>
-              </div>
-            </div>
-            <div class="col-md-4">
-                {% for Contact in Contact  %}
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
+    {% include 'template.html' %}
+        <div class="col-md-4">
+            {% for Contact in Contact  %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
                         <h3 class="panel-title"> {{ Contact.name }} {{ Contact.forename }}</h3>
-                        </div>
-                        <div class="panel-body"> {{ Contact.phone }}
-                            <hr>{{ Contact.birthday }} // {{ Contact.add_reminder }}
-                        </div>
                     </div>
-                {% endfor %}
-            </div>
+                    <div class="panel-body"> {{ Contact.phone }}
+                        <hr>{{ Contact.birthday }} // {{ Contact.add_reminder }}
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </body>
 </html>
