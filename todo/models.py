@@ -27,6 +27,7 @@ class Task(models.Model):
     DAY1 = 3600 * 24
     DAY2 = 3600 * 48
     WEEK = DAY1 * 7
+    MONTH = DAY1 * 31
     #
     # if finishing_datetime.month - 1 in [1, 3, 5, 7, 8, 10, 12]:
     #     MONTH = DAY1 * 31
