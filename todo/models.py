@@ -15,7 +15,7 @@ class Task(models.Model):
     title = models.CharField(max_length=30)
     body = models.TextField(blank=True, null=True)
     creation_datetime = models.DateTimeField(default=datetime.now)
-    finishing_datetime = models.DateTimeField()
+    finishing_datetime = models.DateTimeField(default=datetime.now)
     ####
     # TODO Чого так не можна кодити????? --- незнаю...))
     MIN15 = 900

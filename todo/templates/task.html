@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-        <title>Organizer</title>
+        <title>Task</title>
     </head>
     <body>
         <div class="navbar navbar-default">
@@ -54,7 +54,19 @@
               </div>
             </div>
             <div class="col-md-10">
-               <h1 align="center">SIMPLE ORGANIZER</h1>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                        <h3 class="panel-title"> {{ Task.owner }} - {{ Task.title }}</h3>
+                            <h5>{{ Task.creation_datetime }} // {{ Task.finishing_datetime }}</h5>
+                        </div>
+
+                        <div class="panel-body"> {{ Task.body }} - {{ Task.reminder }}
+                            <hr>
+                            {{ Task.reminder_timedelta }} - {{ Task.percent }} // {{ Task.category }}
+                        </div>
+                    </div>
+
             </div>
         </div>
     </body>

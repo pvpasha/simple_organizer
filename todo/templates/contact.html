@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-        <title>Organizer</title>
+        <title>Contact</title>
     </head>
     <body>
         <div class="navbar navbar-default">
@@ -53,8 +53,17 @@
                 <a href="/organizer/passorg" class="list-group-item">Password Organizer</a>
               </div>
             </div>
-            <div class="col-md-10">
-               <h1 align="center">SIMPLE ORGANIZER</h1>
+            <div class="col-md-4">
+                {% for Contact in Contact  %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                        <h3 class="panel-title"> {{ Contact.name }} {{ Contact.forename }}</h3>
+                        </div>
+                        <div class="panel-body"> {{ Contact.phone }}
+                            <hr>{{ Contact.birthday }} // {{ Contact.add_reminder }}
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </body>

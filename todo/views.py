@@ -9,19 +9,22 @@ def todo(request):
     return render_to_response('todo.html', {'ToDo': ToDo.objects.all()})
 
 def task(request):
-    return render_to_response('task.html', {'ToDo': ToDo.objects.all()})
+    return render_to_response('task.html', {'Task': Task.objects.all()})
 
 def event(request):
-    return render_to_response('event.html', {'ToDo': ToDo.objects.all()})
+    return render_to_response('event.html', {'Event': Event.objects.all()})
+
+def diary(request):
+    return render_to_response('diary.html', {'Diary': Diary.objects.all()})
 
 def budget(request):
-    return render_to_response('budget.html', {'ToDo': ToDo.objects.all()})
+    return render_to_response('budget.html', {'Budget': Budget.objects.all()})
 
 def contact(request):
-    return render_to_response('contact.html', {'ToDo': ToDo.objects.all()})
+    return render_to_response('contact.html', {'Contact': Contact.objects.all()})
 
 def passorg(request):
-    return render_to_response('passorg.html', {'ToDo': ToDo.objects.all()})
+    return render_to_response('passorg.html', {'PasswordOrganizer': PasswordOrganizer.objects.all()})
 
 def test2(request):
     html = "<html><body>THIS TEXT</body></html>"

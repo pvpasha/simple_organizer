@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^todo/', views.todo),
     url(r'^task/$', views.task),
     url(r'^event/$', views.event),
+    url(r'^diary/$', views.diary),
     url(r'^budget/$', views.budget),
     url(r'^contact/$', views.contact),
     url(r'^passorg/$', views.passorg),
