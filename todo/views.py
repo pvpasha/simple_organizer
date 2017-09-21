@@ -1,30 +1,31 @@
 from django.shortcuts import render_to_response
+from django.shortcuts import render
 from todo.models import *
 from django.http.response import HttpResponse
 
 def main(request):
-    return render_to_response('main.html')
+    return render(request, 'main.html')
 
 def todo(request):
-    return render_to_response('todo.html', {'ToDo': ToDo.objects.all()})
+    return render(request, 'todo.html', {'ToDo': ToDo.objects.all()})
 
 def task(request):
-    return render_to_response('task.html', {'Task': Task.objects.all()})
+    return render(request, 'task.html', {'Task': Task.objects.all()})
 
 def event(request):
-    return render_to_response('event.html', {'Event': Event.objects.all()})
+    return render(request, 'event.html', {'Event': Event.objects.all()})
 
 def diary(request):
-    return render_to_response('diary.html', {'Diary': Diary.objects.all()})
+    return render(request, 'diary.html', {'Diary': Diary.objects.all()})
 
 def budget(request):
-    return render_to_response('budget.html', {'Budget': Budget.objects.all()})
+    return render(request, 'budget.html', {'Budget': Budget.objects.all()})
 
 def contact(request):
-    return render_to_response('contact.html', {'Contact': Contact.objects.all()})
+    return render(request, 'contact.html', {'Contact': Contact.objects.all()})
 
 def passorg(request):
-    return render_to_response('passorg.html', {'PasswordOrganizer': PasswordOrganizer.objects.all()})
+    return render(request, 'passorg.html', {'PasswordOrganizer': PasswordOrganizer.objects.all()})
 
 def about(request):
     return render_to_response('about.html')
