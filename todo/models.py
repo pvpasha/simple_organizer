@@ -94,8 +94,8 @@ class Event(models.Model):
     repeat = models.BooleanField(default=False)
     #repeat_every = models.IntegerField(choices=REPEAT_EVERY_CHOICES, default=None)
 
-    def get_repeate_time(self):
-        return self.repeat_every
+    # def get_repeate_time(self):
+    #     return self.repeat_every
 
 class Diary(models.Model):
     owner = models.EmailField()
@@ -104,6 +104,7 @@ class Diary(models.Model):
     creation_date = models.DateTimeField(default=datetime.now) #auto_now_add=True
 
 class Budget(models.Model):
+    owner = models.EmailField()
     cash = models.FloatField(null=True, blank=True, default=0)
 
     class Currency(models.Model):
