@@ -33,6 +33,3 @@ def about(request):
 def test2(request):
     html = "<html><body>THIS TEXT</body></html>"
     return HttpResponse(html)
-
-
-

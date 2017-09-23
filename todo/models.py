@@ -17,7 +17,6 @@ class Task(models.Model):
     creation_datetime = models.DateTimeField(default=datetime.now)
     finishing_datetime = models.DateTimeField(default=datetime.now)
     ####
-    # TODO Чого так не можна кодити????? --- незнаю...))
     MIN15 = 900
     MIN30 = 1800
     MIN45 = 2700
@@ -38,7 +37,6 @@ class Task(models.Model):
     #         MONTH = DAY1 * 29
     #     else:
     #         MONTH = DAY1 * 28
-
     ####
 
     REMINDER_TIMEDELTA_CHOICES = (
@@ -70,15 +68,38 @@ class Task(models.Model):
 
     def get_percent(self):
         return self.percent
+    # TODO CATEGORY ------
+    CAT01 = Work
+    CAT02 = Family
+    CAT03 = Home
+    CAT04 = Sport
+    CAT05 = Other
 
-    category = models.CharField(max_length=30) # Add IntegerField and CHOICES for category
+    TASK_PERCENT_CHOICES = (
+        (CAT01, 'Work'), (CAT02, 'Family'), (CAT03, 'Home'), (CAT04, 'Sport'), (
+            CAT05, 'Other')
+    )
+
+    category = models.IntegerField(choices=CATEGORY_CHOICES, default=CAT03)
 
 
 class Event(models.Model):
     owner = models.EmailField()
     title = models.CharField(max_length=30)
     body = models.TextField(blank=True, null=True)
-    category = models.CharField(max_length=30) # IntegerField and CHOICES ??
+
+    CAT01 = Work
+    CAT02 = Family
+    CAT03 = Home
+    CAT04 = Sport
+    CAT05 = Other
+
+    TASK_PERCENT_CHOICES = (
+        (CAT01, 'Work'), (CAT02, 'Family'), (CAT03, 'Home'), (CAT04, 'Sport'), (
+            CAT05, 'Other')
+    )
+
+    category = models.IntegerField(choices=CATEGORY_CHOICES, default=CAT03)
     event_datetime = models.DateTimeField(default=datetime.now)
 
     # E_DAY = event_datetime.day + 1
@@ -101,7 +122,7 @@ class Diary(models.Model):
     owner = models.EmailField()
     title = models.CharField(max_length=30)
     body = models.TextField(blank=True, null=True)
-    creation_date = models.DateTimeField(default=datetime.now) #auto_now_add=True
+    creation_date = models.DateTimeField(auto_now_add=True) #auto_now_add=True
 
 class Budget(models.Model):
     owner = models.EmailField()
