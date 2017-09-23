@@ -2,7 +2,7 @@ from django.db import models
 from datetime import date, datetime, timedelta
 
 
-class ToDo(models.Model):
+class ShortTask(models.Model):
     owner = models.EmailField()
     title = models.CharField(max_length=30)
     body = models.TextField(blank=True, null=True)
@@ -68,19 +68,19 @@ class Task(models.Model):
 
     def get_percent(self):
         return self.percent
-    # TODO CATEGORY ------
-    CAT01 = Work
-    CAT02 = Family
-    CAT03 = Home
-    CAT04 = Sport
-    CAT05 = Other
-
-    TASK_PERCENT_CHOICES = (
-        (CAT01, 'Work'), (CAT02, 'Family'), (CAT03, 'Home'), (CAT04, 'Sport'), (
-            CAT05, 'Other')
-    )
-
-    category = models.IntegerField(choices=CATEGORY_CHOICES, default=CAT03)
+    # # TODO CATEGORY ------
+    # CAT01 = Work
+    # CAT02 = Family
+    # CAT03 = Home
+    # CAT04 = Sport
+    # CAT05 = Other
+    #
+    # TASK_PERCENT_CHOICES = (
+    #     (CAT01, 'Work'), (CAT02, 'Family'), (CAT03, 'Home'), (CAT04, 'Sport'), (
+    #         CAT05, 'Other')
+    # )
+    #
+    # category = models.IntegerField(choices=CATEGORY_CHOICES, default=CAT03)
 
 
 class Event(models.Model):
@@ -88,18 +88,18 @@ class Event(models.Model):
     title = models.CharField(max_length=30)
     body = models.TextField(blank=True, null=True)
 
-    CAT01 = Work
-    CAT02 = Family
-    CAT03 = Home
-    CAT04 = Sport
-    CAT05 = Other
-
-    TASK_PERCENT_CHOICES = (
-        (CAT01, 'Work'), (CAT02, 'Family'), (CAT03, 'Home'), (CAT04, 'Sport'), (
-            CAT05, 'Other')
-    )
-
-    category = models.IntegerField(choices=CATEGORY_CHOICES, default=CAT03)
+    # CAT01 = Work
+    # CAT02 = Family
+    # CAT03 = Home
+    # CAT04 = Sport
+    # CAT05 = Other
+    #
+    # TASK_PERCENT_CHOICES = (
+    #     (CAT01, 'Work'), (CAT02, 'Family'), (CAT03, 'Home'), (CAT04, 'Sport'), (
+    #         CAT05, 'Other')
+    # )
+    #
+    # category = models.IntegerField(choices=CATEGORY_CHOICES, default=CAT03)
     event_datetime = models.DateTimeField(default=datetime.now)
 
     # E_DAY = event_datetime.day + 1

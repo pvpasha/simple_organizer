@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import *
 
 
-class ToDoAdmin(admin.ModelAdmin):
+class ShortTaskAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'owner', 'finished')
     list_filter = ('id', 'owner')
     search_fields = ('id', 'title', 'owner', 'finished')
@@ -11,14 +11,14 @@ class ToDoAdmin(admin.ModelAdmin):
 
 class TaskAdmin (admin.ModelAdmin):
     list_display = ('id', 'owner', 'title', 'creation_datetime', 'finishing_datetime', 'reminder',
-                    'reminder_timedelta', 'percent', 'category')
+                    'reminder_timedelta', 'percent')
     list_filter = ('owner', 'creation_datetime', 'finishing_datetime', 'reminder',
-                   'percent', 'category')
+                   'percent')
     search_fields = ('owner', 'title', 'body')
 
 class EventAdmin (admin.ModelAdmin):
-    list_display = ('id', 'owner', 'title', 'category', 'event_datetime', 'repeat')
-    list_filter = ('owner', 'title', 'category', 'event_datetime', 'repeat')
+    list_display = ('id', 'owner', 'title', 'event_datetime', 'repeat')
+    list_filter = ('owner', 'title',  'event_datetime', 'repeat')
     search_fields = ('owner', 'title')
 
 class DiaryAdmin (admin.ModelAdmin):
@@ -38,7 +38,7 @@ class PasswordOrganizerAdmin (admin.ModelAdmin):
     pass
 
 
-admin.site.register(ToDo, ToDoAdmin)
+admin.site.register(ShortTask, ShortTaskAdmin)
 admin.site.register(Task, TaskAdmin)
 admin.site.register(Event, EventAdmin)
 admin.site.register(Diary, DiaryAdmin)

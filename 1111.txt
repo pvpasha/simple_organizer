@@ -1,0 +1,54 @@
+
+Task:
+
+1.TODO (quick task - without callendar)
+2.TASK (callendar based) Year, month, week, day, hour, min planner
+3.Repeat task
+4.% support for task
+5.Category of task
+6.Events
+7.Reminder
+8.Task to pdf by period
+
+
+Diary:
+1.Callendar support
+2.Note support
+3.Event support
+
+Budget:
+1.Cash
+2.Bank account
+3.Deposit (with %)
+4.Credits or Loans (with % and callendar support)
+5.Card:
+	-debit
+	-credit
+6.Income
+7.Outcome
+8.Category of expenses
+9.Event and Task Support
+10.Callendar support
+11.Currencies
+12.Charts generation
+13.PDF generation
+
+Contacts:
+1.Contact
+2.Debit Credit
+3.Task support
+
+Password Organizer:
+1.Password Saving Tool
+
+*Pictures:
+1.Picture
+2.Avatar
+3.Task supp
+4.Contact supp
+5.Chart support
+6.Diary support
+
+External services support
+1.Social media login
+2.Google callendar support
