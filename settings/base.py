@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'todo',
     'accounts',
+    'budget',
     'task',
 
 ]
