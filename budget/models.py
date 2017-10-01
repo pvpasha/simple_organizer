@@ -5,7 +5,7 @@ from django.dispatch import receiver
 from accounts.models import OrganizerUser
 
 
-class Category(models.Model):
+class CategoryBudget(models.Model):
     title = models.CharField(max_length=30, verbose_name="Payment Category")
     owner = models.ForeignKey(OrganizerUser, on_delete=models.CASCADE)
 
@@ -54,9 +54,16 @@ class Invoice(models.Model):
     owner = models.ForeignKey(OrganizerUser, on_delete=models.CASCADE)
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
     amount = models.IntegerField(null=True, blank=True, default=0)
-    TT_CHOICES = (('income payment', 'Income'), ('outcome payment', 'Outcome'))
-    trasaction_type = models.CharField(choices=TT_CHOICES, default='income payment')
-    category = models.ForeignKey(Category, models.SET_NULL, blank=True, null=True, verbose_name="Payment Category")
+
+    INCOME = 1
+    OUTCOME = -1
+
+    TT_CHOICES = (
+        (INCOME, 'Income'),
+        (OUTCOME, 'Outcome')
+    )
+    transaction_type = models.IntegerField(choices=TT_CHOICES, default=INCOME)
+    category = models.ForeignKey(CategoryBudget, models.SET_NULL, blank=True, null=True, verbose_name="Payment Category")
     description = models.CharField(max_length=250)
     budget_account = models.ForeignKey(BudgetAccount, on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
@@ -64,14 +71,10 @@ class Invoice(models.Model):
 
 @receiver(post_save, sender=Invoice, dispatch_uid="update_stock_count")
 def update_amount(sender, instance, **kwargs):
-    if instance.trasaction_type=='income payment':
+    if instance.transaction_type=='income payment':
         instance.budget_account.amount += instance.amount
-    elif instance.trasaction_type=='outcome payment':
+    elif instance.transaction_type=='outcome payment':
         instance.budget_account.amount -= instance.amount
     instance.budget_account.save()
 
-    #TODO: admin-models
-    # choices invoices
-    # page user login/out
-    # page invoice
-    # page view acount
+    #TODO: admin-models, choices invoices, page user login/out, page invoice, page view account

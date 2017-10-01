@@ -126,6 +126,10 @@ USE_TZ = True
 
 AUTH_USER_MODEL = 'accounts.OrganizerUser'
 
+LOGIN_REDIRECT_URL = '/organizer/main/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 # Media files
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'files', 'media')

@@ -4,7 +4,7 @@ from django.db import models
 from django.utils import timezone
 from sorl.thumbnail import ImageField, get_thumbnail
 
-# Create your models here.
+
 class UserManager(_UserManager):
     use_in_migrations = True
 
@@ -29,6 +29,7 @@ def dir_name(self, filename):
     url = "%s/%s" % (self.first_name, filename)
     return url
 
+
 class OrganizerUser(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=20)
     second_name = models.CharField(max_length=20)
@@ -41,7 +42,6 @@ class OrganizerUser(AbstractBaseUser, PermissionsMixin):
         return u'<img src="%s" width="50"/>' % im.url
     image_thumb.short_description = 'Image'
     image_thumb.allow_tags = True
-
 
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
