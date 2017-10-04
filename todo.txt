@@ -1,7 +1,8 @@
+***_OUR_TASK_:***
+*****************
+*****************
 
-Task:
-
-1.TODO (quick task - without callendar)
+1.ShortTask (quick task - without callendar)
 2.TASK (callendar based) Year, month, week, day, hour, min planner
 3.Repeat task
 4.% support for task

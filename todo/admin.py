@@ -1,47 +1,13 @@
 from django.contrib import admin
 from .models import *
 
-
-class ShortTaskAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'owner', 'finished')
-    list_filter = ('id', 'owner')
-    search_fields = ('id', 'title', 'owner', 'finished')
-    empty_value_display = '-empty-'
-    readonly_field = ['id',]
-
-class TaskAdmin (admin.ModelAdmin):
+class TaskOtherAdmin (admin.ModelAdmin):
     list_display = ('id', 'owner', 'title', 'creation_datetime', 'finishing_datetime', 'reminder',
                     'reminder_timedelta', 'percent')
     list_filter = ('owner', 'creation_datetime', 'finishing_datetime', 'reminder',
                    'percent')
     search_fields = ('owner', 'title', 'body')
+    empty_value_display = '-empty-'
+    readonly_field = ['id', ]
 
-class EventAdmin (admin.ModelAdmin):
-    list_display = ('id', 'owner', 'title', 'event_datetime', 'repeat')
-    list_filter = ('owner', 'title',  'event_datetime', 'repeat')
-    search_fields = ('owner', 'title')
-
-class DiaryAdmin (admin.ModelAdmin):
-    list_display = ('id', 'owner', 'title', 'creation_date')
-    list_filter = ('owner', 'creation_date')
-    search_fields = ('owner', 'title')
-
-class BudgetAdmin (admin.ModelAdmin):
-    list_display = ('id', 'owner', 'cash', 'income', 'outcome')
-
-class ContactAdmin (admin.ModelAdmin):
-    list_display = ('id', 'phone', 'name', 'forename', 'birthday', 'add_reminder')
-    list_filter = ('phone', 'name', 'forename')
-    search_fields = ('phone', 'name', 'forename')
-
-class PasswordOrganizerAdmin (admin.ModelAdmin):
-    pass
-
-
-admin.site.register(ShortTask, ShortTaskAdmin)
-admin.site.register(Task, TaskAdmin)
-admin.site.register(Event, EventAdmin)
-admin.site.register(Diary, DiaryAdmin)
-admin.site.register(Budget, BudgetAdmin)
-admin.site.register(Contact, ContactAdmin)
-admin.site.register(PasswordOrganizer, PasswordOrganizerAdmin)
+admin.site.register(TaskOther, TaskOtherAdmin)

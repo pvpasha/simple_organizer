@@ -1,16 +1,8 @@
 from django.db import models
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 
 
-class ShortTask(models.Model):
-    owner = models.EmailField()
-    title = models.CharField(max_length=30)
-    body = models.TextField(blank=True, null=True)
-    creation_date = models.DateTimeField(default=datetime.now)
-    finished = models.BooleanField(default=False)
-
-
-class Task(models.Model):
+class TaskOther(models.Model):
     owner = models.EmailField()
     title = models.CharField(max_length=30)
     body = models.TextField(blank=True, null=True)
@@ -81,76 +73,4 @@ class Task(models.Model):
     # )
     #
     # category = models.IntegerField(choices=CATEGORY_CHOICES, default=CAT03)
-
-
-class Event(models.Model):
-    owner = models.EmailField()
-    title = models.CharField(max_length=30)
-    body = models.TextField(blank=True, null=True)
-
-    # CAT01 = Work
-    # CAT02 = Family
-    # CAT03 = Home
-    # CAT04 = Sport
-    # CAT05 = Other
-    #
-    # TASK_PERCENT_CHOICES = (
-    #     (CAT01, 'Work'), (CAT02, 'Family'), (CAT03, 'Home'), (CAT04, 'Sport'), (
-    #         CAT05, 'Other')
-    # )
-    #
-    # category = models.IntegerField(choices=CATEGORY_CHOICES, default=CAT03)
-    event_datetime = models.DateTimeField(default=datetime.now)
-
-    # E_DAY = event_datetime.day + 1
-    # E_WEEK = event_datetime.day + 7
-    # E_MONTH = event_datetime.day + 30 # EVERY Month its not good
-    # E_YEAR = event_datetime.year + 1
-    #
-    # REPEAT_EVERY_CHOICES = (
-    #     (E_DAY, 'every day'), (E_WEEK, 'every week'), (E_MONTH, 'every month'), (
-    #         E_YEAR, 'every year')
-    # )
-
-    repeat = models.BooleanField(default=False)
-    #repeat_every = models.IntegerField(choices=REPEAT_EVERY_CHOICES, default=None)
-
-    # def get_repeate_time(self):
-    #     return self.repeat_every
-
-class Diary(models.Model):
-    owner = models.EmailField()
-    title = models.CharField(max_length=30)
-    body = models.TextField(blank=True, null=True)
-    creation_date = models.DateTimeField(auto_now_add=True) #auto_now_add=True
-
-class Budget(models.Model):
-    owner = models.EmailField()
-    cash = models.FloatField(null=True, blank=True, default=0)
-
-    class Currency(models.Model):
-        USD = 1
-        EUR = 1
-        UAH = 1
-        CURRENCY_CHOICES = ((USD, '$'), (EUR, 'E'), (UAH, 'hrn'))
-        currency = models.IntegerField(choices=CURRENCY_CHOICES, default=USD)
-
-    income = models.FloatField(null=True, blank=True, default=0)
-    outcome = models.FloatField(null=True, blank=True, default=0)
-
-    def get_income(self):
-        return self.cash + self.income
-
-    def get_outcome(self):
-        return self.cash - self.outcome
-
-
-class Contact(models.Model):
-    name = models.CharField(max_length=20)
-    forename = models.CharField(max_length=20)
-    phone = models.CharField(max_length=20)
-    birthday = models.DateField(default=date.today)
-    add_reminder = models.BooleanField(default=False) #add birthday to reminder
-
-class PasswordOrganizer(models.Model):
-    pass
+  #     return self.repeat_every

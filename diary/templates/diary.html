@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Diary</title>
+</head>
+<body>
+{% include 'template.html' %}
+<div class="col-md-10">
+    <h2>Your Diary {{user}}</h2><hr>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>title</th>
+                <th>body</th>
+                <th>creation_date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for diary in diary_list %}
+                <tr>
+                    <td>{{diary.pk}}</td>
+                    <td>{{diary.title}}</td>
+                    <td>--</td>
+                    <td>{{diary.creation_date}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
