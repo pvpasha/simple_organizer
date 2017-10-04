@@ -1,31 +1,20 @@
 from django.shortcuts import render_to_response
 from django.shortcuts import render
-from todo.models import *
 from django.http.response import HttpResponse
 
+
 def main(request):
-    return render(request, 'main.html')
+    if request.user.is_authenticated():
+        return render(request, 'main.html', {'user_avatar_big': request.user.main_menu_avatar_big,
+                                             'user_avatar': request.user.main_menu_avatar})
+    else:
+        return render(request, 'main.html', {'user_avatar_big': "-empty-"})
 
-def todo(request):
-    return render(request, 'todo.html', {'ToDo': ToDo.objects.all()})
-
-def task(request):
-    return render(request, 'task.html', {'Task': Task.objects.all()})
-
-def event(request):
-    return render(request, 'event.html', {'Event': Event.objects.all()})
-
-def diary(request):
-    return render(request, 'diary.html', {'Diary': Diary.objects.all()})
-
-def budget(request):
-    return render(request, 'budget.html', {'Budget': Budget.objects.all()})
-
-def contact(request):
-    return render(request, 'contact.html', {'Contact': Contact.objects.all()})
-
-def passorg(request):
-    return render(request, 'passorg.html', {'PasswordOrganizer': PasswordOrganizer.objects.all()})
+# def template(request):
+#     if request.user.is_authenticated():
+#         return render(request, 'template.html', {'user_avatar': request.user.main_menu_avatar})
+#     else:
+#         return render(request, 'template.html', {'user_avatar': "-empty-"})
 
 def about(request):
     return render_to_response('about.html')

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Budget</title>
+</head>
+<body>
+{% include 'template.html' %}
+<div class="col-md-10">
+    <h2>Its Your Budget {{user}}</h2><hr>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>currency</th>
+                <th>amount</th>
+                <th>transaction_type</th>
+                <th>category</th>
+                <th>description</th>
+                <th>budget_account</th>
+                <th>creation_date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for invoice in invoice_list %}
+                <tr>
+                    <td>{{invoice.pk}}</td>
+                    <td>{{invoice.currency}}</td>
+                    <td>{{invoice.amount}}</td>
+                    <td>{{invoice.transaction_type}}</td>
+                    <td>{{invoice.category}}</td>
+                    <td>{{invoice.description}}</td>
+                    <td>{{invoice.budget_account}}</td>
+                    <td>{{invoice.creation_date}}</td>
+                </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

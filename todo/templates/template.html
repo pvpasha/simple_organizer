@@ -7,7 +7,7 @@
         <title>Organizer</title>
     </head>
     <body>
-        <div class="navbar navbar-default">
+          <div class="navbar navbar-default">
             <div class="container">
               <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -42,7 +42,7 @@
                        {% if user.is_authenticated %}
                          <li>User: {{ user.get_username }}</li>
                          <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
-                       {% else %}
+                         {% else %}
                          <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
                        {% endif %}
                   </ul>
@@ -51,14 +51,14 @@
         </div>
                 <div class="col-md-2">
                   <div class="list-group">
-                    <a href="/organizer/main" class="list-group-item active">SIMPLE ORGANIZER_ _splutsk</a>
-                    <a href="/organizer/todo" class="list-group-item">ToDo</a>
-                    <a href="/organizer/task" class="list-group-item">Task</a>
-                    <a href="/organizer/event" class="list-group-item">Event</a>
-                      <a href="/organizer/diary" class="list-group-item">Diary</a>
-                    <a href="/organizer/budget" class="list-group-item">Budget</a>
-                    <a href="/organizer/contact" class="list-group-item">Contact</a>
-                    <a href="/organizer/passorg" class="list-group-item">Password Organizer</a>
+                    <a href="/organizer/main" class="list-group-item active">_SIMPLE ORGANIZER_</a>
+                    <a href="#" class="list-group-item" align="center" ><b>Hello<br>{{user}}</b><br>
+                        <img src="{{user_avatar}}"/></a>
+                    <a href="/task/all" class="list-group-item">+Task</a>
+                    <a href="/organizer/diary" class="list-group-item">-Diary</a>
+                    <a href="/budget/main" class="list-group-item">+Budget</a>
+                    <a href="/contact" class="list-group-item">-Contact</a>
+                    <a href="/passorg" class="list-group-item">-Password Organizer</a>
                   </div>
                 </div>
     </body>

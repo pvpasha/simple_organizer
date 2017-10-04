@@ -35,4 +35,3 @@ class Task(AbstractTask):
 
 class Event(AbstractTask):
     event_date = models.DateTimeField(default=datetime.now)
-

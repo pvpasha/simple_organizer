@@ -38,10 +38,16 @@ class OrganizerUser(AbstractBaseUser, PermissionsMixin):
     avatar = ImageField(upload_to=dir_name)
 
     def image_thumb(self):
-        im = get_thumbnail(self.avatar, '150x150', crop='center', quality=99)
-        return u'<img src="%s" width="50"/>' % im.url
+        im = get_thumbnail(self.avatar, '30x30', crop='center', quality=99)
+        return u'<img src="%s"/>' % im.url
     image_thumb.short_description = 'Image'
     image_thumb.allow_tags = True
+
+    def main_menu_avatar(self):
+        return get_thumbnail(self.avatar, '50x50', crop='center', quality=99).url
+
+    def main_menu_avatar_big(self):
+        return get_thumbnail(self.avatar, '150x150', crop='center', quality=99).url
 
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)

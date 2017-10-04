@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task</title>
+</head>
+<body>
+{% include 'template.html' %}
+<div class="col-md-10">
+    <h2>Its All Your Tasks {{user}}</h2><hr>
+    <h3>Short task(s)</h3><hr>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Body</th>
+                <th>Category</th>
+                <th>Creation Date</th>
+                <th>Finished</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for shorttask in short_task_list %}
+                <tr>
+                    <td>{{shorttask.pk}}</td>
+                    <td>{{shorttask.title}}</td>
+                    <td>--</td>
+                    <td>{{shorttask.category}}</td>
+                    <td>{{shorttask.creation_date}}</td>
+                    <td>{{shorttask.finished}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h3>Task(s)</h3><hr>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Body</th>
+                <th>Category</th>
+                <th>Creation Date</th>
+                <th>Finished</th>
+                <th>Finishind Date</th>
+                <th>Reminder</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in task_list %}
+                <tr>
+                    <td>{{task.pk}}</td>
+                    <td>{{task.title}}</td>
+                    <td>--</td>
+                    <td>{{task.category}}</td>
+                    <td>{{task.creation_date}}</td>
+                    <td>{{task.finished}}</td>
+                    <td>{{task.finishing_date}}</td>
+                    <td>{{task.reminder}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h3>Event(s)</h3><hr>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Body</th>
+                <th>Category</th>
+                <th>Creation Date</th>
+                <th>Finished</th>
+                <th>Event Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in event_list %}
+                <tr>
+                    <td>{{event.pk}}</td>
+                    <td>{{event.title}}</td>
+                    <td>--</td>
+                    <td>{{event.category}}</td>
+                    <td>{{event.creation_date}}</td>
+                    <td>{{event.finished}}</td>
+                    <td>{{event.event_date}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
