@@ -2,28 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Diary</title>
+    <title>Password Organizer</title>
 </head>
 <body>
 {% include 'template.html' %}
 <div class="col-md-8">
-    <h2>Your Diary {{user}}</h2><hr>
+    <h2>Your Passwords {{user}}</h2><hr>
     <table>
         <thead>
             <tr>
                 <th>ID</th>
-                <th>title</th>
-                <th>body</th>
-                <th>creation_date</th>
+                <th>URL Resource</th>
+                <th>Pass***</th>
             </tr>
         </thead>
         <tbody>
-            {% for diary in diary_list %}
+            {% for pass in pass_list %}
                 <tr>
-                    <td>{{diary.pk}}</td>
-                    <td>{{diary.title}}</td>
-                    <td>--</td>
-                    <td>{{diary.creation_date}}</td>
+                    <td>{{pass.pk}}</td>
+                    <td>{{pass.resource_url}}</td>
+                    <td>{{pass.password_res}}</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -32,7 +30,7 @@
 <div class="col-md-2">
         <div class="list-group">
             <a class="list-group-item active">_OPERATIONS_</a>
-            <a href="#" class="list-group-item">Add new note</a>
+            <a href="#" class="list-group-item">Add new PASS</a>
         </div>
 </div>
 </body>

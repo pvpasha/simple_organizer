@@ -6,7 +6,7 @@
 </head>
 <body>
 {% include 'template.html' %}
-<div class="col-md-10">
+<div class="col-md-8">
     <h2>Its All Your Tasks {{user}}</h2><hr>
     <h3>Short task(s)</h3><hr>
     <table>
@@ -90,6 +90,18 @@
             {% endfor %}
         </tbody>
     </table>
+</div>
+<div class="col-md-2">
+        <div class="list-group">
+            <a class="list-group-item active">_OPERATIONS_</a>
+            <a href="#" class="list-group-item">Add new ShortTask</a>
+            <a href="#" class="list-group-item">Add new Task</a>
+            <a href="#" class="list-group-item">Add new Event</a>
+        </div>
+        <div class="panel panel-danger">
+            <div class="panel-heading"><h3 class="panel-title">_coming soon_</h3></div>
+            <div class="panel-body">--emty--</div>
+        </div>
 </div>
 </body>
 </html>

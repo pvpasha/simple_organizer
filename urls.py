@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^contacts/', include('contacts.urls')),
     url(r'^diary/', include('diary.urls')),
     url(r'^organizer/', include('todo.urls')),
+    url(r'^passorg/', include('password.urls')),
     url(r'^task/', include('task.urls')),
 ]
 

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'budget',
     'contacts',
     'diary',
+    'password',
     'todo',
     'task',
 ]

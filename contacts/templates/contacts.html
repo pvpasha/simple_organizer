@@ -6,7 +6,7 @@
 </head>
 <body>
 {% include 'template.html' %}
-<div class="col-md-10">
+<div class="col-md-8">
     <h2>Your Contacts {{user}}</h2><hr>
     <table>
         <thead>
@@ -33,5 +33,11 @@
         </tbody>
     </table>
 </div>
+    <div class="col-md-2">
+        <div class="list-group">
+            <a class="list-group-item active">_OPERATIONS_</a>
+            <a href="#" class="list-group-item">Add new contact</a>
+        </div>
+    </div>
 </body>
 </html>

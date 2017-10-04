@@ -22,21 +22,7 @@
                 <ul class="nav navbar-nav">
                   <li class="active"><a href="/organizer/main">Home</a></li>
                   <li><a href="/organizer/about">About</a></li>
-                  <li><a href="#contact">Contact</a></li>
-                  <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                      <li><a href="#">Action</a></li>
-                      <li><a href="#">Another action</a></li>
-                      <li><a href="#">Something else here</a></li>
-                      <li class="divider"></li>
-                      <li class="dropdown-header">Nav header</li>
-                      <li><a href="#">Separated link</a></li>
-                      <li><a href="#">One more separated link</a></li>
-                    </ul>
-                  </li>
-                  <li><a href="#userpage">HELLO {{ user }} </a></li>
-
+                  <li><a href="#" align="right">HELLO {{ user }} </a></li>
                 </ul>
                   <ul class="sidebar-nav">
                        {% if user.is_authenticated %}
@@ -54,11 +40,11 @@
                     <a href="/organizer/main" class="list-group-item active">_SIMPLE ORGANIZER_</a>
                     <a href="#" class="list-group-item" align="center" ><b>Hello<br>{{user}}</b><br>
                         <img src="{{user_avatar}}"/></a>
-                    <a href="/task/all" class="list-group-item">+Task</a>
-                    <a href="/diary/all" class="list-group-item">+Diary</a>
-                    <a href="/budget/main" class="list-group-item">+Budget</a>
-                    <a href="/contacts/all" class="list-group-item">+Contacts</a>
-                    <a href="/passorg" class="list-group-item">-Password Organizer</a>
+                    <a href="/task/all" class="list-group-item">Task</a>
+                    <a href="/diary/all" class="list-group-item">Diary</a>
+                    <a href="/budget/main" class="list-group-item">Budget</a>
+                    <a href="/contacts/all" class="list-group-item">Contacts</a>
+                    <a href="/passorg/all" class="list-group-item">Password Organizer</a>
                   </div>
                 </div>
     </body>

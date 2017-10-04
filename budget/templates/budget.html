@@ -6,7 +6,7 @@
 </head>
 <body>
 {% include 'template.html' %}
-<div class="col-md-10">
+<div class="col-md-8">
     <h2>Its Your Budget {{user}}</h2><hr>
     <table>
         <thead>
@@ -38,5 +38,17 @@
         </tbody>
     </table>
 </div>
+<div class="col-md-2">
+        <div class="list-group">
+            <a class="list-group-item active">_OPERATIONS_</a>
+            <a href="#" class="list-group-item">Make PDF by period</a>
+        </div>
+        <div class="list-group">
+            <a class="list-group-item active">_Actual Currencies_</a>
+            <a href="#" class="list-group-item">--active currencies--</a>
+        </div>
+
+</div>
+
 </body>
 </html>
