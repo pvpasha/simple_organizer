@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact</title>
+</head>
+<body>
+{% include 'template.html' %}
+<div class="col-md-10">
+    <h2>Your Contacts {{user}}</h2><hr>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Phone Number</th>
+                <th>Birthday</th>
+                <th>Add to reminder</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contact in contact_list %}
+                <tr>
+                    <td>{{contact.pk}}</td>
+                    <td>{{contact.name}}</td>
+                    <td>{{contact.surname}}</td>
+                    <td>{{contact.phone}}</td>
+                    <td>{{contact.birthday}}</td>
+                    <td>{{contact.add_reminder}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

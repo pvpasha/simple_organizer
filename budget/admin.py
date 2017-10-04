@@ -1,5 +1,7 @@
 from django.contrib import admin
+
 from .models import *
+
 
 class CategoryBudgetAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'owner')
@@ -34,7 +36,8 @@ class BudgetAccountAdmin (admin.ModelAdmin):
 
 
 class InvoiceAdmin (admin.ModelAdmin):
-    list_display = ('id', 'owner', 'currency', 'amount', 'transaction_type', 'category', 'budget_account', 'creation_date')
+    list_display = ('id', 'owner', 'currency', 'amount', 'transaction_type', 'category', 'budget_account',
+                    'creation_date')
     list_filter = ('currency', 'amount', 'transaction_type', 'category', 'budget_account')
     search_fields = ('currency', 'amount', 'transaction_type')
     empty_value_display = '-empty-'
