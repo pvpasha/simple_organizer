@@ -1,5 +1,7 @@
 from django.conf import settings
 from django.shortcuts import render, redirect
+from django.core.exceptions import ObjectDoesNotExist
+from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
@@ -21,18 +23,19 @@ class PasswordOrganizerListViewSet(ListCreateAPIView):
     permission_classes = (AllowAny,)
     serializer_class = PasswordOrganizerListSerializer
 
-    # def post(self, request):
-    #     get_owner = request.data['owner']
-    #     get_title = request.data['title']
-    #     get_body = request.data['body']
-    #
-    #     try:
-    #         user = OrganizerUser.objects.get(pk=get_owner)
-    #         diary_item = PasswordOrganizer.objects.create(owner=user, title=get_title, body=get_body)
-    #         serialized_data =self.get_serializer(diary_item)
-    #         return Response(serialized_data.data, status=status.HTTP_201_CREATED)
-    #     except ObjectDoesNotExist:
-    #         return Response({'detail': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request):
+        get_owner = request.data['owner']
+        get_resource_url = request.data['resource_url']
+        get_password_res = request.data['password_res']
+
+        try:
+            user = OrganizerUser.objects.get(pk=get_owner)
+            passwordorganizer_item = PasswordOrganizer.objects.create(owner=user, resource_url=get_resource_url,
+                                                                      password_res=get_password_res)
+            serialized_data =self.get_serializer(passwordorganizer_item)
+            return Response(serialized_data.data, status=status.HTTP_201_CREATED)
+        except ObjectDoesNotExist:
+            return Response({'detail': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 # def passorg(request):

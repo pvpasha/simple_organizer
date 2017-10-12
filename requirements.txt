@@ -1,3 +1,6 @@
-django==1.11.4
-sorl.thumbnail=12.3
-rest_framework=3.6.4
+Django==1.11.4
+djangorestframework==3.6.4
+Pillow==4.2.1
+pytz==2017.2
+six==1.10.0
+sorl-thumbnail==12.3

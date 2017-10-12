@@ -9,7 +9,7 @@ class PasswordOrganizerListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PasswordOrganizer
-        fields = ('__all__')
+        fields = '__all__'
 
 
 class PasswordOrganizerSerializer(serializers.ModelSerializer):
@@ -17,9 +17,11 @@ class PasswordOrganizerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PasswordOrganizer
-        fields = ('__all__')
+        fields = '__all__'
 
-    def create(self, validated_data):
-        user = OrganizerUser.objects.get(pk=self.owner)
-        return PasswordOrganizer.objects.create(owner=user.id, resource_url=validated_data.pop('resource_url'),
-                                                password_res=validated_data.pop('password_res'))
+#### IntegrityError at /passorg/list/ NOT NULL constraint failed: password_passwordorganizer.owner_id
+
+    # def create(self, validated_data):
+    #     user = OrganizerUser.objects.get(pk=self.owner)
+    #     return PasswordOrganizer.objects.create(owner=user.id, resource_url=validated_data.pop('resource_url'),
+    #                                             password_res=validated_data.pop('password_res'))
