@@ -8,7 +8,7 @@ class Contact(models.Model):
     owner = models.ForeignKey(OrganizerUser, on_delete=models.CASCADE)
     name = models.CharField(max_length=20)
     surname = models.CharField(max_length=20)
-    phone = models.CharField(max_length=20)
+    phone = models.CharField(max_length=20, unique=True)
     birthday = models.DateField(blank=True, null=True, verbose_name="Contact's birthday")
     add_reminder = models.BooleanField(default=False)
 

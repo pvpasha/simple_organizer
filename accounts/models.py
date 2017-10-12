@@ -62,7 +62,7 @@ class OrganizerUser(AbstractBaseUser, PermissionsMixin):
     def get_short_name(self):
         return self.first_name
 
-    def __str__(self):
+    def __unicode__(self):
         return "%d - %s" % (self.pk, self.user_mail)
 
     # def __str__(self):

@@ -4,6 +4,6 @@ from . import views
 
 
 urlpatterns = [
-    url(r'^all/$', views.passorg),
-    url(r'^create_passw/$', views.create_passw, name='create_passw')
+    url(r'^list/$', views.PasswordOrganizerListViewSet.as_view(), name='pass-list'),
+    url(r'^get/(?P<pk>.+)/$', views.PasswordOrganizerItemView.as_view(), name='pass-detail'),
 ]

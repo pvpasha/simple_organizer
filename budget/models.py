@@ -76,5 +76,3 @@ def update_amount(sender, instance, **kwargs):
     elif instance.transaction_type=='outcome payment':
         instance.budget_account.amount -= instance.amount
     instance.budget_account.save()
-
-    #TODO: admin-models, choices invoices, page user login/out, page invoice, page view account
