@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from .models import OrganizerUser
 
+
 class OrganizerUserSerializer(serializers.ModelSerializer):
 
     class Meta:
