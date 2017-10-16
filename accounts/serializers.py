@@ -7,3 +7,10 @@ class OrganizerUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrganizerUser
         fields = '__all__'
+
+
+class OrganizerUserListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = OrganizerUser
+        fields = '__all__'

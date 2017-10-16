@@ -1,5 +1,6 @@
 from django.conf import settings
-from django.shortcuts import render, render_to_response, redirect
+from django.core.exceptions import ObjectDoesNotExist
+from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
@@ -22,18 +23,16 @@ class CategoryListViewSet(ListCreateAPIView):
     permission_classes = (AllowAny,)
     serializer_class = CategoryListSerializer
 
-    # def post(self, request):
-    #     get_owner = request.data['owner']
-    #     get_title = request.data['title']
-    #     get_body = request.data['body']
-    #
-    #     try:
-    #         user = OrganizerUser.objects.get(pk=get_owner)
-    #         diary_item = Category.objects.create(owner=user, title=get_title, body=get_body)
-    #         serialized_data =self.get_serializer(diary_item)
-    #         return Response(serialized_data.data, status=status.HTTP_201_CREATED)
-    #     except ObjectDoesNotExist:
-    #         return Response({'detail': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request):
+        get_owner = request.data['owner']
+        get_title = request.data['title']
+        try:
+            user = OrganizerUser.objects.get(pk=get_owner)
+            category_item = Category.objects.create(owner=user, title=get_title)
+            serialized_data = self.get_serializer(category_item)
+            return Response(serialized_data.data, status=status.HTTP_201_CREATED)
+        except ObjectDoesNotExist:
+            return Response({'detail': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ShortTaskItemView(RetrieveAPIView):
@@ -48,6 +47,20 @@ class ShortTaskListViewSet(ListCreateAPIView):
     permission_classes = (AllowAny,)
     serializer_class = ShortTaskListSerializer
 
+    def post(self, request):
+        get_owner = request.data['owner']
+        get_title = request.data['title']
+        get_body = request.data['body']
+        get_category = request.data['category']
+        try:
+            user = OrganizerUser.objects.get(pk=get_owner)
+            short_task_item = ShortTask.objects.create(owner=user, title=get_title, body=get_body,
+                                                       category_id=get_category)
+            serialized_data = self.get_serializer(short_task_item)
+            return Response(serialized_data.data, status=status.HTTP_201_CREATED)
+        except ObjectDoesNotExist:
+            return Response({'detail': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class TaskItemView(RetrieveAPIView):
     queryset = Task.objects.all()
@@ -61,6 +74,21 @@ class TaskListViewSet(ListCreateAPIView):
     permission_classes = (AllowAny,)
     serializer_class = TaskListSerializer
 
+    def post(self, request):
+        get_owner = request.data['owner']
+        get_title = request.data['title']
+        get_body = request.data['body']
+        get_category = request.data['category']
+        get_reminder = request.data['reminder']
+        try:
+            user = OrganizerUser.objects.get(pk=get_owner)
+            task_item = Task.objects.create(owner=user, title=get_title, body=get_body, category_id=get_category,
+                                                reminder=get_reminder)
+            serialized_data = self.get_serializer(task_item)
+            return Response(serialized_data.data, status=status.HTTP_201_CREATED)
+        except ObjectDoesNotExist:
+            return Response({'detail': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+
 class EventItemView(RetrieveAPIView):
     queryset = Event.objects.all()
     permission_classes = (AllowAny,)
@@ -72,53 +100,18 @@ class EventListViewSet(ListCreateAPIView):
     permission_classes = (AllowAny,)
     serializer_class = EventListSerializer
 
+    def post(self, request):
+        get_owner = request.data['owner']
+        get_title = request.data['title']
+        get_body = request.data['body']
+        get_category = request.data['category']
+        get_event_date = request.data['event_date']
+        try:
+            user = OrganizerUser.objects.get(pk=get_owner)
+            event_item = Event.objects.create(owner=user, title=get_title, body=get_body,
+                                                      category_id=get_category, event_date=get_event_date)
+            serialized_data = self.get_serializer(event_item)
+            return Response(serialized_data.data, status=status.HTTP_201_CREATED)
+        except ObjectDoesNotExist:
+            return Response({'detail': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
 
-# def task(request):
-#     if request.user.is_authenticated():
-#         return render(request, 'task.html', {'short_task_list': ShortTask.objects.all().filter(owner=request.user),
-#                                             'task_list': Task.objects.all().filter(owner=request.user),
-#                                             'event_list': Event.objects.all().filter(owner=request.user),
-#                                              'user_avatar': request.user.main_menu_avatar})
-#     else:
-#         return redirect('%s?next=%s' % (settings.LOGIN_REDIRECT_URL, request.path))
-#
-# # def owner(request):
-# #     return request.user
-#
-# def create_short_task(request):
-#     if request.user.is_authenticated():
-#         if request.method == 'POST':
-#             form = ShortTaskForm(request.POST)
-#             if form.is_valid():
-#                 form.save()
-#                 return redirect('/task/all/')
-#         else:
-#             return render(request, 'createShortTask.html', {'form': ShortTaskForm})
-#     else:
-#         return redirect('%s?next=%s' % (settings.LOGIN_REDIRECT_URL, request.path))
-#
-#
-# def create_task(request):
-#     if request.user.is_authenticated():
-#         if request.method == 'POST':
-#             form = TaskForm(request.POST)
-#             if form.is_valid():
-#                 form.save()
-#                 return redirect('/task/all/')
-#         else:
-#             return render(request, 'createTask.html', {'form': TaskForm})
-#     else:
-#         return redirect('%s?next=%s' % (settings.LOGIN_REDIRECT_URL, request.path))
-#
-#
-# def create_event(request):
-#     if request.user.is_authenticated():
-#         if request.method == 'POST':
-#             form = EventForm(request.POST)
-#             if form.is_valid():
-#                 form.save()
-#                 return redirect('/task/all/')
-#         else: # ==>GET method
-#             return render(request, 'createEvent.html', {'form': EventForm})
-#     else:
-#         return redirect('%s?next=%s' % (settings.LOGIN_REDIRECT_URL, request.path))

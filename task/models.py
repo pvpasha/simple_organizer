@@ -8,7 +8,7 @@ class Category(models.Model):
     title = models.CharField(max_length=30, verbose_name="Its Your Category")
     owner = models.ForeignKey(OrganizerUser, on_delete=models.CASCADE)
 
-    def __str__(self):
+    def __unicode__(self):
         return "%d - %s" %(self.pk, self.title)
 
 
