@@ -9,7 +9,7 @@ urlpatterns = [
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^user/', include('accounts.urls')),
     url(r'^budget/', include('budget.urls')),
-    url(r'^contact/', include('contacts.urls')),
+    url(r'^contacts/', include('contacts.urls')),
     url(r'^diary/', include('diary.urls')),
     url(r'^organizer/', include('todo.urls')),
     url(r'^passorg/', include('password.urls')),

@@ -35,7 +35,7 @@ class OrganizerUser(AbstractBaseUser, PermissionsMixin):
     second_name = models.CharField(max_length=20)
     user_mail = models.EmailField(unique=True)
     password = models.CharField(max_length=150)
-    avatar = ImageField(upload_to=dir_name)
+    avatar = ImageField(upload_to=dir_name, default='empty.jpg')
 
     def image_thumb(self):
         im = get_thumbnail(self.avatar, '30x30', crop='center', quality=99)
