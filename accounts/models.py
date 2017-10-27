@@ -25,6 +25,7 @@ class UserManager(_UserManager):
     def create_superuser(self, user_mail, password, **extra_fields):
         return self._create_user(user_mail, password, True, True, **extra_fields)
 
+
 def dir_name(self, filename):
     url = "%s/%s" % (self.first_name, filename)
     return url

@@ -1,7 +1,9 @@
 env/
 files/media/*
+!files/media/empty.jpg
 .idea/
 migrations/
+
 
 *.pyc
 *.sqlite3
