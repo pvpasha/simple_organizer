@@ -20,7 +20,7 @@ class OrganizerUserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {'fields': ('user_mail', 'password1', 'password2')}),
         ('Extra info', {'classes': ('collapse',),
-                        'fields': ('first_name', 'second_name' , 'avatar')}),
+                        'fields': ('first_name', 'second_name', 'avatar')}),
     )
 
     search_fields = ('first_name', 'second_name', 'user_mail')
