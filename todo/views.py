@@ -1,5 +1,4 @@
 from django.shortcuts import render, render_to_response
-from django.http.response import HttpResponse
 
 
 def main(request):
@@ -15,9 +14,6 @@ def main(request):
 #     else:
 #         return render(request, 'template.html', {'user_avatar': "-empty-"})
 
-def about(request):
-    return render_to_response('about.html')
 
-def test2(request):
-    html = "<html><body>THIS TEXT</body></html>"
-    return HttpResponse(html)
+def about():
+    return render_to_response('about.html')

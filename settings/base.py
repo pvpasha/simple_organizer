@@ -11,7 +11,7 @@ SECRET_KEY = 'key034950kjhkjhkjhu'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['sp-lutsk.com',]
+ALLOWED_HOSTS = ['sp-lutsk.com', 'localhost', '127.0.0.1']
 
 # Application definition
 
@@ -127,6 +127,10 @@ AUTH_USER_MODEL = 'accounts.OrganizerUser'
 LOGIN_REDIRECT_URL = '/organizer/main/'
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
+
+SOCIAL_AUTH_LOGIN_ERROR_URL = '/settings/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/settings/'
+SOCIAL_AUTH_RAISE_EXCEPTIONS = False
 
 SOCIAL_AUTH_FACEBOOK_KEY = '1941904676136083'
 SOCIAL_AUTH_FACEBOOK_SECRET = 'f3bfc8c5f7d125186a379cc733f41326'

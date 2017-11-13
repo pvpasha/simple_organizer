@@ -9,6 +9,9 @@ init:
     docker exec -it organizer_1 python manage.py migrate
     docker exec -it organizer_1 python manage.py collectstatic --noinput
 
+bash:
+    docker exec -it organizer_1 bash
+
 stop:
     docker stop organizer_1
 
