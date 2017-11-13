@@ -6,8 +6,9 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^accounts/', include('django.contrib.auth.urls')),
-    url(r'^user/', include('accounts.urls')),
+    url(r'^acc/', include('django.contrib.auth.urls')),
+    url(r'^oauth/', include('social_django.urls', namespace='social')),
+    url(r'^accounts/', include('accounts.urls')),
     url(r'^budget/', include('budget.urls')),
     url(r'^contacts/', include('contacts.urls')),
     url(r'^diary/', include('diary.urls')),

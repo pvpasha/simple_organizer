@@ -26,8 +26,15 @@ class OrganizerUserAdmin(BaseUserAdmin):
     search_fields = ('first_name', 'second_name', 'user_mail')
     empty_value_display = '-empty-'
     readonly_field = ['image_thumb']
-
     ordering = ('user_mail',)
 
 
+# class TokenAdmin(admin.site):
+#
+#     class Meta:
+#         verbose_name = ('token')
+
+
+
 admin.site.register(OrganizerUser, OrganizerUserAdmin)
+# admin.site.register(TokenAdmin)

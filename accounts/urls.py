@@ -6,7 +6,8 @@ from . import views
 
 urlpatterns = [
     url(r'^api/list-users/$', views.OrganizerUserViewSet.as_view(), name='user-list'),
-    url(r'^api/users/?$', views.RegistrationAPIView.as_view()),
+    url(r'^register/$', views.RegistrationAPIView.as_view()),
+    # url(r'^oauth/', include('social_django.urls', namespace='social')),
     url(r'^api-auth/(?P<user_mail>.+)/$', views.OrganizerUserItemView.as_view(), name='user-detail'),
     url(r'^api/jwt-auth/', obtain_jwt_token),
     url(r'^api/token-refresh/', refresh_jwt_token),

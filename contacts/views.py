@@ -23,7 +23,7 @@ class ContactListViewSet(ListCreateAPIView):
     permission_classes = (AllowAny,)
     serializer_class = ContactListSerializer
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         get_owner = request.data['owner']
         get_name = request.data['name']
         get_surname = request.data['surname']
@@ -33,7 +33,7 @@ class ContactListViewSet(ListCreateAPIView):
         try:
             user = OrganizerUser.objects.get(pk=get_owner)
             contact_item = Contact.objects.create(owner=user, name=get_name, surname=get_surname, phone=get_phone,
-                                                birthday=get_birthday)
+                                                  birthday=get_birthday)
             serialized_data = self.get_serializer(contact_item)
             return Response(serialized_data.data, status=status.HTTP_201_CREATED)
         except ObjectDoesNotExist:

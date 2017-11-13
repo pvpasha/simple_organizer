@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sorl.thumbnail',
+    'social_django',
     'rest_framework',
 
     'accounts',
@@ -42,6 +43,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'urls'
@@ -57,10 +59,22 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
 ]
+
+AUTHENTICATION_BACKENDS = (
+    # 'social_core.backends.github.GithubOAuth2',
+    # 'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+#WSGI
 
 WSGI_APPLICATION = 'wsgi.application'
 
@@ -110,7 +124,13 @@ USE_TZ = True
 
 AUTH_USER_MODEL = 'accounts.OrganizerUser'
 
-LOGIN_REDIRECT_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/organizer/main/'
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+
+SOCIAL_AUTH_FACEBOOK_KEY = '1941904676136083'
+SOCIAL_AUTH_FACEBOOK_SECRET = 'f3bfc8c5f7d125186a379cc733f41326'
+
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 

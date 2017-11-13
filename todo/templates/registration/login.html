@@ -43,5 +43,16 @@
     <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
 
     {% endblock %}
+    <hr>
+    <div>
+        <td><a href="{% url 'social:begin' 'facebook' %}">Logit with FACEBOOK</a></td>
+    </div>
+<div
+  class="fb-like"
+  data-share="true"
+  data-width="450"
+  data-show-faces="true">
+</div>
+
 </body>
 </html>
