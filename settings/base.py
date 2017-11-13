@@ -11,7 +11,7 @@ SECRET_KEY = 'key034950kjhkjhkjhu'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '46.101.125.168']
+ALLOWED_HOSTS = ['sp-lutsk.com',]
 
 # Application definition
 
@@ -67,14 +67,14 @@ TEMPLATES = [
 ]
 
 AUTHENTICATION_BACKENDS = (
-    # 'social_core.backends.github.GithubOAuth2',
     # 'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.facebook.FacebookOAuth2',
-
+    'social_core.backends.github.GithubOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
 
-#WSGI
+# WSGI
 
 WSGI_APPLICATION = 'wsgi.application'
 
@@ -130,6 +130,9 @@ LOGOUT_URL = 'logout'
 
 SOCIAL_AUTH_FACEBOOK_KEY = '1941904676136083'
 SOCIAL_AUTH_FACEBOOK_SECRET = 'f3bfc8c5f7d125186a379cc733f41326'
+
+SOCIAL_AUTH_GITHUB_KEY = '4605b9332d9a03eca134'
+SOCIAL_AUTH_GITHUB_SECRET = '883bbb40d1bd4082b867a4950783fe642eee1207'
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

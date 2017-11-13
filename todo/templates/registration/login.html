@@ -45,14 +45,13 @@
     {% endblock %}
     <hr>
     <div>
-        <td><a href="{% url 'social:begin' 'facebook' %}">Logit with FACEBOOK</a></td>
+        <td><a href="{% url 'social:begin' 'facebook' %}">Login with FACEBOOK</a></td><hr>
     </div>
-<div
-  class="fb-like"
-  data-share="true"
-  data-width="450"
-  data-show-faces="true">
-</div>
-
+    <div>
+        <td><a href="{% url 'social:begin' 'github' %}">Login with GitHub</a><br></td><hr>
+    </div>
+    <div>
+        <td><a href="{% url 'social:begin' 'google-oauth2' %}">Google+</a><br></td><hr>
+    </div>
 </body>
 </html>
