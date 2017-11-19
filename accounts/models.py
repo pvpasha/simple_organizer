@@ -1,7 +1,3 @@
-import jwt
-
-from datetime import datetime, timedelta
-from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 from sorl.thumbnail import ImageField, get_thumbnail
@@ -70,20 +66,3 @@ class OrganizerUser(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.first_name
-
-    @property         # is a succinct way of building a data descriptor that triggers function calls upon access to an attribute
-    def token(self):
-        return self._generate_jwt_token()
-
-    def _generate_jwt_token(self):
-        dt = datetime.now() + timedelta(days=3)
-
-        token = jwt.encode({
-            'id': self.pk,
-            'exp': int(dt.strftime('%s'))
-        }, settings.SECRET_KEY, algorithm='H256')
-        return token.decode('utf-8')
-
-
-    def user_m_token(self):
-        return "%s %s" % (self.user_mail, self.token)

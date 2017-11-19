@@ -1,6 +1,5 @@
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib import admin
-from rest_framework_jwt.serializers import VerifyJSONWebTokenSerializer
 
 from .forms import UserChangeForm, UserCreationForm
 from .models import OrganizerUser
