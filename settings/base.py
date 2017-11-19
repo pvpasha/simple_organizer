@@ -159,6 +159,8 @@ STATICFILES_FINDERS = (
 # REST Settings
 
 REST_FRAMEWORK = {
+    'EXCEPTION_HANDLER': 'accounts.exceptions.core_exception_handler',
+    'NON_FIELD_ERRORS_KEY': 'error',
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAdminUser',
         'rest_framework.permissions.IsAuthenticated',
@@ -170,7 +172,11 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication'
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
+    'PAGE_SIZE': 10,
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    )
 }
 
 # JWT Settings

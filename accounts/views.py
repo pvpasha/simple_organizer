@@ -14,15 +14,16 @@ from rest_framework.views import APIView
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from social_django.models import UserSocialAuth
 
-from .renderers import UserJSONRenderer
+from .renderers import OrganizerUserJSONRenderer
 from .models import OrganizerUser
-from .serializers import OrganizerUserListSerializer, OrganizerUserSerializer  # RegistrationSerializer
+from .serializers import (OrganizerUserListSerializer, OrganizerUserSerializer,
+                          LoginSerializer)  # RegistrationSerializer
 from todo.views import main
 
 
 class RegistrationAPIView(CreateAPIView):
     permission_classes = (AllowAny,)
-    renderer_classes = (UserJSONRenderer,)
+    renderer_classes = (OrganizerUserJSONRenderer,)
     serializer_class = OrganizerUserSerializer
     queryset = OrganizerUser.objects.all()
 
@@ -43,6 +44,18 @@ class RegistrationAPIView(CreateAPIView):
         # serializer.is_valid(raise_exception=True)
         # serializer.save()
         # return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class LoginAPIView(APIView):
+    permission_classes = (AllowAny,)
+    renderer_classes = (OrganizerUserJSONRenderer,)
+    serializer_class = LoginSerializer
+
+    def post(self, request, *args):
+        user = request.data.get('user_mail', {})
+        serializer = self.serializer_class(data=user)
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class OrganizerUserItemView(RetrieveAPIView):

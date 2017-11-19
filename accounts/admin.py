@@ -1,5 +1,6 @@
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib import admin
+from rest_framework_jwt.serializers import VerifyJSONWebTokenSerializer
 
 from .forms import UserChangeForm, UserCreationForm
 from .models import OrganizerUser
@@ -29,12 +30,4 @@ class OrganizerUserAdmin(BaseUserAdmin):
     ordering = ('user_mail',)
 
 
-# class TokenAdmin(admin.site):
-#
-#     class Meta:
-#         verbose_name = ('token')
-
-
-
 admin.site.register(OrganizerUser, OrganizerUserAdmin)
-# admin.site.register(TokenAdmin)
