@@ -54,6 +54,7 @@ class OrganizerUser(AbstractBaseUser, PermissionsMixin):
         return get_thumbnail(self.avatar, '150x150', crop='center', quality=99).url
 
     USERNAME_FIELD = 'user_mail'
+    EMAIL_FIELD = 'user_mail'
     REQUIRED_FIELDS = ['first_name']
 
     objects = UserManager()

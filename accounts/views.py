@@ -7,15 +7,12 @@ from rest_framework.status import HTTP_417_EXPECTATION_FAILED
 from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, CreateAPIView
 from rest_framework.views import APIView
 
-from .renderers import OrganizerUserJSONRenderer
 from .models import OrganizerUser
-from .serializers import (OrganizerUserListSerializer, OrganizerUserSerializer,
-                          LoginSerializer)
+from .serializers import OrganizerUserListSerializer, OrganizerUserSerializer
 
 
 class RegistrationAPIView(CreateAPIView):
     permission_classes = (AllowAny,)
-    renderer_classes = (OrganizerUserJSONRenderer,)
     serializer_class = OrganizerUserSerializer
     queryset = OrganizerUser.objects.all()
 
@@ -32,16 +29,15 @@ class RegistrationAPIView(CreateAPIView):
             return ValidationError('Cannot create. Passwords does not match.', code=HTTP_417_EXPECTATION_FAILED)
 
 
-class LoginAPIView(APIView):
-    permission_classes = (AllowAny,)
-    renderer_classes = (OrganizerUserJSONRenderer,)
-    serializer_class = LoginSerializer
-
-    def post(self, request):
-        user = request.data.get('user_mail', {})
-        serializer = self.serializer_class(data=user)
-        serializer.is_valid(raise_exception=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+# class LoginAPIView(APIView):
+#     permission_classes = (AllowAny,)
+#     # serializer_class = LoginSerializer
+#
+#     def post(self, request):
+#         user = request.data.get('user_mail', {})
+#         serializer = self.serializer_class(data=user)
+#         serializer.is_valid(raise_exception=True)
+#         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class OrganizerUserItemView(RetrieveAPIView):
