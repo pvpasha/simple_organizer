@@ -1,5 +1,13 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AdminPasswordChangeForm, PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+from django.contrib import messages
+from django.shortcuts import render, redirect
+
+from social_django.models import UserSocialAuth
+
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import render
+from django.views.generic import TemplateView
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -68,9 +76,52 @@ class OrganizerUserViewSet(ListCreateAPIView):
             return Response({'detail': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class SettingsSocialAuth():
-    pass
+# class SettingsSocialAuthView(TemplateView):
+#     template_name = 'settings.html'
+
+def settings(request):
+    user = request.user
+
+    try:
+        github_login = user.social_auth.get(provider='github')
+    except UserSocialAuth.DoesNotExist:
+        github_login = None
+
+    try:
+        twitter_login = user.social_auth.get(provider='twitter')
+    except UserSocialAuth.DoesNotExist:
+        twitter_login = None
+
+    try:
+        facebook_login = user.social_auth.get(provider='facebook')
+    except UserSocialAuth.DoesNotExist:
+        facebook_login = None
+
+    can_disconnect = (user.social_auth.count() > 1 or user.has_usable_password())
+
+    return render(request, 'settings.html', {
+        'github_login': github_login,
+        'twitter_login': twitter_login,
+        'facebook_login': facebook_login,
+        'can_disconnect': can_disconnect
+    })
 
 
-def login_error(request):
-    return render(request, 'login-error.html')
+def password(request):
+    if request.user.has_usable_password():
+        PasswordForm = PasswordChangeForm
+    else:
+        PasswordForm = AdminPasswordChangeForm
+
+    if request.method == 'POST':
+        form = PasswordForm(request.user, request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('password')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordForm(request.user)
+    return render(request, 'password.html', {'form': form})

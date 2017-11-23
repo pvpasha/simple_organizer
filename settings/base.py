@@ -98,12 +98,12 @@ AUTHENTICATION_BACKENDS = (
 AUTH_USER_MODEL = 'accounts.OrganizerUser'
 SOCIAL_AUTH_USER_MODEL = 'accounts.OrganizerUser'
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/'        # Redirect path after Login
 LOGIN_URL = '/acc/login/'
-LOGOUT_URL = '/acc/logout/'
+LOGOUT_URL = '/acc/logout/'     # Redirect path after Logout
 
 # SOCIAL_AUTH configuration
-SOCIAL_AUTH_LOGIN_ERROR_URL = '/login-error/'
+SOCIAL_AUTH_LOGIN_ERROR_URL = '/accounts/login-error/'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/'
 SOCIAL_AUTH_RAISE_EXCEPTIONS = False
@@ -125,8 +125,8 @@ SOCIAL_AUTH_GITHUB_KEY = '4605b9332d9a03eca134'
 SOCIAL_AUTH_GITHUB_SECRET = '883bbb40d1bd4082b867a4950783fe642eee1207'
 
 # Twitter configuration apps.twitter.com
-SOCIAL_AUTH_TWITTER_KEY = ''
-SOCIAL_AUTH_TWITTER_SECRET = ''
+SOCIAL_AUTH_TWITTER_KEY = 'tq328SxBckRKIabef8bAElWWn'
+SOCIAL_AUTH_TWITTER_SECRET = 'yafk1bOOA18GkLabk7tY9WlruIKexVwvwSLRAdNBUcGIMYVDzr'
 
 SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',
