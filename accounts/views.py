@@ -1,4 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import render
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -65,3 +66,11 @@ class OrganizerUserViewSet(ListCreateAPIView):
             return Response(serialized_data.data, status=status.HTTP_201_CREATED)
         except ObjectDoesNotExist:
             return Response({'detail': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SettingsSocialAuth():
+    pass
+
+
+def login_error(request):
+    return render(request, 'login-error.html')

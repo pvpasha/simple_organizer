@@ -5,7 +5,7 @@ from django.utils import timezone
 from sorl.thumbnail import ImageField, get_thumbnail
 
 
-class UserManager(_UserManager):  # _
+class UserManager(_UserManager):
     use_in_migrations = True
 
     def _create_user(self, user_mail, password, is_staff, is_superuser, **extra_fields):
