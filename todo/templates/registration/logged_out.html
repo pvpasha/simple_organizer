@@ -7,8 +7,10 @@
 <body>
     {% block content %}
     <p>Logged out!</p>
-
     <a href="{% url 'login'%}">Click here to login again.</a>
+    <br>
+    <br>
     {% endblock %}
+    <a href="{% url 'home'%}">Go to Home Page.</a>
 </body>
 </html>

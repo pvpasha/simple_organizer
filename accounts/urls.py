@@ -9,9 +9,6 @@ urlpatterns = [
     url(r'^register/$', accounts_views.RegistrationAPIView.as_view(), name='registration-user'),
     url(r'^api-auth/(?P<user_mail>.+)/$', accounts_views.OrganizerUserItemView.as_view(), name='user-detail'),
 
-    url(r'^settings/$', accounts_views.settings, name='settings-social-auth'),
-    url(r'^settings/passwords/$', accounts_views.password, name='password'),
-
     url(r'^login-error/$', TemplateView.as_view(template_name='login-error.html'), name='login-error'),
 
 ]

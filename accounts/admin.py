@@ -9,25 +9,25 @@ class OrganizerUserAdmin(BaseUserAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
 
-    list_display = ('id', 'first_name', 'second_name', 'user_mail', 'image_thumb', 'avatar',  'create_at',
+    list_display = ('id', 'username', 'second_name', 'email', 'image_thumb', 'avatar',  'create_at',
                     'update_at')
-    list_filter = ('first_name', 'second_name', 'user_mail')
+    list_filter = ('username', 'second_name', 'email')
 
     fieldsets = (
-        (None, {'fields': ('user_mail', 'password', 'avatar')}),
-        ('Personal info', {'fields': ('first_name', 'second_name', 'is_staff',
+        (None, {'fields': ('email', 'password', 'avatar')}),
+        ('Personal info', {'fields': ('username', 'second_name', 'is_staff',
                                       'is_active')}),
     )
     add_fieldsets = (
-        (None, {'fields': ('user_mail', 'password1', 'password2')}),
+        (None, {'fields': ('email', 'password1', 'password2')}),
         ('Extra info', {'classes': ('collapse',),
-                        'fields': ('first_name', 'second_name', 'avatar')}),
+                        'fields': ('username', 'second_name', 'avatar')}),
     )
 
-    search_fields = ('first_name', 'second_name', 'user_mail')
+    search_fields = ('username', 'second_name', 'email')
     empty_value_display = '-empty-'
     readonly_field = ['image_thumb']
-    ordering = ('user_mail',)
+    ordering = ('email',)
 
 
 admin.site.register(OrganizerUser, OrganizerUserAdmin)

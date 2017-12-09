@@ -12,7 +12,7 @@ class UserCreationForm(_UserCreationForm):
 
     class Meta:
         model = OrganizerUser
-        fields = ('user_mail', 'password1', 'password2', 'first_name', 'second_name', 'avatar')
+        fields = ('email', 'password1', 'password2', 'username', 'second_name', 'avatar')
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
