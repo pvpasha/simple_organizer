@@ -9,9 +9,9 @@ class OrganizerUserAdmin(BaseUserAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
 
-    list_display = ('id', 'username', 'second_name', 'email', 'image_thumb', 'avatar',  'create_at',
-                    'update_at')
-    list_filter = ('username', 'second_name', 'email')
+    list_display = ('id', 'email', 'username', 'second_name', 'image_thumb', 'avatar',  'create_at',
+                    'update_at', 'jwt_date', 'jwt_token')
+    list_filter = ('username', 'email')
 
     fieldsets = (
         (None, {'fields': ('email', 'password', 'avatar')}),

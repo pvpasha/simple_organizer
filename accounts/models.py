@@ -39,6 +39,8 @@ class OrganizerUser(AbstractBaseUser, PermissionsMixin):
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
     avatar = ImageField(upload_to=dir_name, default='empty.jpg')
+    jwt_token = models.CharField(max_length=512, blank=True)
+    jwt_date = models.DateTimeField(blank=True, null=True)
 
     def image_thumb(self):
         im = get_thumbnail(self.avatar, '30x30', crop='center', quality=99)

@@ -1,6 +1,21 @@
+
 from rest_framework import serializers
+from rest_framework.authtoken.models import Token
 
 from .models import OrganizerUser
+from django.contrib.auth import authenticate, get_user_model
+from django.utils.translation import ugettext as _
+from rest_framework import serializers
+
+
+from rest_framework_jwt.settings import api_settings
+from rest_framework_jwt.compat import get_username_field, PasswordField
+
+
+# class TokenSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Token
+#         fields = ('key',)
 
 
 # class RegistrationSerializer(serializers.ModelSerializer):
