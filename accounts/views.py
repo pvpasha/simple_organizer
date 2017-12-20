@@ -108,7 +108,7 @@ class UserJWTDetailView(JWTAuthMixin, BaseDetailView):
 
 
 
-def jwt_response_payload_handler(token, user=None, *args, **kwargs):        # /api-token-auth/
+def jwt_response_payload_handler(token, user=None, *args):        # /api-token-auth/
     token_data = {                                                          # /api-token-verify/
         'jwt_token': token,
         'jwt_date': datetime.now(),
@@ -116,13 +116,12 @@ def jwt_response_payload_handler(token, user=None, *args, **kwargs):        # /a
     }
     try:
         organizer_user_item = OrganizerUser.objects.get(pk=token_data['user_id'])
-
         organizer_user_serializer = OrganizerUserSerializer(organizer_user_item, data={
-            'jwt_token': token_data['jwt_token'], 'jwt_date':token_data['jwt_date']
+            'jwt_token': token_data['jwt_token'], 'jwt_date': token_data['jwt_date']
         }, partial=True)
-
         organizer_user_serializer.is_valid(raise_exception=True)    # Return a 400 response if the data was invalid.
         organizer_user_serializer.save()
-        return {'user': organizer_user_serializer.data, 'token': token_data}    # exclude 'user' at return
-    except ObjectDoesNotExist:
-        return {'detail': 'User does not exist'}
+        return {'token': token_data['jwt_token']}   # {'user': organizer_user_serializer.data, 'token': token_data}
+    except ObjectDoesNotExist:                      # {'token': token_data['jwt_token']}
+        return {'detail': 'User does not exist'}    # {token_data}
+
