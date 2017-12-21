@@ -4,11 +4,10 @@ build:
 	docker build -t organizer .
 
 init:
-	docker run -d -p 80:80 --name organizer_1 organizer
+	docker run -d -p 8000:80 --name organizer_1 organizer
 	docker exec -it organizer_1 python manage.py makemigrations accounts diary task password budget contacts
 	docker exec -it organizer_1 python manage.py migrate
 	docker exec -it organizer_1 python manage.py collectstatic --noinput
-
 bash:
 	docker exec -it organizer_1 bash
 

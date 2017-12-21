@@ -12,6 +12,7 @@ SECRET_KEY = 'key034950kjhkjhkjhu'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
+
 ALLOWED_HOSTS = ['sp-lutsk.com', '46.101.125.168']
 
 # Application definition
