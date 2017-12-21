@@ -12,7 +12,7 @@ SECRET_KEY = 'key034950kjhkjhkjhu'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['myapp.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['sp-lutsk.com']
 
 # Application definition
 INSTALLED_APPS = [
