@@ -10,8 +10,9 @@ services:
     links:
       - postgres:postgres
     volumes:
-      - ./api:/usr/src/docker/dev_build
-      - /usr/src/docker/dev_build/static
+      - ./api:/usr/src/app
+      - /usr/src/app/static
+      - /usr/src/app/files
     env_file:
       - django.env
     command: /usr/local/bin/gunicorn wsgi:application -w 2 -b :8000 -t 120 --reload
