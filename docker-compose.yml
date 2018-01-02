@@ -1,0 +1,27 @@
+version: '2.1'
+services:
+  api:
+    restart: always
+    build:
+      context: /usr/src/docker/dev_build
+      dockerfile: Dockerfile
+    expose:
+      - "8000"
+    links:
+      - postgres:postgres
+    volumes:
+      - ./api:/usr/src/docker/dev_build
+      - /usr/src/docker/dev_build/static
+    env_file:
+      - django.env
+    command: /usr/local/bin/gunicorn wsgi:application -w 2 -b :8000 -t 120 --reload
+
+  postgres:
+    restart: always
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    volumes:
+      - /var/lib/postgresql/data/
+    env_file:
+      - django.env
