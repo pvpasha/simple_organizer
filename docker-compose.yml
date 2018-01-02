@@ -6,7 +6,7 @@ services:
       context: /usr/src/docker/dev_build
       dockerfile: Dockerfile
     expose:
-      - "8000"
+      - "80"
     links:
       - postgres:postgres
     volumes:
@@ -14,7 +14,7 @@ services:
       - /usr/src/docker/dev_build/static
     env_file:
       - django.env
-    command: /usr/local/bin/gunicorn wsgi:application -w 2 -b :8000 -t 120 --reload
+    command: /usr/local/bin/gunicorn wsgi:application -w 2 -b :80 -t 120 --reload
 
   postgres:
     restart: always

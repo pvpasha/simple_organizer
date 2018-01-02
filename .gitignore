@@ -3,6 +3,7 @@ files/media/*
 !files/media/empty.jpg
 .idea/
 migrations/
+files/static/*
 
 
 *.pyc

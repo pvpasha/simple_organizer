@@ -10,10 +10,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'key034950kjhkjhkjhu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 
-ALLOWED_HOSTS = ['sp-lutsk.com', '46.101.125.168']
+ALLOWED_HOSTS = ['sp-lutsk.com', '46.101.125.168', 'myapp.com', 'localhost', '127.0.0.1']
 
 # Application definition
 INSTALLED_APPS = [
@@ -134,7 +134,6 @@ SOCIAL_AUTH_LINKEDIN_OAUTH2_DATA = [('id', 'id'),
                                     ('lastName', 'last_name'),
                                     ('emailAddress', 'email_address')]
 
-
 SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',
     'social_core.pipeline.social_auth.social_uid',
@@ -147,18 +146,25 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.user.user_details',
 )
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
 # WSGI
 WSGI_APPLICATION = 'wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'organizer.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ['POSTGRES_DB'],
+        'USER': os.environ['POSTGRES_USER'],
+        'PASSWORD': os.environ['POSTGRES_PASSWORD'],
+        'HOST': os.environ['POSTGRES_SERVICE'],
+        'PORT': os.environ['POSTGRES_PORT']
     }
+    # {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'organizer.sqlite3'),
+    # }
 }
 
 # Password validation
@@ -234,10 +240,7 @@ REST_FRAMEWORK = {
 
 # REST_SOCIAL_OAUTH_REDIRECT_URI = '/oauth/redirect/path/'  # or url name 'redirect_url_name'
 
-
-
-
-
+# JWT Settings
 JWT_AUTH = {
     'JWT_ENCODE_HANDLER':
     'rest_framework_jwt.utils.jwt_encode_handler',
@@ -252,7 +255,7 @@ JWT_AUTH = {
     'rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler',
 
     'JWT_RESPONSE_PAYLOAD_HANDLER':
-    'accounts.views.jwt_response_payload_handler',          # Handler that make token and response
+    'accounts.views.jwt_response_handler_user',          # Handler that make token and response
 
     'JWT_SECRET_KEY': SECRET_KEY,
     'JWT_GET_USER_SECRET_KEY': None,
@@ -272,4 +275,90 @@ JWT_AUTH = {
     'JWT_AUTH_HEADER_PREFIX': 'JWT',
     'JWT_AUTH_COOKIE': None,
 
+}
+
+# EMAIL sending
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    # 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_FILE_PATH = '/tmp/app-messages' # for 'console.EmailBackend'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'pv.pasha.pv@gmail.com'
+EMAIL_HOST_PASSWORD = '!!!!!!!!!!!!!!!!'
+EMAIL_USE_TLS = 587
+# EMAIL_USE_SSL = 465
+# EMAIL_TIMEOUT =
+
+
+# SERVER_EMAIL = 'pv.pasha.pv@gmail.com'    # 'django@my-domain.com'
+
+ADMINS = (
+    ('Pasha Adm', 'pvpasha2@meta.ua'),
+)
+
+# LOGGING Settings
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'main_formatter': {
+            'format': '%(levelname)s:%(name)s: %(message)s '
+                      '(%(asctime)s; %(filename)s:%(lineno)d)',
+            'datefmt': "%Y-%m-%d %H:%M:%S",
+        },
+        'simple': {
+            'format': '%(asctime)s: %(levelname)s >> %(message)s',
+            'datefmt': "%m-%d %H:%M:%S",
+        },
+    },
+    'filters': {
+        'debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+        'debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/log.txt',
+            # 'maxBytes': 1024 * 1024 * 5,  # 5 MB
+            # 'backupCount': 10,
+            'formatter': 'simple',
+            'filters': ['debug_true'],
+        },
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'main_formatter',
+            'filters': ['debug_true'],
+        },
+        'mail_admins': {
+            'level': 'INFO',
+            'filters': ['debug_true'],
+            'class': 'django.utils.log.AdminEmailHandler'
+            # 'include_html': True,
+            # 'email_backend': 'django.core.mail.backends.filebased.EmailBackend',
+        },
+    },
+    'loggers': {
+        'accounts': {
+            'handlers': ['mail_admins'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        '': {
+            'handlers': ['file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
 }

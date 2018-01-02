@@ -1,3 +1,5 @@
+import logging
+
 from datetime import datetime
 from django.contrib.auth import logout, get_user_model
 from django.core.exceptions import ObjectDoesNotExist
@@ -17,6 +19,9 @@ from .models import OrganizerUser
 from .serializers import OrganizerUserListSerializer, OrganizerUserSerializer
 
 
+logger = logging.getLogger(__name__)
+
+
 class RegistrationAPIView(CreateAPIView):
     permission_classes = (AllowAny,)
     serializer_class = OrganizerUserSerializer
@@ -27,11 +32,15 @@ class RegistrationAPIView(CreateAPIView):
         if user_data['password1'] == user_data['password2']:
 
             user = OrganizerUser.objects.create_user(email=user_data['email'],
-                                                     first_name=user_data['first_name'],
+                                                     username=user_data['username'],
                                                      password=user_data['password1'])
             serializer = self.get_serializer_class()
+            logger.info('User with email: "%s" and name: "%s" was created successful.' % (
+                user_data['email'], user_data['username']))
             return Response(serializer(user).data, status=status.HTTP_201_CREATED)
         else:
+            logger.info('Can not create user with email: "%s" and name: "%s". Passwords does not match.' % (
+                user_data['email'], user_data['username']))
             return ValidationError('Cannot create. Passwords does not match.', code=HTTP_417_EXPECTATION_FAILED)
 
 
@@ -39,16 +48,11 @@ class LoginAPIView(APIView):
     permission_classes = (AllowAny,)
     serializer_class = (OrganizerUserSerializer,)
 
-    # def jwt_response_payload_handler(token, email=None, request=None):
-    #     return {
-    #         'token': token,
-    #         'email': OrganizerUserSerializer(email, context={'request': request}).data
-    #     }
-
     def post(self, request):
         user = request.data.get('email', {})
         serializer = self.serializer_class(data=user)
         serializer.is_valid(raise_exception=True)
+        logger.info(msg='User with email: "%s" was login' % user['email'])
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -108,8 +112,8 @@ class UserJWTDetailView(JWTAuthMixin, BaseDetailView):
 
 
 
-def jwt_response_payload_handler(token, user=None, *args):        # /api-token-auth/
-    token_data = {                                                          # /api-token-verify/
+def jwt_response_handler_user(token, user=None, *args):        # /api-token-auth/
+    token_data = {                                             # /api-token-verify/
         'jwt_token': token,
         'jwt_date': datetime.now(),
         'user_id': user.pk
@@ -121,7 +125,9 @@ def jwt_response_payload_handler(token, user=None, *args):        # /api-token-a
         }, partial=True)
         organizer_user_serializer.is_valid(raise_exception=True)    # Return a 400 response if the data was invalid.
         organizer_user_serializer.save()
+        logger.info(msg='Token for user with email: "%s" was save' % organizer_user_serializer['email'])
         return {'token': token_data['jwt_token']}   # {'user': organizer_user_serializer.data, 'token': token_data}
     except ObjectDoesNotExist:                      # {'token': token_data['jwt_token']}
+        logger.info(msg='Token for user with email: "%s" was NOT made' % organizer_user_serializer['email'])
         return {'detail': 'User does not exist'}    # {token_data}
 
