@@ -1,9 +1,8 @@
-env/
-files/media/*
-!files/media/empty.jpg
+api/files/media/*
+!api/files/media/empty.jpg
 .idea/
 migrations/
-files/static/*
+api/files/static/*
 
 
 *.pyc
