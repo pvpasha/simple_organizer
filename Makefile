@@ -8,21 +8,21 @@ up:
 
 init:
 	docker-compose up -d
-	docker exec -it api_1 python manage.py makemigrations accounts diary task password budget contacts
-	docker exec -it api_1 python manage.py migrate
-	docker exec -it api_1 python manage.py collectstatic --noinput
+	docker exec -it devbuild_api_1 python manage.py makemigrations accounts diary task password budget contacts
+	docker exec -it devbuild_api_1 python manage.py migrate
+	docker exec -it devbuild_api_1 python manage.py collectstatic --noinput
 	docker-compose stop
 
 bash:
-	docker exec -it organizer_1 bash
+	docker exec -it devbuild_api_1 bash
 
 stop:
 	docker-compose stop
 
 clear:
-	docker stop api_1
-	docker stop postgres_1
-	docker rm api_1
-	docker rm postgres_1
-	docker rmi api
-	docker rmi postgres
+	docker stop devbuild_api_1
+	docker stop devbuild_postgres_1
+	docker rm devbuild_api_1
+	docker rm devbuild_postgres_1
+	docker rmi devbuild_api
+	docker rmi devbuild_postgres
