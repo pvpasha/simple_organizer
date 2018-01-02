@@ -3,7 +3,7 @@ services:
   api:
     restart: always
     build:
-      context: /usr/src/docker/dev_build/api
+      context: ./api
       dockerfile: Dockerfile
     expose:
       - "8000"
