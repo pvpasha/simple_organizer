@@ -20,9 +20,13 @@ stop:
 	docker-compose stop
 
 clear:
+
 	docker stop devbuild_api_1
 	docker stop devbuild_postgres_1
+    docker stop devbuild_front_1
 	docker rm devbuild_api_1
 	docker rm devbuild_postgres_1
+	docker rm devbuild_front_1
 	docker rmi devbuild_api
 	docker rmi postgres
+	docker rmi devbuild_front
