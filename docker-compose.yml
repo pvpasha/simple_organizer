@@ -5,8 +5,8 @@ services:
     build:
       context: ./api
       dockerfile: Dockerfile
-    ports:
-      - "80:8000"
+    expose:
+      - "8000"
     links:
       - postgres:postgres
     volumes:
@@ -16,6 +16,17 @@ services:
     env_file:
       - django.env
     command: /usr/local/bin/gunicorn wsgi:application -w 2 -b :8000 -t 120 --reload
+
+  front:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ./front:/usr/src/front
+    volumes_from:
+      - api:ro
 
   postgres:
     restart: always
