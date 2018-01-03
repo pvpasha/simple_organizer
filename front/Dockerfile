@@ -1,5 +1,8 @@
 FROM tutum/nginx
-
-COPY  ./front /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/nginx.conf
-EXPOSE 80
+RUN apt-get update
+RUN service nginx upgrade
+RUN rm /etc/nginx/sites-enabled/default
+ADD sites-enabled/ /etc/nginx/sites-enabled
+RUN rm /etc/nginx/nginx.conf
+ADD nginx.conf /etc/nginx/nginx.conf
+CMD service nginx restart
