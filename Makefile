@@ -25,4 +25,4 @@ clear:
 	docker rm devbuild_api_1
 	docker rm devbuild_postgres_1
 	docker rmi devbuild_api
-	docker rmi devbuild_postgres
+	docker rmi postgres
