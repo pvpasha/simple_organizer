@@ -1,6 +1,5 @@
 FROM tutum/nginx
 
-ADD sites-enabled/ /usr/src/front/sites-enabled/
-COPY nginx.conf /usr/src/front/nginx.conf
-# RUN rm /etc/nginx/sites-enabled/default
+COPY  ./front /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
