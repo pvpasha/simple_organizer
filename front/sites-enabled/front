@@ -1,7 +1,12 @@
-server { listen  80;
-  server_name sp-lutsk.com;
-  root /usr/src/front;
-  access_log /var/log/nginx/front-access.log;
-  error_log /var/log/nginx/front-error.log;
-  charset utf-8
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name sp-lutsk.com;
+    access_log /var/log/nginx/front-access.log;
+    error_log /var/log/nginx/front-error.log;
+    charset utf-8
+    location / {
+        alias /usr/src/front;
+
+    }
 }
