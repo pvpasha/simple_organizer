@@ -2,41 +2,81 @@
 <html lang="en" ng-app="myApp" ng-controller="MainController">
     <head>
         <meta charset="UTF-8">
-        <link rel="icon" type="image/png" href="img/icon_team_16x16.png" />
-        <link href='http://fonts.googleapis.com/css?family=Roboto:500,300,700,400' rel='stylesheet' type='text/css'>
-        <link href="css/main.css" rel="stylesheet" />
+
+        <title>{{ title }}</title>
+
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" sizes="16x16" href="img/icon_team_16x16.png">
+        <!-- Main style sheet -->
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <!-- Font -->
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto:500,300,700,400">
 
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
 
-        <title>{{ title }}</title>
     </head>
     <body>
 
     <!-- Header -------------------------------------------------------------------------->
-        <div class="header">
+        <header id="home" class="header">
             <div class="container">
-                <img src="img/organizer_logo.png">
+                <a href="#home" class=""><img src="img/organizer_logo.png" alt="Logo"></a>
+            <!-- Main Menu Start -->
+                <ul class="">
+                    <li><a href="#">HOME</a></li>
+                    <li><a href="#">Login</a></li>
+                    <li><a href="#">ABOUT</a></li>
+                </ul>
                 <hr>
+             <!-- Main Menu End -->
             </div>
-        </div>
+
+
+
+        </header>
 
     <!-- Body ---------------------------------------------------------------------------->
         <div class="main">
             <div class="container">
                 <h2>It's Front_End!<br>{{ team }}</h2>
+                <hr>
+            </div>
+            <!-- Login ---------------->
+            <div> <!-- ng-app="" ng-controller="" -->
+                <table>
+                    <tbody>
+                        <tr>
+                            <td align="right">Login: <input type="text" ng-model="login"></td>
+                            <td align="right"><input type="submit" value="Login"></td>
+                        </tr>
+                        <tr>
+                           <td>Password: <input type="text" ng-model="password"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table>
+                    <tbody>
+                        <tr>
+                           <td>Your login & password: {{ login + " | " + password }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr>
             </div>
         </div>
 
     <!-- Footer ------------------------------------------------------------------------->
-        <div class="footer">
-            <div class="container">
-                <hr>
-                <img src="img/icon_team_150x150.png">
-                <br>
-                <h3>{{ team | uppercase }} &copy 2018</h3>
-                <hr>
+        <footer>
+            <div class="footer">
+                <div class="container">
+                    <hr>
+                    <img src="img/icon_team_150x150.png" alt="Logo">
+                    <br>
+                    <h3>{{ team | uppercase }} &copy 2018</h3>
+                    <hr>
+                </div>
             </div>
-        </div>
+        </footer>
 
     <!-- JS files loading ------------------->
 
