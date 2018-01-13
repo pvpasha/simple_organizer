@@ -2,37 +2,49 @@
 <html lang="en" ng-app="myApp" ng-controller="mainCtrl">
     <head>
         <meta charset="UTF-8">
-
         <title>{{ title }}</title>
-
         <!-- Favicon -->
         <link rel="icon" type="image/png" sizes="16x16" href="img/icon_team_16x16.png">
         <!-- Main style sheet -->
         <link rel="stylesheet" type="text/css" href="css/main.css">
         <!-- Font -->
         <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto:500,300,700,400">
-
     </head>
     <body>
     <!-- Header -------------------------------------------------------------------------->
         <header class="header">
-            <div class="container">
-                <a href="#" class=""><img src="img/organizer_logo.png" alt="Logo"></a>
-            <!-- Main Menu Start -->
-                <ul class="">
-                    <li><a href="/">HOME</a></li>
-                    <li><a href="/login">Login</a></li>
-                    <li><a href="/about">ABOUT</a></li>
-                </ul>
+            <div class="{{active}}" ng-click="$event.preventDefault()">
+                <tr>
+                    <td><a href="/" class=""><img src="img/organizer_logo.png" alt="Logo"></a></td>
+                </tr>
+                <!-- Main Menu Start -->
+                <tr>
+                    <td><a href="/">Home</a></td>
+                </tr>
+                <tr>
+                    <td><a href="/login">Login</a></td>
+                </tr>
+                <tr>
+                    <td><a href="/about">About</a></td>
+                </tr>
+                <!-- Main Menu End -->
                 <hr>
-             <!-- Main Menu End -->
             </div>
         </header>
-
     <!-- Body ---------------------------------------------------------------------------->
         <div class="main">
             <div class="container">
-                <h2>It's Front_End!<br>{{ team }}</h2>
+                <h2>{{ team }}</h2>
+                    <tr>
+                        <td><span ng-click="active='home'">Home</span></td>
+                    </tr>
+                    <tr>
+                        <td><span ng-click="active='login'">Login</span></td>
+                    </tr>
+                    <tr>
+                        <td><span ng-click="active='about'">About</span></td>
+                    </tr>
+                <p ng-show="active">Hello from <b>{{active}}</b></p>
                 <hr>
             </div>
             <ng-view></ng-view>  <!-- ng-view ------------------------------------------------>
@@ -45,7 +57,6 @@
           </div>
           <hr>
         </div>
-
     <!-- Footer ------------------------------------------------------------------------->
         <footer>
             <div class="footer">
@@ -57,20 +68,14 @@
                 </div>
             </div>
         </footer>
-
 <!-- JS files loading ------------------->
-
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-route.min.js"></script>
-
     <!-- Modules -->
     <!--<script src="js/app.js"></script>-->
-
     <!-- Controllers -->
     <script src="js/mainCtrl.js"></script>
     <!--<script src="js/loginCtrl.js"></script>-->
-
     <!-- Services -->
-
     </body>
 </html>
