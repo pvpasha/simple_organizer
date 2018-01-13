@@ -1,0 +1,12 @@
+<hr>
+<h1>>>> Login <<<</h1>
+<div ng-controller="loginCtrl">
+    <label>Email:</label>
+    <input  type="text" name="email" ng-model="email" required>
+    <br>
+    <label>Password:</label>
+    <input  type="password" name="password" ng-model="password" required>
+    <hr>
+    <span>Your email & password: {{ email + " | " + password }}</span>
+</div>
+<hr>
