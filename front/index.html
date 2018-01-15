@@ -33,29 +33,12 @@
         </header>
     <!-- Body ---------------------------------------------------------------------------->
         <div class="main">
+            <h5 align="center">Now date && time: {{ today | date:'dd/MM/yyyy - HH:mm'}}</h5>
             <div class="container">
-                <h2>{{ team }}</h2>
-                    <tr>
-                        <td><span ng-click="active='home'">Home</span></td>
-                    </tr>
-                    <tr>
-                        <td><span ng-click="active='login'">Login</span></td>
-                    </tr>
-                    <tr>
-                        <td><span ng-click="active='about'">About</span></td>
-                    </tr>
-                <p ng-show="active">Hello from <b>{{active}}</b></p>
-                <hr>
+                <h2 align="center">{{ team }} </h2>
             </div>
-            <ng-view></ng-view>  <!-- ng-view ------------------------------------------------>
-        </div>
-        <div>
-          <hr>
-            <h3>Users:</h3>
-          <div ng-repeat="user in users">
-              <span>{{ user.email | json }} ->> {{ user.password}}</span>
-          </div>
-          <hr>
+    <!-- ng-view ------------------------------------------------------------------------>
+            <ng-view></ng-view>
         </div>
     <!-- Footer ------------------------------------------------------------------------->
         <footer>
@@ -64,7 +47,7 @@
                     <hr>
                     <img src="img/icon_team_150x150.png" alt="Logo">
                     <br>
-                    <h3>{{ team | uppercase }} &copy {{ today | date:'yyyy'}}</h3>
+                    <h5>{{ team | uppercase }} &copy {{ today | date:'yyyy'}}</h5>
                 </div>
             </div>
         </footer>

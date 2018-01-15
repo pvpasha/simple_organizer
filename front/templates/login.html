@@ -1,12 +1,14 @@
-<hr>
 <h1>>>> Login <<<</h1>
-<div ng-controller="loginCtrl">
-    <label>Email:</label>
-    <input  type="text" name="email" ng-model="email" required>
-    <br>
-    <label>Password:</label>
-    <input  type="password" name="password" ng-model="password" required>
+    <div class="container" ng-controller="loginCtrl">
+        <label><b>Email</b></label>
+        <input type="text" placeholder="Enter Email" name="email" ng-model="email" required>
+        <label><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="password" ng-model="password" required>
+        <button type="submit">Login</button>
+        <label>
+            <input type="checkbox" name="remember"> Remember me
+        </label>
+    </div>
     <hr>
     <span>Your email & password: {{ email + " | " + password }}</span>
-</div>
 <hr>
