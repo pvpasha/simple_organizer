@@ -15,11 +15,11 @@
         <header class="header">
             <div>
                 <tr>
-                    <td><a href="#/!" class=""><img src="img/organizer_logo.png" alt="Logo"></a></td>
+                    <td><a href="#!" class=""><img src="img/organizer_logo.png" alt="Logo"></a></td>
                 </tr>
                 <!-- Main Menu Start -->
                 <tr>
-                    <td><a href="#/!">Home</a></td>
+                    <td><a href="#!">Home</a></td>
                 </tr>
                 <tr>
                     <td><a href="#!login">Login</a></td>
@@ -33,9 +33,9 @@
         </header>
     <!-- Body ---------------------------------------------------------------------------->
         <div class="main">
-            <h5 align="center">Now date && time: {{ today | date:'dd/MM/yyyy - HH:mm'}}</h5>
             <div class="container">
                 <h2 align="center">{{ team }} </h2>
+                <h5 align="center">Now date && time: {{ today | date:'dd/MM/yyyy - HH:mm'}}</h5>
             </div>
     <!-- ng-view ------------------------------------------------------------------------>
             <ng-view></ng-view>

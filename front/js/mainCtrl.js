@@ -29,7 +29,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$location', function($scope, $ht
       $scope.users = response.data;
     });
 
-  var date = new Date();
+  var date = new Date();    // Date
   $scope.today = date;
 
 }]);
@@ -44,6 +44,30 @@ app.controller('homeCtrl', ['$scope', '$http', '$location', function($scope, $ht
 app.controller('loginCtrl', ['$scope', '$http', '$location', function($scope, $http, $location) {
     $scope.title = 'Login';
 
+    $scope.logIn = function() {
+
+        var data = ({
+        email: $scope.email,
+        password: $scope.password
+        });
+
+//        var config = {
+//            headers : { 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+//        }
+
+        $http.post('http://localhost:8000/accounts/api-login/', data)
+            .success(function (result) {
+                console.log('Success!');
+            })
+            .error(function (result) {
+                console.log('Error');
+            });
+
+    };
+
+    //$http.post('/accounts/api-login/', data).then(function(response) {
+    //      $scope.users = response.data;
+
 }]);
 
 //About Controller
@@ -51,5 +75,7 @@ app.controller('aboutCtrl', ['$scope', '$http', '$location', function($scope, $h
     $scope.title = 'About';
 
 }]);
+
+//console.log(name);
 
 

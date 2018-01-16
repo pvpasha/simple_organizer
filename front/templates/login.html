@@ -4,11 +4,9 @@
         <input type="text" placeholder="Enter Email" name="email" ng-model="email" required>
         <label><b>Password</b></label>
         <input type="password" placeholder="Enter Password" name="password" ng-model="password" required>
-        <button type="submit">Login</button>
+        <button type="submit" ng-click="logIn()">Log In</button>
         <label>
             <input type="checkbox" name="remember"> Remember me
         </label>
     <hr>
-    <span>Your email & password: {{ email + " | " + password }}</span>
     </div>
-<hr>
