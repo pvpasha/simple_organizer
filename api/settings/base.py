@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'social_django',
     'rest_social_auth',
     'oauth2_provider',                  # oauth2
+    'corsheaders',
 
     'accounts',
     'budget',
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -154,17 +156,21 @@ WSGI_APPLICATION = 'wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ['POSTGRES_DB'],
-        'USER': os.environ['POSTGRES_USER'],
-        'PASSWORD': os.environ['POSTGRES_PASSWORD'],
-        'HOST': os.environ['POSTGRES_SERVICE'],
-        'PORT': os.environ['POSTGRES_PORT']
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'organizer.sqlite3'),
     }
     # {
     #     'ENGINE': 'django.db.backends.sqlite3',
     #     'NAME': os.path.join(BASE_DIR, 'organizer.sqlite3'),
     # }
+        # {
+        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        # 'NAME': os.environ['POSTGRES_DB'],
+        # 'USER': os.environ['POSTGRES_USER'],
+        # 'PASSWORD': os.environ['POSTGRES_PASSWORD'],
+        # 'HOST': os.environ['POSTGRES_SERVICE'],
+        # 'PORT': os.environ['POSTGRES_PORT']
+        # }
 }
 
 # Password validation
@@ -297,6 +303,25 @@ ADMINS = (
     ('Pasha Adm', 'pvpasha2@meta.ua'),
 )
 
+# CORS Settings
+CORS_ORIGIN_ALLOW_ALL = True
+
+# CORS_ORIGIN_WHITELIST = (
+#     'google.com',
+#     'hostname.example.com',
+#     'localhost:8000',
+#     '127.0.0.1:9000'
+# )
+
+CORS_ALLOW_METHODS = (
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS'
+)
+
 # LOGGING Settings
 LOGGING = {
     'version': 1,
@@ -305,11 +330,11 @@ LOGGING = {
         'main_formatter': {
             'format': '%(levelname)s:%(name)s: %(message)s '
                       '(%(asctime)s; %(filename)s:%(lineno)d)',
-            'datefmt': "%Y-%m-%d %H:%M:%S",
+            'datefmt': "%Y/%m/%d %H:%M:%S",
         },
         'simple': {
             'format': '%(asctime)s: %(levelname)s >> %(message)s',
-            'datefmt': "%m-%d %H:%M:%S",
+            'datefmt': "%m/%d %H:%M:%S",
         },
     },
     'filters': {

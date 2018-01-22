@@ -9,8 +9,7 @@ from rest_social_auth.views import JWTAuthMixin
 from rest_framework import status, generics
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.exceptions import ValidationError
-from rest_framework.status import HTTP_417_EXPECTATION_FAILED
+from rest_framework.exceptions import ValidationError, AuthenticationFailed
 from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, CreateAPIView
 from rest_framework.views import APIView
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
@@ -41,7 +40,7 @@ class RegistrationAPIView(CreateAPIView):
         else:
             logger.info('Can not create user with email: "%s" and name: "%s". Passwords does not match.' % (
                 user_data['email'], user_data['username']))
-            return ValidationError('Cannot create. Passwords does not match.', code=HTTP_417_EXPECTATION_FAILED)
+            return ValidationError('Cannot create. Passwords does not match.', code=status.HTTP_417_EXPECTATION_FAILED)
 
 
 class LoginAPIView(APIView):
@@ -49,11 +48,22 @@ class LoginAPIView(APIView):
     serializer_class = (OrganizerUserSerializer,)
 
     def post(self, request):
-        user = request.data.get('email', {})
-        serializer = self.serializer_class(data=user)
-        serializer.is_valid(raise_exception=True)
-        logger.info(msg='User with email: "%s" was login' % user['email'])
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        user_mail = request.data['email']
+        user_pass = request.data['password']
+        try:
+            organizer_user_item = OrganizerUser.objects.get(email=user_mail['email'])
+            organizer_user_serializer = OrganizerUserSerializer(organizer_user_item, data={
+                'email': user_mail, 'password': user_pass['password']
+            })
+            # if user_pass ==OrganizerUser.objects.get(password)
+
+            serializer = self.serializer_class(data=user_mail)
+            serializer.is_valid(raise_exception=True)
+
+            logger.info(msg='User with email: "%s" was login' % user_mail['email'])
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except AuthenticationFailed:
+            return Response({'detail': 'Authentication Failed'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 class OrganizerUserItemView(RetrieveAPIView):
@@ -123,11 +133,11 @@ def jwt_response_handler_user(token, user=None, *args):        # /api-token-auth
         organizer_user_serializer = OrganizerUserSerializer(organizer_user_item, data={
             'jwt_token': token_data['jwt_token'], 'jwt_date': token_data['jwt_date']
         }, partial=True)
-        organizer_user_serializer.is_valid(raise_exception=True)    # Return a 400 response if the data was invalid.
+        organizer_user_serializer.is_valid(raise_exception=True)  # Return a 400 response if the data was invalid.
         organizer_user_serializer.save()
-        logger.info(msg='Token for user with email: "%s" was save' % organizer_user_serializer['email'])
-        return {'token': token_data['jwt_token']}   # {'user': organizer_user_serializer.data, 'token': token_data}
-    except ObjectDoesNotExist:                      # {'token': token_data['jwt_token']}
-        logger.info(msg='Token for user with email: "%s" was NOT made' % organizer_user_serializer['email'])
-        return {'detail': 'User does not exist'}    # {token_data}
-
+        logger.info(msg='Token for user with email %s was save' % organizer_user_serializer['email'])
+        return {'token': token_data['jwt_token'], 'email': organizer_user_item.email}
+    except AuthenticationFailed:
+        logger.info(msg='Authentication Failed. Token for user with email %s was NOT made'
+                        % organizer_user_serializer['email'])
+        return Response ({'detail': 'Authentication Failed'}, status=status.HTTP_401_UNAUTHORIZED)

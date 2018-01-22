@@ -1,10 +1,12 @@
 api/files/media/*
+api/logs/*
 !api/files/media/empty.jpg
 .idea/
 migrations/
+venv/
 api/files/static/*
 
-
+*.env
 *.pyc
 *.sqlite3
 *.sqlite3-journal

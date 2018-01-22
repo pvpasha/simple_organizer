@@ -1,5 +1,5 @@
-<h1>>>> Login <<<</h1>
-    <div class="container" ng-controller="loginCtrl">
+<h3>>>> Login <<<</h3>
+    <div class="container">
         <label><b>Email</b></label>
         <input type="text" placeholder="Enter Email" name="email" ng-model="email" required>
         <label><b>Password</b></label>
@@ -9,4 +9,5 @@
             <input type="checkbox" name="remember"> Remember me
         </label>
     <hr>
+        <span>Response: {{ token }}</span>
     </div>
