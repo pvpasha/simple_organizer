@@ -1,5 +1,5 @@
+api/logs/
 api/files/media/*
-api/logs/*
 !api/files/media/empty.jpg
 .idea/
 migrations/
