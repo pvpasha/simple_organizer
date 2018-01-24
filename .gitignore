@@ -1,10 +1,11 @@
-api/logs/
-api/files/media/*
-!api/files/media/empty.jpg
 .idea/
 migrations/
 venv/
-api/files/static/*
+api/static/rest_framework/
+api/logs/
+api/files/static/
+api/files/media/*
+!api/files/media/empty.jpg
 
 *.env
 *.pyc
