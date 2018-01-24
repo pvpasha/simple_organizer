@@ -44,38 +44,38 @@ angular.module('myapp.main', ['ngRoute'])
 angular.module('myapp.login', [])
 
 //Auth factory
-    .service('Auth', function($http) {
+    .factory('Auth', function($http) {
+        return {
+            login: function () {
+                    var req = {
+                        method: 'POST',
+                        url: 'http://localhost:8000/api-token-auth/',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        data: {
+                            'email': 'pvpasha@meta.ua',
+                            'password': 'pasha123'
+                        }
+                    };
 
-        this.login = function () {
-                var req = {
-                    method: 'POST',
-                    url: 'http://localhost:8000/api-token-auth/',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    data: {
-                        'email': 'pvpasha@meta.ua',
-                        'password': 'pasha123'
-                    }
-                };
+                    $http(req).then(function (response) {
+                        var tokenUsers = response.data;
+                        var serialResp = JSON.stringify(tokenUsers.token);
+                        localStorage.setItem('user-token', serialResp);
 
-                $http(req).then(function (response) {
-                    var tokenUsers = response.data;
-                    var serialResp = JSON.stringify(tokenUsers.token);
-                    localStorage.setItem('user-token', serialResp);
+                        var serialResp1 = JSON.stringify(tokenUsers.email);
+                        localStorage.setItem('user-email', serialResp1);
 
-                    var serialResp1 = JSON.stringify(tokenUsers.email);
-                    localStorage.setItem('user-email', serialResp1);
-
-                });
-        };
-
-        this.logout = function() {
-            localStorage.removeItem('user-token')
-            localStorage.removeItem('user-email')
-            // localStorage.clear();
-            // var returnResp = JSON.parse(localStorage.getItem('user-token'))
-        };
+                    });
+            },
+            logout: function() {
+                localStorage.removeItem('user-token')
+                localStorage.removeItem('user-email')
+                // localStorage.clear();
+                // var returnResp = JSON.parse(localStorage.getItem('user-token'))
+            }
+        }
     })
 
     //Login Controller

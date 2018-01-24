@@ -10,3 +10,8 @@
 01/24 19:39:54: INFO >> "POST /api-token-auth/ HTTP/1.1" 200 262
 01/24 19:40:53: INFO >> Token for user with email <BoundField value=pvpasha@meta.ua errors=None> was save
 01/24 19:40:54: INFO >> "POST /api-token-auth/ HTTP/1.1" 200 262
+01/24 20:01:45: INFO >> "OPTIONS /api-token-auth/ HTTP/1.1" 200 0
+01/24 20:01:46: INFO >> Token for user with email <BoundField value=pvpasha@meta.ua errors=None> was save
+01/24 20:01:48: INFO >> "POST /api-token-auth/ HTTP/1.1" 200 262
+01/24 20:02:43: INFO >> Token for user with email <BoundField value=pvpasha@meta.ua errors=None> was save
+01/24 20:02:44: INFO >> "POST /api-token-auth/ HTTP/1.1" 200 262

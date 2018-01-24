@@ -2,7 +2,7 @@
 migrations/
 venv/
 api/static/rest_framework/
-api/logs/
+api/logs/*
 api/files/static/
 api/files/media/*
 !api/files/media/empty.jpg
