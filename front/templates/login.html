@@ -1,14 +1,14 @@
 <h3>>>> Login <<<</h3>
     <div class="container">
         <label><b>Email</b></label>
-        <input type="text" placeholder="Enter Email" name="email" ng-model="email" required>
+        <input type="text" placeholder="Enter Email" ng-model="userdata.email" required>
         <label><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="password" ng-model="password" required>
+        <input type="password" placeholder="Enter Password" ng-model="userdata.password" required>
         <button type="submit" ng-click="logIn()">Log In</button>
         <button type="submit" ng-click="logOut()">Log Out</button>
         <label>
             <input type="checkbox" name="remember"> Remember me
         </label>
     <hr>
-        <span>Hello, {{ user }}</span>
+        <span>Hello, {{userdata}}</span>
     </div>

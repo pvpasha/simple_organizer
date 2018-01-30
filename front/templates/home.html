@@ -14,11 +14,3 @@
         </tr>
         <p ng-show="active">Hello from <b>{{active}}</b></p>
     </div>
-    <div>
-        <hr>
-        <h3>Users: ($http.get)</h3>
-        <div ng-repeat="user in users">
-            <span>{{ user.email | json }} ->> {{ user.password}}</span>
-        </div>
-        <hr>
-    </div>
