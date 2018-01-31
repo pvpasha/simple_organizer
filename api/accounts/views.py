@@ -136,7 +136,7 @@ def jwt_response_handler_user(token, user=None, *args):        # /api-token-auth
         organizer_user_serializer.is_valid(raise_exception=True)  # Return a 400 response if the data was invalid.
         organizer_user_serializer.save()
         logger.info(msg='Token for user with email %s was save' % organizer_user_serializer['email'])
-        return {'token': token_data['jwt_token'], 'email': organizer_user_item.email}
+        return {'token': token_data['jwt_token']}
     except AuthenticationFailed:
         logger.info(msg='Authentication Failed. Token for user with email %s was NOT made'
                         % organizer_user_serializer['email'])

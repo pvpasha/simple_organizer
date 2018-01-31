@@ -3,10 +3,9 @@
 
 // declare modules
 angular.module('Home', []);
-angular.module('Login', []);
+angular.module('Login', ['ngStorage']);
 angular.module('About', []);
 angular.module('Route', []);
-
 
 angular
     .module('app', [

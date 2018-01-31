@@ -3,9 +3,28 @@
 
 angular
     .module('Login')
-    .service('loginService', loginService);
+    .service('AuthService', AuthService);
 
-    function loginService(){
+    function AuthService($http, $location, $localStorage, LoginReqFactory){
+        var service = {};
+
+        service.getToken = function(userdata) {
+            LoginReqFactory.get(userdata)
+            $localStorage.currentUser = {email:userdata.email, token:LoginReqFactory.get(userdata)};
+            $http.defaults.headers.common.Authotization = 'JWT ' + $localStorage.currentUser.token
+            $location.path('/')
+            console.log('AuthService: ');
+
+        }
+
+
+    Login
+
+
+        this.getLogout = function(){
+            delete $localStorage.currentUser
+//            $http.defaults.headers.common.Authotization = '' // ????
+        }
 
     }
 

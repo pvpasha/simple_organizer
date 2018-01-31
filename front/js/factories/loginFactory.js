@@ -4,32 +4,33 @@
 angular
     .module('Login')
     .factory('LoginReqFactory', LoginReqFactory)
-    .factory('LogoutReqFactory', LogoutReqFactory)
+//    .factory('LogoutReqFactory', LogoutReqFactory)
 
-    function LoginReqFactory($http, $localStorage, $location){
+    function LoginReqFactory($http, $window, $location, $localStorage){
         return {
             get: function(userdata) {
                 return $http.post('http://localhost:8000/api-token-auth/', userdata)
-                .then(function(response) {
-                    if (response.data.token) {
-                        $localStorage.currentUser = {email: userdata.email, token: response.data.token}
-                        $http.defaults.headers.common.Authotization = 'JWT ' + response.data.token
-                        $location.path('')
-                        // callback (true)
-                    }
-                })
-                // .error(function() {callback (false)})
+                .then(function successCallback (response){
+//                    $localStorage.currentUser = {email: userdata.email, token: response.data.token}
+//                    $http.defaults.headers.common.Authotization = 'JWT ' + response.data.token
+//                    $location.path('/')
+                    token = response.data.token;
+                    //return token //?????????????
+                    console.log('LoginReqFactory: ', token);
+
+                    },
+                    function errorCallback() {$window.alert('Your email or password are incorrect!');})
             }
         }
     }
 
-    function LogoutReqFactory($http, $localStorage){
-        return {
-            get: function() {
-                delete $localStorage.currentUser
-                $http.defaults.headers.common.Authotization = ''
-            }
-        }
-    }
+//    function LogoutReqFactory($http, $localStorage){
+//        return {
+//            get: function() {
+//                delete $localStorage.currentUser
+//                $http.defaults.headers.common.Authotization = '' // ????
+//            }
+//        }
+//    }
 
 })();
