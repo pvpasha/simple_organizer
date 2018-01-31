@@ -8,22 +8,31 @@ angular
     function AuthService($http, $location, $localStorage, LoginReqFactory){
         var service = {};
 
-        service.getToken = function(userdata) {
-            LoginReqFactory.get(userdata)
-            $localStorage.currentUser = {email:userdata.email, token:LoginReqFactory.get(userdata)};
-            $http.defaults.headers.common.Authotization = 'JWT ' + $localStorage.currentUser.token
-            $location.path('/')
-            console.log('AuthService: ');
+
+        service.getToken = getToken;
+        service.login = Login;
+        service.logout = Logout;
+
+        return service;
+        function getToken(userdata) {
+            LoginReqFactory.get(userdata).then (function(token){
+                $localStorage.currentUser = {email:userdata.email, token:token};
+                $http.defaults.headers.common.Authotization = 'JWT ' + token
+            })
+
+
 
         }
 
-
-    Login
-
-
-        this.getLogout = function(){
+        function Login(userdata){
+            getToken(userdata)
+             $location.path('/')
+            console.log('AuthService: Succssesfully loginned!!');
+        }
+        function Logout(){
             delete $localStorage.currentUser
-//            $http.defaults.headers.common.Authotization = '' // ????
+            $http.defaults.headers.common.Authotization = '';
+            console.log('AuthService: Succssesfully logouted');
         }
 
     }
