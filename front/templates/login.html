@@ -1,11 +1,13 @@
 <h3> Login module</h3>
-<div class="container" ng-if="status()">
-    <label><b>Email</b></label>
-    <input type="text" placeholder="Enter Email" ng-model="userdata.email" required>
-    <label><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" ng-model="userdata.password" required>
-    <button type="submit" ng-click="logIn()">Log In</button>
-    <button type="submit" ng-click="logOut()">Log Out</button>
+<div class="container">
+    <label ng-if="!status()"><b>Email</b></label>
+    <input type="text" placeholder="Enter Email" ng-if="!status()" ng-model="userdata.email" required>
+    <label ng-if="!status()"><b>Password</b></label>
+    <label ng-if="status()"><b>Please LogOut</b></label>
+    <input type="password" placeholder="Enter Password" ng-if="!status()" ng-model="userdata.password" required>
+    <button type="submit" ng-hide="status()" ng-click="logIn()">Log In</button>
+    <button type="submit" ng-show="status()" ng-click="logOut()">Log Out</button>
+    <button type="submit" ng-click="verifyToken()">Check Token</button>
     <!--<label><input type="checkbox" name="remember">Remember me</label>-->
     <hr>
     <span>Your data, {{userdata}}</span>
