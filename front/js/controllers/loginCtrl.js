@@ -14,8 +14,8 @@
 
         this.title = 'Login';
         $scope.userdata = {
-            email: 'pvpasha@meta.ua',                                           //need delete this email & pass!!!
-            password: 'pasha123'
+            email: '',                                           //need delete this email & pass!!!
+            password: ''
         };
 
         $scope.username = function() {
@@ -27,7 +27,7 @@
         }
 
         $scope.logFacebook = function() {
-            $http.get('http://myapp.com:8000/api-auth/login/facebook/')
+            $http.get('http://localhost:8000/api-auth/login/facebook/')
         };
 
         $scope.verifyTokenS = function(){
