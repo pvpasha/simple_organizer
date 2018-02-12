@@ -6,7 +6,7 @@ angular
     .controller('aboutCtrl', aboutCtrl);
 
     function aboutCtrl($scope) {
-        $scope.title = 'SP - About';
+        this.title = 'SP - About';
     }
 
 })();

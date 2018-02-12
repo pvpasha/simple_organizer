@@ -20,7 +20,7 @@ urlpatterns = [
     url(r'^task/', include('task.urls')),
     url(r'^dj-auth/', include('django.contrib.auth.urls')),
     url(r'^soc-auth/', include('social_django.urls', namespace='soc-auth')),
-    url(r'^api-auth/', include('rest_framework_social_oauth2.urls')),
+    url(r'^api-auth/', include('rest_framework_social_oauth2.urls')),               #
 
     url(r'^api/login/', include('rest_social_auth.urls_session')),
     url(r'^api/login/', include('rest_social_auth.urls_token')),

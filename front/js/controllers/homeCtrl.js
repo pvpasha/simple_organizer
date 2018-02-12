@@ -6,7 +6,7 @@ angular
     .controller('homeCtrl', homeCtrl);
 
     function homeCtrl($scope){
-        $scope.title = 'SP - Home';
+        this.title = 'SP - Home';
         $scope.team = 'SP Lutsk';
 
         var date = new Date();    // Date

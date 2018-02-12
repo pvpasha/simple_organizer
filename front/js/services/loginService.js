@@ -5,13 +5,15 @@
         .module('Login')
         .service('AuthService', AuthService);
 
-    function AuthService($http, $location, $localStorage, LoginReqFactory, VerifyTokenFactory) {
+    function AuthService($http, $location, $localStorage, LoginReqFactory, VerifyTokenFactory, RefreshTokenFactory) {
         var service = {};
 
         service.getToken = getToken;
         service.login = Login;
         service.logout = Logout;
-        service.verify = VerifyToken;
+        service.verifyToken = VerifyToken;
+        service.refreshToken = RefreshToken;
+        service.checkLocalStorage = CheckLocalStorage;
 
         return service;
 
@@ -21,7 +23,7 @@
                     email: userdata.email,
                     token: token
                 };
-                $http.defaults.headers.common.Authotization = 'JWT ' + token; // Your Prefix Header;
+//                $http.defaults.headers.common.Authotization = 'JWT ' + token; // Your Prefix Header;
             })
         }
 
@@ -33,21 +35,50 @@
 
         function Logout() {
             delete $localStorage.currentUser;
-            $http.defaults.headers.common.Authotization = '';
+//            $http.defaults.headers.common.Authotization = '';
             console.log('AuthService: Successfully logout!');
         }
 
         function VerifyToken(data) {
             VerifyTokenFactory.get(data)    // Add Fn If Error !!!
-                .then(function(){
-                    console.log('AuthService: Verify Token OK!');
-                })
-                .catch(function(error) {            //If Error Do this
-                delete $localStorage.currentUser;
-                $location.path('/login');
-                console.error('AuthService: Verify Token ERROR!!!');
+                .then(RefreshTokenFactory.get(data)
+                    .then(function(resp){
+                        $localStorage.currentUser = {
+                            email: data.email,
+                            token: resp
+                        };
+//                        $http.defaults.headers.common.Authotization = 'JWT ' + resp; // Your Prefix Header;
+                        console.log('VerifyToken && AuthService: RefreshToken OK!');
+                    })
+                , function(error) {                                     //If Error Do this
+//                delete $localStorage.currentUser;
+//                $location.path('/login');
+                console.log('AuthService: VerifyToken ERROR!', error.status);
                 })
         }
+
+        function RefreshToken(data) {
+            RefreshTokenFactory.get(data)
+                .then(function(resp){
+                    $localStorage.currentUser = {
+                    email: data.email,
+                    token: resp
+                };
+//                $http.defaults.headers.common.Authotization = 'JWT ' + resp; // Your Prefix Header;
+                    console.log('AuthService: RefreshToken OK!');
+                })
+        }
+
+        function CheckLocalStorage(data) {
+            if ($localStorage.currentUser){
+                console.log('Wait checking your token!');
+                VerifyToken(data);
+            }else {
+//                $location.path('/login');
+                console.log('You DON"T Have currentUser, Please login!');
+            }
+        }
+
     }
 
 })();
