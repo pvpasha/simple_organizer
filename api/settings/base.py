@@ -25,7 +25,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'sorl.thumbnail',
     'rest_framework',
-    'rest_framework.authtoken',
     'rest_framework_social_oauth2',     # oauth2
     'social_django',
     'rest_social_auth',
@@ -58,7 +57,7 @@ ROOT_URLCONF = 'urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'todo', 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -156,12 +155,8 @@ WSGI_APPLICATION = 'wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ['POSTGRES_DB'],
-        'USER': os.environ['POSTGRES_USER'],
-        'PASSWORD': os.environ['POSTGRES_PASSWORD'],
-        'HOST': os.environ['POSTGRES_SERVICE'],
-        'PORT': os.environ['POSTGRES_PORT']
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'organizer.sqlite3'),
         }
     # {
     #     'ENGINE': 'django.db.backends.sqlite3',
@@ -275,7 +270,7 @@ JWT_AUTH = {
     'JWT_VERIFY': True,
     'JWT_VERIFY_EXPIRATION': True,
     'JWT_LEEWAY': 0,
-    'JWT_EXPIRATION_DELTA': timedelta(seconds=300),           # default seconds=300 (5min)
+    'JWT_EXPIRATION_DELTA': timedelta(days=1),           # default seconds=300 (5min)
     'JWT_AUDIENCE': None,
     'JWT_ISSUER': None,
 

@@ -17,7 +17,7 @@ class UserManager(BaseUserManager):
 
     def create_superuser(self, username, email, password):
         if password is None:
-            raise TypeError('Superusers must have a password')
+            raise TypeError('SuperUsers must have a password')
         user = self.create_user(username, email, password)
         user.is_superuser = True
         user.is_staff = True
@@ -32,8 +32,8 @@ def dir_name(self, filename):
 
 class OrganizerUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
-    username = models.CharField(max_length=20)
-    second_name = models.CharField(max_length=20)
+    username = models.CharField(max_length=30)
+    second_name = models.CharField(max_length=30, blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     create_at = models.DateTimeField(auto_now_add=True)
