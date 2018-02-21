@@ -2,12 +2,14 @@ import logging
 
 from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.hashers import make_password, check_password
 from rest_framework import status, exceptions
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError, AuthenticationFailed
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateAPIView, UpdateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView
+from rest_framework.mixins import UpdateModelMixin
 
 from .models import OrganizerUser
 from .serializers import UserSerializer, UserListSerializer, UserProfileSerializer
@@ -56,8 +58,8 @@ class UserListView(ListAPIView):        # >> user-list/
                                               % self.request.user.id)
 
 
-class UserRetrieveUpdateView(RetrieveUpdateAPIView):        # >> profile/email/
-    permission_classes = (AllowAny,)                        # change to only Retrieve (not Update)
+class UserRetrieveView(RetrieveAPIView):        # >> profile/email/
+    permission_classes = (AllowAny,)
     serializer_class = UserProfileSerializer
     lookup_field = 'email'
 
@@ -98,13 +100,30 @@ class UserNameUpdateView(UpdateAPIView):        # >> profile-name/email/
 
 
 class UserAvatarUpdateView(UpdateAPIView):        # >> profile-avatar/email/
-    queryset = OrganizerUser.objects.all()
     serializer_class = UserProfileSerializer
     permission_classes = (AllowAny,)
     lookup_field = 'email'
 
-    # def get_queryset(self, request, *args, **kwargs):
-    #     pass OrganizerUser.objects.image_thumbs
+    def get_queryset(self):
+        try:
+            if self.request.user.email == self.kwargs['email']:
+                return OrganizerUser.objects.all()
+            else:
+                logger.error('User with email %s cannot get user instance with email %s' % (
+                    self.request.user.email, self.kwargs['email']))
+                raise exceptions.PermissionDenied('Can not get user with email %s for UserAvatarUpdateView'
+                                                  % self.kwargs['email'])
+        except ObjectDoesNotExist:
+            logger.error('User with email %s does not exist' % self.request.user.email)
+            raise exceptions.NotFound('Can not get user with email %s for UserAvatarUpdateView'
+                                      % self.request.user.email)
+
+    def update(self, request, *args, **kwargs):
+        avatar = self.request.FILES['avatar']
+        fs = FileSystemStorage()
+        file_name = fs.save(avatar.name, avatar)
+        file_url = fs.url(file_name)
+        print(file_url)
 
 
 class UserEmailUpdateView(UpdateAPIView):        # >> profile-email/pk/
