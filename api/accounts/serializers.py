@@ -3,7 +3,7 @@ from rest_framework import serializers
 from .models import OrganizerUser
 
 
-class OrganizerUserSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(max_length=30, write_only=True)
 
     class Meta:
@@ -11,8 +11,16 @@ class OrganizerUserSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class OrganizerUserListSerializer(serializers.ModelSerializer):
+class UserListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OrganizerUser
         fields = ('id', 'email', 'username', 'second_name')
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(max_length=30)
+
+    class Meta:
+        model = OrganizerUser
+        fields = ('id', 'email', 'password', 'username', 'second_name', 'avatar')

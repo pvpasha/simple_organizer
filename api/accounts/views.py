@@ -2,22 +2,23 @@ import logging
 
 from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.hashers import make_password, check_password
 from rest_framework import status, exceptions
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError, AuthenticationFailed
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, RetrieveUpdateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateAPIView, UpdateAPIView
 
 from .models import OrganizerUser
-from .serializers import OrganizerUserListSerializer, OrganizerUserSerializer
+from .serializers import UserSerializer, UserListSerializer, UserProfileSerializer
 
 
 logger = logging.getLogger(__name__)
 
 
-class RegistrationAPIView(CreateAPIView):           # >> sing-up/
+class RegistrationAPIView(CreateAPIView):       # >> sing-up/
     permission_classes = (AllowAny,)
-    serializer_class = OrganizerUserSerializer
+    serializer_class = UserSerializer
     queryset = OrganizerUser.objects.all()
 
     def post(self, request, *args, **kwargs):
@@ -31,15 +32,14 @@ class RegistrationAPIView(CreateAPIView):           # >> sing-up/
                 user_data['email'], user_data['username']))
             return Response(serializer(user).data, status=status.HTTP_201_CREATED)
         else:
-            logger.error('Can not create user with email: "%s" and name: "%s". Passwords does not match.' % (
-                user_data['email'], user_data['username']))
-            return ValidationError('Cannot create. Passwords does not match.', code=status.HTTP_417_EXPECTATION_FAILED)
+            logger.error('Can not create user with email: "%s" and name: "%s". Passwords does not match at '
+                         'RegistrationAPIView' % (user_data['email'], user_data['username']))
+            return ValidationError('Can not create. Passwords does not match', code=status.HTTP_417_EXPECTATION_FAILED)
 
 
-class UserListView(ListAPIView):            # >> user-list/
-    # queryset = OrganizerUser.objects.all()
-    permission_classes = (AllowAny,)                # must will change to 'permissions.IsAdminUser'
-    serializer_class = OrganizerUserListSerializer
+class UserListView(ListAPIView):        # >> user-list/
+    permission_classes = (AllowAny,)
+    serializer_class = UserListSerializer
     lookup_field = 'pk'
 
     def get_queryset(self):
@@ -47,80 +47,151 @@ class UserListView(ListAPIView):            # >> user-list/
             user_inst = OrganizerUser.objects.get(pk=self.request.user.id)
         except ObjectDoesNotExist:
             logger.error('User with ID %s does not exist' % self.request.user.id)
-            raise exceptions.NotFound('Cant get user with ID %s for user_list_view' % self.request.user.id)
+            raise exceptions.NotFound('Cant get user with ID %s for UserListView' % self.request.user.id)
         if user_inst.is_staff:
-            return OrganizerUser.objects.only('id', 'email', 'username', 'second_name')
+            return OrganizerUser.objects.order_by('id')
         else:
             logger.error('User with ID %s have no permissions to users instances' % self.request.user.id)
-            raise exceptions.PermissionDenied('User with ID %s have no permissions to users instances' % self.request.user.id)
+            raise exceptions.PermissionDenied('User with ID %s have no permissions to users instances'
+                                              % self.request.user.id)
 
 
+class UserRetrieveUpdateView(RetrieveUpdateAPIView):        # >> profile/email/
+    permission_classes = (AllowAny,)                        # change to only Retrieve (not Update)
+    serializer_class = UserProfileSerializer
+    lookup_field = 'email'
 
-    # def list(self, request, *args, **kwargs):
-    #     user_inst = OrganizerUser.objects.get(pk=self.request.user.id)
-    #     if user_inst.is_staff:
-    #         users_list = self.queryset
-    #         response = []
-    #         for user in users_list:
-    #             u = {}
-    #             u['user_name'] = user.username
-    #             u['second_name'] = user.second_name
-    #             response.append(u)
-    #         return Response(response, status=status.HTTP_200_OK)
+    def get_queryset(self):
+        try:
+            if self.request.user.email == self.kwargs['email']:
+                return OrganizerUser.objects.all()
+            else:
+                logger.error('User with email %s cannot get user instance with email %s' % (
+                    self.request.user.email, self.kwargs['email']))
+                raise exceptions.PermissionDenied('Cant get user with email %s for user_retrieve_view'
+                                                  % self.kwargs['email'])
+        except ObjectDoesNotExist:
+            logger.error('User with email %s does not exist' % self.request.user.email)
+            raise exceptions.NotFound('Cant get user with email %s for user_retrieve_view' % self.request.user.email)
 
 
-class UserRetrieveUpdateView(RetrieveUpdateAPIView):       # >> user-email/
-    permission_classes = (AllowAny,)                # must will change to 'IsAuthenticated'
-    serializer_class = OrganizerUserListSerializer
+class UserNameUpdateView(UpdateAPIView):        # >> profile-name/email/
+    permission_classes = (AllowAny,)
+    serializer_class = UserProfileSerializer
+    lookup_field = 'email'
+
+    def get_queryset(self):
+        try:
+            if self.request.user.email == self.kwargs['email']:
+                return OrganizerUser.objects.all()
+            else:
+                logger.error('User with email %s cannot get user instance with email %s' % (
+                    self.request.user.email, self.kwargs['email']))
+                raise exceptions.PermissionDenied('Can not get user with email %s for UserNameUpdateView'
+                                                  % self.kwargs['email'])
+        except ObjectDoesNotExist:
+            logger.error('User with email %s does not exist' % self.request.user.email)
+            raise exceptions.NotFound('Can not get user with email %s for UserNameUpdateView' % self.request.user.email)
+
+    def filter_queryset(self, queryset):
+        pass
+
+
+class UserAvatarUpdateView(UpdateAPIView):        # >> profile-avatar/email/
+    queryset = OrganizerUser.objects.all()
+    serializer_class = UserProfileSerializer
+    permission_classes = (AllowAny,)
+    lookup_field = 'email'
+
+    # def get_queryset(self, request, *args, **kwargs):
+    #     pass OrganizerUser.objects.image_thumbs
+
+
+class UserEmailUpdateView(UpdateAPIView):        # >> profile-email/pk/
+    permission_classes = (AllowAny,)
+    serializer_class = UserProfileSerializer
     lookup_field = 'pk'
 
     def get_queryset(self):
         try:
-            if self.request.user.id == int(self.kwargs['pk']):
-                return OrganizerUser.objects.only('id', 'email', 'username', 'second_name')
+            if self.request.user.id == self.kwargs['pk']:
+                return OrganizerUser.objects.all()
             else:
-                logger.error('User with ID %s cannot get user instance with ID %s' % (self.request.user.id, self.kwargs['pk']))
-                raise exceptions.PermissionDenied('Cant get user with ID %s for user_retrieve_view' % self.kwargs['pk'])
+                logger.error('User with id %s cannot get user instance with id %s' % (
+                    self.request.user.id, self.kwargs['pk']))
+                raise exceptions.PermissionDenied('Can not get user with id %s for UserEmailUpdateView'
+                                                  % self.kwargs['pk'])
         except ObjectDoesNotExist:
-            logger.error('User with ID %s does not exist' % self.request.user.id)
-            raise exceptions.NotFound('Cant get user with ID %s for user_retrieve_view' % self.request.user.id)
-
-#
-# class UserUpdateView(UpdateAPIView):       # >> user-email/update/
-#     queryset = OrganizerUser.objects.only('id', 'email', 'username', 'second_name')
-#     permission_classes = (AllowAny,)                # must will change to 'IsAuthenticated'
-#     serializer_class = OrganizerUserListSerializer
-#     lookup_field = 'pk'
-#
-#     def get_queryset(self):
-#         try:
-#             if self.request.user.id == int(self.kwargs['pk']):
-#                 return OrganizerUser.objects.only('id', 'email', 'username', 'second_name')
-#             else:
-#                 logger.error('User with ID %s cannot get user instance with ID %s' % (self.request.user.id, self.kwargs['pk']))
-#                 raise exceptions.PermissionDenied('Cant get user with ID %s for user_retrieve_view' % self.kwargs['pk'])
-#         except ObjectDoesNotExist:
-#             logger.error('User with ID %s does not exist' % self.request.user.id)
-#             raise exceptions.NotFound('Cant get user with ID %s for user_retrieve_view' % self.request.user.id)
+            logger.error('User with id %s does not exist' % self.request.user.id)
+            raise exceptions.NotFound('Can not get user with id %s for UserEmailUpdateView' % self.request.user.id)
 
 
+class UserEmailVerifyView(UpdateAPIView):        # >> email-verify/
+    pass
 
-def jwt_response_handler_user(token, user=None, *args):        # api-token-auth/
-    token_data = {                                             # api-token-verify/
-        'jwt_token': token,                                    # api-token-refresh/
+
+class UserPasswordUpdateView(UpdateAPIView):        # >> password-update/email/
+    serializer_class = UserProfileSerializer
+    permission_classes = (AllowAny,)
+    lookup_field = 'email'
+
+    def get_queryset(self):
+            try:
+                if self.request.user.email == self.kwargs['email']:
+                    return OrganizerUser.objects.all()
+                else:
+                    logger.error('msg')
+            except ObjectDoesNotExist:
+                logger.error('msg')
+                raise exceptions.NotFound('msg')
+
+    def update(self, request, *args, **kwargs):
+        try:
+            if request.data['password_new1'] == request.data['password_new2'] != request.data['password_old']:
+                inst_user = OrganizerUser.objects.get(email=self.request.user.email)
+                serializer_user = UserProfileSerializer(inst_user)
+                password_user = serializer_user.data['password']
+                password_old = request.data['password_old']
+                password_new = request.data['password_new1']
+                if check_password(password_old, encoded=password_user):
+                    inst_user.password = make_password(password_new, salt=None, hasher='pbkdf2_sha256')
+                    inst_user.save()
+                    logger.info('Update password for user %s' % self.request.user.email)
+                    return Response(serializer_user.data, status=status.HTTP_200_OK)
+                else:
+                    raise exceptions.AuthenticationFailed(
+                        'Error update for user %s, check_password at UserPasswordUpdateView' % self.request.user.email)
+            else:
+                logger.error('Error update for user %s, password1!=password2 (or password_new1==password_old)'
+                             ' at UserPasswordUpdateView' % self.request.user.email)
+                raise exceptions.AuthenticationFailed(
+                    'Error update for user %s, password1!=password2 (or password_new1==password_old)'
+                    ' at UserPasswordUpdateView' % self.request.user.email)
+        except ObjectDoesNotExist:
+            logger.error('Error update for user %s at UserPasswordUpdateView' % self.request.user.email)
+            raise exceptions.NotFound('Error update for user %s at UserPasswordUpdateView' % self.request.user.email)
+
+
+class UserPasswordResetView(UpdateAPIView):        # >> password-reset/
+    pass
+
+
+def jwt_response_handler_user(token, user=None, *args):        # >> api-token-auth/
+    token_data = {                                             # >> api-token-verify/
+        'jwt_token': token,                                    # >> api-token-refresh/
         'jwt_date': datetime.now(),
         'user_id': user.pk
     }
     try:
-        organizer_user_item = OrganizerUser.objects.get(pk=token_data['user_id'])
-        organizer_user_serializer = OrganizerUserSerializer(organizer_user_item, data={
+        user_item = OrganizerUser.objects.get(pk=token_data['user_id'])
+        user_serializer = UserSerializer(user_item, data={
             'jwt_token': token_data['jwt_token'], 'jwt_date': token_data['jwt_date']
         }, partial=True)
-        organizer_user_serializer.is_valid(raise_exception=True)  # Return a 400 response if the data was invalid.
-        organizer_user_serializer.save()
-        logger.info(msg='Token for user with email %s was save' % organizer_user_serializer['email'])
+        user_serializer.is_valid(raise_exception=True)  # Return a 400 response if the data was invalid.
+        user_serializer.save()
+        logger.info(msg='Token for user with email %s was save' % user_serializer['email'])
         return {'token': token_data['jwt_token']}
     except AuthenticationFailed:
-        logger.info(msg='Authentication Failed. Token for user with email %s was NOT made'
-                        % organizer_user_serializer['email'])
-        return Response ({'detail': 'Authentication Failed'}, status=status.HTTP_401_UNAUTHORIZED)
+        logger.error(msg='Authentication Failed. Token for user with email %s was NOT made'
+                         % user_serializer['email'])
+        return Response({'detail': 'Authentication Failed'}, status=status.HTTP_401_UNAUTHORIZED)
