@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.conf import settings
 from django.db import models
 from sorl.thumbnail import ImageField, get_thumbnail
 
@@ -26,7 +27,7 @@ class UserManager(BaseUserManager):
 
 
 def dir_name(self, filename):
-    url = "%s/%s" % (self.username, filename)
+    url = '%s/%s_%s' % (settings.AVATAR_DIR, self.email, filename)
     return url
 
 

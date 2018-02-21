@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
 from django.core.exceptions import ObjectDoesNotExist
 
-from accounts.models import OrganizerUser
+# from .accounts.models import OrganizerUser
 from .models import CategoryBudget, Currency, AccountType, BudgetAccount, Invoice
 from .serializers import (CategoryBudgetListSerializer, CategoryBudgetSerializer, CurrencySerializer,
                           CurrencyListSerializer, AccountTypeListSerializer, AccountTypeSerializer,

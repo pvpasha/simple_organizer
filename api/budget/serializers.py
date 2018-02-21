@@ -1,6 +1,5 @@
 from rest_framework import serializers
 
-from accounts.models import OrganizerUser
 from .models import CategoryBudget, Currency, AccountType, BudgetAccount, Invoice
 
 
@@ -9,7 +8,7 @@ class CategoryBudgetListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CategoryBudget
-        fields = ('__all__')
+        fields = '__all__'
 
 
 class CategoryBudgetSerializer(serializers.ModelSerializer):
@@ -19,16 +18,13 @@ class CategoryBudgetSerializer(serializers.ModelSerializer):
         model = CategoryBudget
         fields = '__all__'
 
-    def create(self, validated_data):
-        pass
-
 
 class CurrencyListSerializer(serializers.ModelSerializer):
     owner = serializers.StringRelatedField(many=False)
 
     class Meta:
         model = Currency
-        fields = ('__all__')
+        fields = '__all__'
 
 
 class CurrencySerializer(serializers.ModelSerializer):
@@ -38,16 +34,13 @@ class CurrencySerializer(serializers.ModelSerializer):
         model = Currency
         fields = '__all__'
 
-    def create(self, validated_data):
-        pass
-
 
 class AccountTypeListSerializer(serializers.ModelSerializer):
     owner = serializers.StringRelatedField(many=False)
 
     class Meta:
         model = AccountType
-        fields = ('__all__')
+        fields = '__all__'
 
 
 class AccountTypeSerializer(serializers.ModelSerializer):
@@ -57,16 +50,13 @@ class AccountTypeSerializer(serializers.ModelSerializer):
         model = AccountType
         fields = '__all__'
 
-    def create(self, validated_data):
-        pass
-
 
 class BudgetAccountListSerializer(serializers.ModelSerializer):
     owner = serializers.StringRelatedField(many=False)
 
     class Meta:
         model = BudgetAccount
-        fields = ('__all__')
+        fields = '__all__'
 
 
 class BudgetAccountSerializer(serializers.ModelSerializer):
@@ -76,16 +66,13 @@ class BudgetAccountSerializer(serializers.ModelSerializer):
         model = BudgetAccount
         fields = '__all__'
 
-    def create(self, validated_data):
-        pass
-
 
 class InvoiceListSerializer(serializers.ModelSerializer):
     owner = serializers.StringRelatedField(many=False)
 
     class Meta:
         model = Invoice
-        fields = ('__all__')
+        fields = '__all__'
 
 
 class InvoiceSerializer(serializers.ModelSerializer):
@@ -94,9 +81,3 @@ class InvoiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Invoice
         fields = '__all__'
-
-    # def create(self, validated_data):
-    #     user = OrganizerUser.objects.get(pk=self.owner)
-    #     return Invoice.objects.create(owner=user.id,
-    #                                 title=validated_data.pop('title'),
-    #                                 body=validated_data.pop('body'))

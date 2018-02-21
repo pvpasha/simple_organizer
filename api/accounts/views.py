@@ -2,14 +2,13 @@ import logging
 
 from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.files.storage import FileSystemStorage
+from django.core.files import File
 from django.contrib.auth.hashers import make_password, check_password
 from rest_framework import status, exceptions
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError, AuthenticationFailed
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView
-from rest_framework.mixins import UpdateModelMixin
 
 from .models import OrganizerUser
 from .serializers import UserSerializer, UserListSerializer, UserProfileSerializer
@@ -107,7 +106,7 @@ class UserAvatarUpdateView(UpdateAPIView):        # >> profile-avatar/email/
     def get_queryset(self):
         try:
             if self.request.user.email == self.kwargs['email']:
-                return OrganizerUser.objects.all()
+                return OrganizerUser.objects.get(email=self.request.user.email)
             else:
                 logger.error('User with email %s cannot get user instance with email %s' % (
                     self.request.user.email, self.kwargs['email']))
@@ -119,11 +118,23 @@ class UserAvatarUpdateView(UpdateAPIView):        # >> profile-avatar/email/
                                       % self.request.user.email)
 
     def update(self, request, *args, **kwargs):
-        avatar = self.request.FILES['avatar']
-        fs = FileSystemStorage()
-        file_name = fs.save(avatar.name, avatar)
-        file_url = fs.url(file_name)
-        print(file_url)
+
+        if self.request.FILES['avatar']:
+            avatar = self.request.FILES['avatar']
+            try:
+                instance = self.get_queryset()
+                if instance.avatar:
+                    instance.avatar.delete()
+                instance.avatar.save(avatar.name, File(avatar))
+                instance.save()
+                serializer = self.get_serializer(instance)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            except TypeError:
+                logger.error('Wrong file type')
+                raise exceptions.ValidationError('Can not use this file type')
+        else:
+            logger.error('Avatar file wasnt sent')
+            raise exceptions.NotFound('Can not finde avatar file in files section of request')
 
 
 class UserEmailUpdateView(UpdateAPIView):        # >> profile-email/pk/

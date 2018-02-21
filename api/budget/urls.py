@@ -2,9 +2,9 @@ from django.conf.urls import url
 
 from . import views
 
-
+# budget/
 urlpatterns = [
-    url(r'^$', views.InvoiceListViewSet.as_view()), #######################
+    url(r'^$', views.InvoiceListViewSet.as_view()),
 
     url(r'^catbud/list/$', views.CategoryBudgetListViewSet.as_view(), name='categorybudget-list'),
     url(r'^catbud/(?P<title>.+)/$', views.CategoryBudgetItemView.as_view(), name='categorybudget-detail'),
