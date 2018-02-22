@@ -1,148 +1,161 @@
-from rest_framework import status
-from rest_framework.permissions import AllowAny
+import logging
+
+from rest_framework import status, exceptions
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
-from django.core.exceptions import ObjectDoesNotExist
+from rest_framework.generics import (ListCreateAPIView, ListAPIView, RetrieveAPIView,
+                                     RetrieveUpdateAPIView, UpdateAPIView)
+from django.core import exceptions
 
-# from .accounts.models import OrganizerUser
-from .models import CategoryBudget, Currency, AccountType, BudgetAccount, Invoice
-from .serializers import (CategoryBudgetListSerializer, CategoryBudgetSerializer, CurrencySerializer,
-                          CurrencyListSerializer, AccountTypeListSerializer, AccountTypeSerializer,
-                          BudgetAccountListSerializer, BudgetAccountSerializer, InvoiceSerializer,
-                          InvoiceListSerializer)
+from .models import AccountType, BudgetAccount, CategoryBudget, Currency, Invoice
+from .serializers import (AccountTypeSerializer, BudgetAccountSerializer, CategoryBudgetSerializer,
+                          CurrencySerializer, InvoiceSerializer)
 
 
-class CategoryBudgetItemView(RetrieveAPIView):
-    queryset = CategoryBudget.objects.all()
-    permission_classes = (AllowAny,)
-    serializer_class = CategoryBudgetSerializer
-    lookup_field = 'title'
+logger = logging.getLogger(__name__)
 
 
-class CategoryBudgetListViewSet(ListCreateAPIView):
-    queryset = CategoryBudget.objects.all()          ## TODO: order_by(owner)
-    permission_classes = (AllowAny,)
-    serializer_class = CategoryBudgetListSerializer
-
-    def post(self, request):
-        get_owner = request.data['owner']
-        get_title = request.data['title']
-        try:
-            user = OrganizerUser.objects.get(pk=get_owner)
-            cat_budget_item = CategoryBudget.objects.create(owner=user, title=get_title)
-            serialized_data = self.get_serializer(cat_budget_item)
-            return Response(serialized_data.data, status=status.HTTP_201_CREATED)
-        except ObjectDoesNotExist:
-            return Response({'detail': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
-
-
-class CurrencyItemView(RetrieveAPIView):
-    queryset = Currency.objects.all()
-    permission_classes = (AllowAny,)
+class CurrencyListView(ListAPIView):        # >> /currency-list/
     serializer_class = CurrencySerializer
-    lookup_field = 'short_name'
+    permission_classes = (IsAuthenticated,)
+    lookup_field = 'owner'
 
-
-class CurrencyListViewSet(ListCreateAPIView):
-    queryset = Currency.objects.all()          ## TODO: order_by(owner)
-    permission_classes = (AllowAny,)
-    serializer_class = CurrencyListSerializer
-
-    def post(self, request):
-        get_owner = request.data['owner']
-        get_name = request.data['name']
-        get_short_name = request.data['short_name']
+    def get_queryset(self):
         try:
-            user = OrganizerUser.objects.get(pk=get_owner)
-            currency_item = Currency.objects.create(owner=user, name=get_name, short_name=get_short_name)
-            serialized_data = self.get_serializer(currency_item)
-            return Response(serialized_data.data, status=status.HTTP_201_CREATED)
-        except ObjectDoesNotExist:
-            return Response({'detail': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+            return Currency.objects.filter(owner=self.request.user.id)
+        except exceptions.ObjectDoesNotExist:
+            logger.error('Object not found for user with ID #%s for currency_list_view' % self.request.user.id)
+            raise exceptions.NotFound('Object with your ID %s NotFound' % self.request.user.id)
 
 
-class AccountTypeItemView(RetrieveAPIView):
-    queryset = AccountType.objects.all()
-    permission_classes = (AllowAny,)
+class CurrencyRetUpdView(RetrieveUpdateAPIView):        # >> /currency<pk>/
+    serializer_class = CurrencySerializer
+    permission_classes = (IsAuthenticated,)
+    lookup_field = 'pk'
+
+    def get_queryset(self):
+        try:
+            instance = Currency.objects.filter(owner=self.request.user.id)
+            return instance
+        except exceptions.ObjectDoesNotExist:
+            logger.error('Not found object with ID #%s and user ID #%s for currency_retrieve_update'
+                         % self.kwargs['pk'], self.request.user.id)
+            raise exceptions.NotFound('Object not found')
+
+    def update(self, request, *args, **kwargs):
+        pass
+
+
+class AccountTypeListView(ListAPIView):     # >> /account-type-list/
     serializer_class = AccountTypeSerializer
-    lookup_field = 'short_name'
+    permission_classes = (IsAuthenticated,)
+    lookup_field = 'owner'
 
-
-class AccountTypeListViewSet(ListCreateAPIView):
-    queryset = AccountType.objects.all()          ## TODO: order_by(owner)
-    permission_classes = (AllowAny,)
-    serializer_class = AccountTypeListSerializer
-
-    def post(self, request):
-        get_owner = request.data['owner']
-        get_currency = request.data['currency']
-        get_name = request.data['name']
-        get_short_name = request.data['short_name']
+    def get_queryset(self):
         try:
-            user = OrganizerUser.objects.get(pk=get_owner)
-            account_type_item = AccountType.objects.create(owner=user, currency=get_currency, name=get_name,
-                                                       short_name=get_short_name)
-            serialized_data = self.get_serializer(account_type_item)
-            return Response(serialized_data.data, status=status.HTTP_201_CREATED)
-        except ObjectDoesNotExist:
-            return Response({'detail': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+            return AccountType.objects.filter(owner=self.request.user.id)
+        except exceptions.ObjectDoesNotExist:
+            logger.error('Object not found for user with ID #%s for account_type_list_view' % self.request.user.id)
+            raise exceptions.NotFound('Object with your ID %s NotFound' % self.request.user.id)
 
 
-class BudgetAccountItemView(RetrieveAPIView):
-    queryset = BudgetAccount.objects.all()
-    permission_classes = (AllowAny,)
+class AccountTypeRetUpdView(RetrieveUpdateAPIView):     # >> /account-type<pk>/
+    serializer_class = AccountTypeSerializer
+    permission_classes = (IsAuthenticated,)
+    lookup_field = 'pk'
+
+    def get_queryset(self):
+        try:
+            return AccountType.objects.filter(owner=self.request.user.id)
+        except exceptions.ObjectDoesNotExist:
+            logger.error('Object ID #%s not found and user with ID #%s for account_type_retrieve_update_view'
+                         % self.kwargs['pk'], self.request.user.id)
+            raise exceptions.NotFound('Object NotFound')
+
+
+class BudgetAccountListView(ListAPIView):       # >> /account-list/
     serializer_class = BudgetAccountSerializer
-    lookup_field = 'short_name'
+    permission_classes = (IsAuthenticated,)
+    lookup_field = 'owner'
 
-
-class BudgetAccountListViewSet(ListCreateAPIView):
-    queryset = BudgetAccount.objects.all()          ## TODO: order_by(owner)
-    permission_classes = (AllowAny,)
-    serializer_class = BudgetAccountListSerializer
-
-    def post(self, request):
-        get_owner = request.data['owner']
-        get_currency = request.data['currency']
-        get_name = request.data['name']
-        get_short_name = request.data['short_name']
-        get_amount = request.data['amount']
-        get_account_type = request.data['account_type']
+    def get_queryset(self):
         try:
-            user = OrganizerUser.objects.get(pk=get_owner)
-            budget_account_item = BudgetAccount.objects.create(owner=user, currency=get_currency, name=get_name,
-                                                               short_name=get_short_name, amount=get_amount,
-                                                               account_type=get_account_type)
-            serialized_data = self.get_serializer(budget_account_item)
-            return Response(serialized_data.data, status=status.HTTP_201_CREATED)
-        except ObjectDoesNotExist:
-            return Response({'detail': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+            return BudgetAccount.objects.filter(owner=self.request.user.id)
+        except exceptions.ObjectDoesNotExist:
+            logger.error('Object not found for user with ID #%s for budget_account_list_view' % self.request.user.id)
+            raise exceptions.NotFound('Object with your ID %s NotFound' % self.request.user.id)
 
 
-class InvoiceItemView(RetrieveAPIView):
-    queryset = Invoice.objects.all()
-    permission_classes = (AllowAny,)
+class BudgetAccountRetUpdView(RetrieveUpdateAPIView):       # >> /account<pk>/
+    serializer_class = BudgetAccountSerializer
+    permission_classes = (IsAuthenticated,)
+    lookup_field = 'pk'
+
+    def get_queryset(self):
+        try:
+            return BudgetAccount.objects.filter(owner=self.request.user.id)
+        except exceptions.ObjectDoesNotExist:
+            logger.error('BudgetAccount for user %s and ID #%s not found for budget_account_retrieve_update_view'
+                         % self.request.user.email, self.kwargs['pk'])
+            raise exceptions.NotFound('Account with ID not found')
+
+    def update(self, request, *args, **kwargs):
+        pass
+
+
+class CategoryBudgetListView(ListAPIView):      # >> /category-list/
+    serializer_class = CategoryBudgetSerializer
+    permission_classes = (IsAuthenticated,)
+    lookup_field = 'owner'
+
+    def get_queryset(self):
+        try:
+            return CategoryBudget.objects.filter(owner=self.request.user.id)
+        except exceptions.ObjectDoesNotExist:
+            logger.error('Object not found for user with ID #%s for category_budget_list_view' % self.request.user.id)
+            raise exceptions.NotFound('Object with your ID %s NotFound' % self.request.user.id)
+
+
+class CategoryBudgetRetUpdView(RetrieveUpdateAPIView):        # >> /category<pk>/
+    serializer_class = CategoryBudgetSerializer
+    permission_classes = (IsAuthenticated,)
+    lookup_field = 'pk'
+
+    def get_queryset(self):
+        try:
+            return CategoryBudget.objects.filter(owner=self.request.user.id)
+        except exceptions.ObjectDoesNotExist:
+            logger.error('CategoryBudget for user %s and ID #%s not found for category_budget_retrieve_update_view'
+                         % self.request.user.email, self.kwargs['pk'])
+            raise exceptions.NotFound('Category with ID not found')
+
+    def update(self, request, *args, **kwargs):
+        pass
+
+
+class InvoiceListView(ListAPIView):     # >> /invoice-list/
     serializer_class = InvoiceSerializer
+    permission_classes = (IsAuthenticated,)
+    lookup_field = 'owner'
 
-
-class InvoiceListViewSet(ListCreateAPIView):
-    queryset = Invoice.objects.all()          ## TODO: order_by(owner)
-    permission_classes = (AllowAny,)
-    serializer_class = InvoiceListSerializer
-
-    def post(self, request):
-        get_owner = request.data['owner']
-        get_currency = request.data['currency']
-        get_name = request.data['name']
-        get_transaction_type = request.data['transaction_type']
-        get_category = request.data['category']
-        get_description = request.data['description']
-        get_budget_account = request.data['budget_account']
+    def get_queryset(self):
         try:
-            user = OrganizerUser.objects.get(pk=get_owner)
-            invoice_item = Invoice.objects.create(owner=user, currency=get_currency, name=get_name,
-                                                  transaction_type=get_transaction_type, category=get_category,
-                                                  description=get_description, budget_account=get_budget_account)
-            serialized_data = self.get_serializer(invoice_item)
-            return Response(serialized_data.data, status=status.HTTP_201_CREATED)
-        except ObjectDoesNotExist:
-            return Response({'detail': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+            return Invoice.objects.filter(owner=self.request.user.id)
+        except exceptions.ObjectDoesNotExist:
+            logger.error('Object not found for user with ID #%s for invoice_list_view' % self.request.user.id)
+            raise exceptions.NotFound('Object with your ID %s NotFound' % self.request.user.id)
+
+
+class InvoiceRetUpdView(RetrieveUpdateAPIView):     # >> /invoice<pk>/
+    serializer_class = InvoiceSerializer
+    permission_classes = (IsAuthenticated,)
+    lookup_field = 'pk'
+
+    def get_queryset(self):
+        try:
+            instance = Invoice.objects.filter(owner=self.request.user.id)
+            return instance
+        except exceptions.NotFound:
+            logger.error('Invoice ID #%s and user %s not found for invoice_retrieve_update_view'
+                         % self.kwargs['pk'], self.request.user.email)
+            raise exceptions.NotFound('Invoice with ID #%s not found' % self.kwargs['pk'])

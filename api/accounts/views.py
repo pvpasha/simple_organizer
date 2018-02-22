@@ -5,9 +5,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.files import File
 from django.contrib.auth.hashers import make_password, check_password
 from rest_framework import status, exceptions
-from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser, BasePermission
 from rest_framework.response import Response
-from rest_framework.exceptions import ValidationError, AuthenticationFailed
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView
 
 from .models import OrganizerUser
@@ -35,7 +34,8 @@ class RegistrationAPIView(CreateAPIView):       # >> sing-up/
         else:
             logger.error('Can not create user with email: "%s" and name: "%s". Passwords does not match at '
                          'RegistrationAPIView' % (user_data['email'], user_data['username']))
-            return ValidationError('Can not create. Passwords does not match', code=status.HTTP_417_EXPECTATION_FAILED)
+            return exceptions.ValidationError('Can not create. Passwords does not match',
+                                              code=status.HTTP_417_EXPECTATION_FAILED)
 
 
 class UserListView(ListAPIView):        # >> user-list/
@@ -65,7 +65,7 @@ class UserRetrieveView(RetrieveAPIView):        # >> profile/email/
     def get_queryset(self):
         try:
             if self.request.user.email == self.kwargs['email']:
-                return OrganizerUser.objects.all()
+                return OrganizerUser.objects.filter(email=self.request.user.email)
             else:
                 logger.error('User with email %s cannot get user instance with email %s' % (
                     self.request.user.email, self.kwargs['email']))
@@ -84,7 +84,7 @@ class UserNameUpdateView(UpdateAPIView):        # >> profile-name/email/
     def get_queryset(self):
         try:
             if self.request.user.email == self.kwargs['email']:
-                return OrganizerUser.objects.all()
+                return OrganizerUser.objects.get(email=self.request.user.email)
             else:
                 logger.error('User with email %s cannot get user instance with email %s' % (
                     self.request.user.email, self.kwargs['email']))
@@ -133,8 +133,8 @@ class UserAvatarUpdateView(UpdateAPIView):        # >> profile-avatar/email/
                 logger.error('Wrong file type')
                 raise exceptions.ValidationError('Can not use this file type')
         else:
-            logger.error('Avatar file wasnt sent')
-            raise exceptions.NotFound('Can not finde avatar file in files section of request')
+            logger.error('Avatar file was not sent')
+            raise exceptions.NotFound('Can not find avatar file in files section of request')
 
 
 class UserEmailUpdateView(UpdateAPIView):        # >> profile-email/pk/
@@ -145,7 +145,7 @@ class UserEmailUpdateView(UpdateAPIView):        # >> profile-email/pk/
     def get_queryset(self):
         try:
             if self.request.user.id == self.kwargs['pk']:
-                return OrganizerUser.objects.all()
+                return OrganizerUser.objects.get(email=self.request.user.email)
             else:
                 logger.error('User with id %s cannot get user instance with id %s' % (
                     self.request.user.id, self.kwargs['pk']))
@@ -168,7 +168,7 @@ class UserPasswordUpdateView(UpdateAPIView):        # >> password-update/email/
     def get_queryset(self):
             try:
                 if self.request.user.email == self.kwargs['email']:
-                    return OrganizerUser.objects.all()
+                    return OrganizerUser.objects.get(email=self.request.user.email)
                 else:
                     logger.error('msg')
             except ObjectDoesNotExist:
@@ -221,7 +221,7 @@ def jwt_response_handler_user(token, user=None, *args):        # >> api-token-au
         user_serializer.save()
         logger.info(msg='Token for user with email %s was save' % user_serializer['email'])
         return {'token': token_data['jwt_token']}
-    except AuthenticationFailed:
+    except exceptions.AuthenticationFailed:
         logger.error(msg='Authentication Failed. Token for user with email %s was NOT made'
                          % user_serializer['email'])
         return Response({'detail': 'Authentication Failed'}, status=status.HTTP_401_UNAUTHORIZED)

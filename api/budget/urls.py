@@ -1,21 +1,24 @@
 from django.conf.urls import url
 
-from . import views
+from . import views as budget_views
 
 # budget/
 urlpatterns = [
-    url(r'^$', views.InvoiceListViewSet.as_view()),
 
-    url(r'^catbud/list/$', views.CategoryBudgetListViewSet.as_view(), name='categorybudget-list'),
-    url(r'^catbud/(?P<title>.+)/$', views.CategoryBudgetItemView.as_view(), name='categorybudget-detail'),
-    url(r'^currency/list/$', views.CurrencyListViewSet.as_view(), name='currency-list'),
-    url(r'^currency/(?P<short_name>.+)/$', views.CurrencyItemView.as_view(), name='currency-detail'),
-    url(r'^acctype/list/$', views.AccountTypeListViewSet.as_view(), name='accounttype-list'),
-    url(r'^acctype/(?P<short_name>.+)/$', views.AccountTypeItemView.as_view(), name='accounttype-detail'),
-    url(r'^budacc/list/$', views.BudgetAccountListViewSet.as_view(), name='budgetaccount-list'),
-    url(r'^budacc/(?P<short_name>.+)/$', views.BudgetAccountItemView.as_view(), name='budgetaccount-detail'),
-    url(r'^invoice/list/$', views.InvoiceListViewSet.as_view(), name='invoice-list'),
-    url(r'^invoice/(?P<pk>.+)/$', views.InvoiceItemView.as_view(), name='invoice-detail'),
+    url(r'^account-type-list/$', budget_views.AccountTypeListView.as_view(), name='account_type_list'),
+    url(r'^account-type(?P<pk>.+)/$', budget_views.AccountTypeRetUpdView.as_view(), name='account_type_ret_upd'),
 
-    # url(r'^main/$', views.budget),
+    url(r'^account-list/$', budget_views.BudgetAccountListView.as_view(), name='budget_account_list'),
+    url(r'^account(?P<pk>.+)/$', budget_views.BudgetAccountRetUpdView.as_view(), name='budget_account_ret_upd'),
+
+    url(r'^currency-list/$', budget_views.CurrencyListView.as_view(), name='currency_list'),
+    url(r'^currency(?P<pk>.+)/$', budget_views.CurrencyRetUpdView.as_view(), name='currency_ret_upd'),
+
+    url(r'^category-list/$', budget_views.CategoryBudgetListView.as_view(), name='category_list'),
+    url(r'^category(?P<pk>.+)/$', budget_views.CategoryBudgetRetUpdView.as_view(),  name='category_ret_upd'),
+
+    url(r'^invoice-list/$', budget_views.InvoiceListView.as_view(), name='invoice_list'),
+    url(r'^invoice(?P<pk>.+)/$', budget_views.InvoiceRetUpdView.as_view(), name='invoice_red_upd'),
+
+
 ]

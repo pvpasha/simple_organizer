@@ -42,7 +42,7 @@ class BudgetAccount(models.Model):
     name = models.CharField(max_length=150)
     short_name = models.CharField(max_length=15)
     amount = models.IntegerField(null=True, blank=True, default=0)
-    description = models.CharField(max_length=250)
+    description = models.CharField(max_length=250, null=True, blank=True)
     tax = models.IntegerField(default=0)
     account_type = models.ForeignKey(AccountType, on_delete=models.CASCADE)
 
@@ -63,7 +63,7 @@ class Invoice(models.Model):
         (OUTCOME, 'Outcome')
     )
     transaction_type = models.IntegerField(choices=TT_CHOICES, default=INCOME)
-    category = models.ForeignKey(CategoryBudget, models.SET_NULL, blank=True, null=True, verbose_name="Payment Category")
+    category = models.ForeignKey(CategoryBudget, models.SET_NULL, blank=True, null=True)
     description = models.CharField(max_length=250)
     budget_account = models.ForeignKey(BudgetAccount, on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
