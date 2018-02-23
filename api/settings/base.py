@@ -3,19 +3,15 @@ import os
 from datetime import timedelta
 
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'key034950kjhkjhkjhu'
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+ALLOWED_HOSTS = ['sp-lutsk.com', 'www.sp-lutsk.com', 'localhost', '46.101.125.168', '127.0.0.1']
 
-ALLOWED_HOSTS = ['sp-lutsk.com', '46.101.125.168', 'myapp.com', 'localhost', '127.0.0.1']
 
-# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -23,11 +19,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'sorl.thumbnail',
     'rest_framework',
     'rest_framework_social_oauth2',     # oauth2
-    'social_django',
     'rest_social_auth',
+    'social_django',
+    'sorl.thumbnail',
     'oauth2_provider',                  # oauth2
     'corsheaders',
 
@@ -82,24 +78,8 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-# User model
 AUTH_USER_MODEL = 'accounts.OrganizerUser'
-# SOCIAL_AUTH_USER_MODEL = 'accounts.OrganizerUser'
-
-LOGIN_REDIRECT_URL = '/'        # Redirect path after Login
-LOGIN_URL = '/dj-auth/login/'
-LOGOUT_URL = '/dj-auth/logout/'     # Redirect path after Logout
-
-SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/'
-
-# SOCIAL_AUTH_LOGIN_ERROR_URL = '/accounts/login-error/'
-# SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
-# SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/'
-# SOCIAL_AUTH_RAISE_EXCEPTIONS = False
-# SOCIAL_AUTH_EMAIL_FORM_HTML = 'email_signup.html'
-# SOCIAL_AUTH_EMAIL_VALIDATION_FUNCTION = 'app.mail.send_validation'
-# SOCIAL_AUTH_EMAIL_VALIDATION_URL = '/email-sent/'
-# SOCIAL_AUTH_USERNAME_FORM_HTML = 'username_signup.html'
+# SOCIAL_AUTH_USER_MODEL = 'accounts.SocUser'
 
 
 # Facebook configuration developers.facebook.com
@@ -147,11 +127,9 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.user.user_details',
 )
 
-# WSGI
+
 WSGI_APPLICATION = 'wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
 DATABASES = {
     'default': {
@@ -162,18 +140,17 @@ DATABASES = {
     #     'ENGINE': 'django.db.backends.sqlite3',
     #     'NAME': os.path.join(BASE_DIR, 'organizer.sqlite3'),
     # }
-        # {
-        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        # 'NAME': os.environ['POSTGRES_DB'],
-        # 'USER': os.environ['POSTGRES_USER'],
-        # 'PASSWORD': os.environ['POSTGRES_PASSWORD'],
-        # 'HOST': os.environ['POSTGRES_SERVICE'],
-        # 'PORT': os.environ['POSTGRES_PORT']
-        # }
+    # {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': os.environ['POSTGRES_DB'],
+    #     'USER': os.environ['POSTGRES_USER'],
+    #     'PASSWORD': os.environ['POSTGRES_PASSWORD'],
+    #     'HOST': os.environ['POSTGRES_SERVICE'],
+    #     'PORT': os.environ['POSTGRES_PORT']
+    # }
 }
 
-# Password validation
-# https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -189,11 +166,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Internationalization
-# https://docs.djangoproject.com/en/1.10/topics/i18n/
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
+
+DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
 USE_I18N = True
 
@@ -201,18 +179,15 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.10/howto/static-files/
-# Media files
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'files', 'media')
 MEDIA_URL = '/media/'
 AVATAR_DIR = os.path.join(MEDIA_ROOT, 'avatar')
 
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'files', 'static')
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'))
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -220,7 +195,6 @@ STATICFILES_FINDERS = (
 )
 
 
-# REST Settings
 REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'accounts.exceptions.core_exception_handler',
     'NON_FIELD_ERRORS_KEY': 'error',
@@ -241,12 +215,13 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
-    )
+    ),
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
 }
 
-# REST_SOCIAL_OAUTH_REDIRECT_URI = '/oauth/redirect/path/'  # or url name 'redirect_url_name'
 
-# JWT Settings
 JWT_AUTH = {
     'JWT_ENCODE_HANDLER':
     'rest_framework_jwt.utils.jwt_encode_handler',
@@ -283,9 +258,9 @@ JWT_AUTH = {
 
 }
 
-# EMAIL sending
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    # 'django.core.mail.backends.console.EmailBackend'
+# 'django.core.mail.backends.console.EmailBackend'
 # EMAIL_FILE_PATH = '/tmp/app-messages' # for 'console.EmailBackend'
 
 EMAIL_HOST = 'smtp.gmail.com'
@@ -296,14 +271,13 @@ EMAIL_USE_TLS = 587
 # EMAIL_USE_SSL = 465
 # EMAIL_TIMEOUT =
 
-
 # SERVER_EMAIL = 'pv.pasha.pv@gmail.com'    # 'django@my-domain.com'
 
 ADMINS = (
     ('Pasha Adm', 'pvpasha2@meta.ua'),
 )
 
-# CORS Settings
+
 CORS_ORIGIN_ALLOW_ALL = True
 
 # CORS_ORIGIN_WHITELIST = (
@@ -322,7 +296,7 @@ CORS_ALLOW_METHODS = (
     'OPTIONS'
 )
 
-# LOGGING Settings
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,

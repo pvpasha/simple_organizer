@@ -5,9 +5,6 @@ from . import views as budget_views
 # budget/
 urlpatterns = [
 
-    url(r'^account-type-list/$', budget_views.AccountTypeListView.as_view(), name='account_type_list'),
-    url(r'^account-type(?P<pk>.+)/$', budget_views.AccountTypeRetUpdView.as_view(), name='account_type_ret_upd'),
-
     url(r'^account-list/$', budget_views.BudgetAccountListView.as_view(), name='budget_account_list'),
     url(r'^account(?P<pk>.+)/$', budget_views.BudgetAccountRetUpdView.as_view(), name='budget_account_ret_upd'),
 
@@ -19,6 +16,5 @@ urlpatterns = [
 
     url(r'^invoice-list/$', budget_views.InvoiceListView.as_view(), name='invoice_list'),
     url(r'^invoice(?P<pk>.+)/$', budget_views.InvoiceRetUpdView.as_view(), name='invoice_red_upd'),
-
 
 ]
