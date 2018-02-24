@@ -3,14 +3,6 @@ from django.db import models
 from accounts.models import OrganizerUser
 
 
-class CategoryBudget(models.Model):
-    owner = models.ForeignKey(OrganizerUser, on_delete=models.CASCADE)
-    title = models.CharField(max_length=30)
-
-    def __str__(self):
-        return "%d - %s" % (self.pk, self.title)
-
-
 class Currency(models.Model):
     owner = models.ForeignKey(OrganizerUser, on_delete=models.CASCADE)
     name = models.CharField(max_length=30, default='United States Dollar')
@@ -18,6 +10,14 @@ class Currency(models.Model):
 
     def __str__(self):
         return self.short_name
+
+
+class CategoryBudget(models.Model):
+    owner = models.ForeignKey(OrganizerUser, on_delete=models.CASCADE)
+    title = models.CharField(max_length=30)
+
+    def __str__(self):
+        return "%d - %s" % (self.pk, self.title)
 
 
 class BudgetAccount(models.Model):

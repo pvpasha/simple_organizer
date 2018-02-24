@@ -28,8 +28,8 @@ class RegistrationAPIView(CreateAPIView):       # >> sing-up/
                                                      username=user_data['username'],
                                                      password=user_data['password1'])
             serializer = self.get_serializer_class()
-            logger.info('User with email: "%s" and name: "%s" was created successful.' % (
-                user_data['email'], user_data['username']))
+            logger.info('User with email: "%s" and name: "%s" was created successful.'
+                        % (user_data['email'], user_data['username']))
             return Response(serializer(user).data, status=status.HTTP_201_CREATED)
         else:
             logger.error('Can not create user with email: "%s" and name: "%s". Passwords does not match at '
@@ -39,7 +39,7 @@ class RegistrationAPIView(CreateAPIView):       # >> sing-up/
 
 
 class UserListView(ListAPIView):        # >> user-list/
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated, IsAdminUser)
     serializer_class = UserListSerializer
     lookup_field = 'pk'
 
@@ -58,7 +58,7 @@ class UserListView(ListAPIView):        # >> user-list/
 
 
 class UserRetrieveView(RetrieveAPIView):        # >> profile/email/
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = UserProfileSerializer
     lookup_field = 'email'
 
@@ -77,7 +77,7 @@ class UserRetrieveView(RetrieveAPIView):        # >> profile/email/
 
 
 class UserNameUpdateView(UpdateAPIView):        # >> profile-name/email/
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = UserProfileSerializer
     lookup_field = 'email'
 
@@ -94,13 +94,10 @@ class UserNameUpdateView(UpdateAPIView):        # >> profile-name/email/
             logger.error('User with email %s does not exist' % self.request.user.email)
             raise exceptions.NotFound('Can not get user with email %s for UserNameUpdateView' % self.request.user.email)
 
-    def filter_queryset(self, queryset):
-        pass
-
 
 class UserAvatarUpdateView(UpdateAPIView):        # >> profile-avatar/email/
     serializer_class = UserProfileSerializer
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
     lookup_field = 'email'
 
     def get_queryset(self):
@@ -138,7 +135,7 @@ class UserAvatarUpdateView(UpdateAPIView):        # >> profile-avatar/email/
 
 
 class UserEmailUpdateView(UpdateAPIView):        # >> profile-email/pk/
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = UserProfileSerializer
     lookup_field = 'pk'
 
@@ -162,7 +159,7 @@ class UserEmailVerifyView(UpdateAPIView):        # >> email-verify/
 
 class UserPasswordUpdateView(UpdateAPIView):        # >> password-update/email/
     serializer_class = UserProfileSerializer
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
     lookup_field = 'email'
 
     def get_queryset(self):

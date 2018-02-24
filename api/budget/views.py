@@ -3,11 +3,11 @@ import logging
 from rest_framework import status, exceptions
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.generics import (ListCreateAPIView, ListAPIView, RetrieveAPIView,
-                                     RetrieveUpdateAPIView, UpdateAPIView)
+from rest_framework.generics import (ListAPIView, CreateAPIView, RetrieveUpdateDestroyAPIView)
 from django_filters.rest_framework import DjangoFilterBackend
-
 from django.core import exceptions
+
+from accounts.models import OrganizerUser as User
 from .models import Currency, CategoryBudget, BudgetAccount, Invoice
 from .serializers import CurrencySerializer, CategoryBudgetSerializer, BudgetAccountSerializer, InvoiceSerializer
 from .filters import InvoiceFilter, BudgetAccountFilter
@@ -16,7 +16,7 @@ from .filters import InvoiceFilter, BudgetAccountFilter
 logger = logging.getLogger(__name__)
 
 
-class CurrencyListView(ListAPIView):        # >> /currency-list/
+class CurrencyListView(ListAPIView):
     serializer_class = CurrencySerializer
     permission_classes = (IsAuthenticated,)
     lookup_field = 'owner'
@@ -29,7 +29,32 @@ class CurrencyListView(ListAPIView):        # >> /currency-list/
             raise exceptions.NotFound('Object with your ID %s NotFound' % self.request.user.id)
 
 
-class CurrencyRetUpdView(RetrieveUpdateAPIView):        # >> /currency<pk>/
+class CurrencyCreateView(CreateAPIView):
+    serializer_class = CurrencySerializer
+    permission_classes = (IsAuthenticated,)
+    queryset = Currency.objects.all()
+
+    def post(self, request, *args, **kwargs):
+        if request.data['name'] and request.data['short_name']:
+            try:
+                user = User.objects.get(pk=self.request.user.id)
+                currency = Currency.objects.create(owner=user,
+                                                   name=request.data['name'],
+                                                   short_name=request.data['short_name'])
+                serializer = self.get_serializer(currency)
+                logger.info('Currency created with short_name #%s for user ID #%s in currency_create_view'
+                            % (request.data['short_name'], self.request.user.id))
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            except exceptions.FieldError:
+                logger.error('Error creation currency by user ID #%s in currency_create_view' % self.request.user.id)
+                raise exceptions.FieldError('Error creation currency. Pleas check your data in request')
+        else:
+            logger.error('Data in request are wrong with user ID #%s in currency_create_view'
+                         % self.request.user.id)
+            raise exceptions.ValidationError('Data in request are wrong')
+
+
+class CurrencyRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     serializer_class = CurrencySerializer
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
@@ -43,11 +68,8 @@ class CurrencyRetUpdView(RetrieveUpdateAPIView):        # >> /currency<pk>/
                          % self.kwargs['pk'], self.request.user.id)
             raise exceptions.NotFound('Object not found')
 
-    def update(self, request, *args, **kwargs):
-        pass
 
-
-class CategoryBudgetListView(ListAPIView):      # >> /category-list/
+class CategoryBudgetListView(ListAPIView):
     serializer_class = CategoryBudgetSerializer
     permission_classes = (IsAuthenticated,)
     lookup_field = 'owner'
@@ -60,7 +82,30 @@ class CategoryBudgetListView(ListAPIView):      # >> /category-list/
             raise exceptions.NotFound('Object with your ID %s NotFound' % self.request.user.id)
 
 
-class CategoryBudgetRetUpdView(RetrieveUpdateAPIView):        # >> /category<pk>/
+class CategoryBudgetCreateView(CreateAPIView):
+    serializer_class = CategoryBudgetSerializer
+    permission_classes = (IsAuthenticated,)
+    queryset = CategoryBudget.objects.all()
+
+    def post(self, request, *args, **kwargs):
+        if request.data['title']:
+            try:
+                user = User.objects.get(pk=self.request.user.id)
+                new_obj = CategoryBudget.objects.create(owner=user, title=request.data['title'])
+                serializer = self.get_serializer(new_obj)
+                logger.info('Category created with title #%s for user ID #%s in category_budget_create_view'
+                            % (request.data['title'], self.request.user.id))
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            except exceptions.FieldError:
+                logger.error('Error creation category by user ID #%s in category_budget_view' % self.request.user.id)
+                raise exceptions.FieldError('Error creation currency. Pleas check your data in request')
+        else:
+            logger.error('Data in request are wrong with user ID #%s in category_budget_create_view'
+                         % self.request.user.id)
+            raise exceptions.ValidationError('Data in request are wrong')
+
+
+class CategoryBudgetRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     serializer_class = CategoryBudgetSerializer
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
@@ -73,11 +118,8 @@ class CategoryBudgetRetUpdView(RetrieveUpdateAPIView):        # >> /category<pk>
                          % self.request.user.email, self.kwargs['pk'])
             raise exceptions.NotFound('Category with ID not found')
 
-    def update(self, request, *args, **kwargs):
-        pass
 
-
-class BudgetAccountListView(ListAPIView):       # >> /account-list/
+class BudgetAccountListView(ListAPIView):
     serializer_class = BudgetAccountSerializer
     permission_classes = (IsAuthenticated,)
     filter_backends = (DjangoFilterBackend,)
@@ -91,7 +133,38 @@ class BudgetAccountListView(ListAPIView):       # >> /account-list/
             raise exceptions.NotFound('Object with your ID %s NotFound' % self.request.user.id)
 
 
-class BudgetAccountRetUpdView(RetrieveUpdateAPIView):       # >> /account<pk>/
+class BudgetAccountCreateView(CreateAPIView):
+    serializer_class = BudgetAccountSerializer
+    permission_classes = (IsAuthenticated,)
+    queryset = BudgetAccount.objects.all()
+
+    def post(self, request, *args, **kwargs):
+
+        if request.data:
+            try:
+                user = User.objects.get(pk=self.request.user.id)
+                currency = Currency.objects.get(pk=request.data['currency'])
+                new_obj = BudgetAccount.objects.create(owner=user,
+                                                       name=request.data['name'],
+                                                       short_name=request.data['short_name'],
+                                                       amount=request.data['amount'],
+                                                       description=request.data['description'],
+                                                       currency=currency)
+                serializer = self.get_serializer(new_obj)
+                logger.info('Budget account created with name #%s for user ID #%s in budget_account_create_view'
+                            % (request.data['name'], self.request.user.id))
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            except exceptions.FieldError:
+                logger.error('Error creation category by user ID #%s in budget_account_create_view'
+                             % self.request.user.id)
+                raise exceptions.FieldError('Error creation currency. Pleas check your data in request')
+        else:
+            logger.error('Data in request are wrong with user ID #%s in budget_account_create_view'
+                         % self.request.user.id)
+            raise exceptions.ValidationError('Data in request are wrong')
+
+
+class BudgetAccountRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     serializer_class = BudgetAccountSerializer
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
@@ -104,11 +177,8 @@ class BudgetAccountRetUpdView(RetrieveUpdateAPIView):       # >> /account<pk>/
                          % self.request.user.email, self.kwargs['pk'])
             raise exceptions.NotFound('Account with ID not found')
 
-    def update(self, request, *args, **kwargs):
-        pass
 
-
-class InvoiceListView(ListAPIView):     # >> /invoice-list/
+class InvoiceListView(ListAPIView):
     serializer_class = InvoiceSerializer
     permission_classes = (IsAuthenticated,)
     filter_backends = (DjangoFilterBackend,)
@@ -122,7 +192,39 @@ class InvoiceListView(ListAPIView):     # >> /invoice-list/
             raise exceptions.NotFound('Object with your ID %s NotFound' % self.request.user.id)
 
 
-class InvoiceRetUpdView(RetrieveUpdateAPIView):     # >> /invoice<pk>/
+class InvoiceCreateView(CreateAPIView):
+    serializer_class = InvoiceSerializer
+    permission_classes = (IsAuthenticated,)
+    queryset = Invoice.objects.all()
+
+    def post(self, request, *args, **kwargs):
+
+        if request.data:
+            try:
+                user = User.objects.get(pk=self.request.user.id)
+                currency = Currency.objects.get(pk=request.data['currency'])
+                category = CategoryBudget.objects.get(pk=request.data['category'])
+                budget_account = BudgetAccount.objects.get(pk=request.data['budget_account'])
+                new_obj = Invoice.objects.create(owner=user,
+                                                 amount=request.data['amount'],
+                                                 transaction_type=request.data['transaction_type'],
+                                                 description=request.data['description'],
+                                                 currency=currency,
+                                                 category=category,
+                                                 budget_account=budget_account)
+                serializer = self.get_serializer(new_obj)
+                logger.info('Invoice created for user ID #%s in invoice_create_view' % self.request.user.id)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            except exceptions.FieldError:
+                logger.error('Error creation invoice by user ID #%s in invoice_create_view' % self.request.user.id)
+                raise exceptions.FieldError('Error creation currency. Pleas check your data in request')
+        else:
+            logger.error('Data in request are wrong with user ID #%s in invoice_create_view'
+                         % self.request.user.id)
+            raise exceptions.ValidationError('Data in request are wrong')
+
+
+class InvoiceRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     serializer_class = InvoiceSerializer
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'

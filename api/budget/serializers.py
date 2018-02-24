@@ -1,21 +1,21 @@
 from rest_framework import serializers
 
-from .models import *
+from .models import Currency, CategoryBudget, BudgetAccount, Invoice
 
 
-class CategoryBudgetSerializer(serializers.ModelSerializer):        # or PrimaryKeyRelatedField [owner id]
-    owner = serializers.PrimaryKeyRelatedField(read_only=True)      # or StringRelatedField [owner email]
-
-    class Meta:
-        model = CategoryBudget
-        fields = '__all__'
-
-
-class CurrencySerializer(serializers.ModelSerializer):
-    owner = serializers.PrimaryKeyRelatedField(read_only=True)
+class CurrencySerializer(serializers.ModelSerializer):          # or StringRelatedField [owner email]
+    owner = serializers.PrimaryKeyRelatedField(read_only=True)  # or PrimaryKeyRelatedField [owner id]
 
     class Meta:
         model = Currency
+        fields = '__all__'
+
+
+class CategoryBudgetSerializer(serializers.ModelSerializer):
+    owner = serializers.PrimaryKeyRelatedField(read_only=True)
+
+    class Meta:
+        model = CategoryBudget
         fields = '__all__'
 
 
