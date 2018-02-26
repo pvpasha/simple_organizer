@@ -38,7 +38,7 @@ class Invoice(models.Model):
     amount = models.IntegerField(null=True, blank=True, default=0)
 
     INCOME = 1
-    OUTCOME = -1
+    OUTCOME = 0
 
     TT_CHOICES = (
         (INCOME, 'Income'),

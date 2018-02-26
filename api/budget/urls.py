@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^invoice(?P<pk>.+)/$', budget_views.InvoiceRetrieveUpdateDestroyView.as_view(),
         name='invoice_retrieve_update_destroy'),
 
+    url(r'^total-amount/(?P<budget_account_id>.+)/$', budget_views.TotalAmountView.as_view(), name='total-amount'),
 ]

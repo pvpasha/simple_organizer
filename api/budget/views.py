@@ -1,11 +1,13 @@
 import logging
 
 from rest_framework import status, exceptions
+from rest_framework.authentication import BaseAuthentication
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.generics import (ListAPIView, CreateAPIView, RetrieveUpdateDestroyAPIView)
+from rest_framework.views import APIView
+from django.core.exceptions import ObjectDoesNotExist
 from django_filters.rest_framework import DjangoFilterBackend
-from django.core import exceptions
 
 from accounts.models import OrganizerUser as User
 from .models import Currency, CategoryBudget, BudgetAccount, Invoice
@@ -24,7 +26,7 @@ class CurrencyListView(ListAPIView):
     def get_queryset(self):
         try:
             return Currency.objects.filter(owner=self.request.user.id)
-        except exceptions.ObjectDoesNotExist:
+        except ObjectDoesNotExist:
             logger.error('Object not found for user with ID #%s for currency_list_view' % self.request.user.id)
             raise exceptions.NotFound('Object with your ID %s NotFound' % self.request.user.id)
 
@@ -45,7 +47,7 @@ class CurrencyCreateView(CreateAPIView):
                 logger.info('Currency created with short_name #%s for user ID #%s in currency_create_view'
                             % (request.data['short_name'], self.request.user.id))
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
-            except exceptions.FieldError:
+            except ObjectDoesNotExist:
                 logger.error('Error creation currency by user ID #%s in currency_create_view' % self.request.user.id)
                 raise exceptions.FieldError('Error creation currency. Pleas check your data in request')
         else:
@@ -63,7 +65,7 @@ class CurrencyRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
         try:
             instance = Currency.objects.filter(owner=self.request.user.id)
             return instance
-        except exceptions.ObjectDoesNotExist:
+        except ObjectDoesNotExist:
             logger.error('Not found object with ID #%s and user ID #%s for currency_retrieve_update'
                          % self.kwargs['pk'], self.request.user.id)
             raise exceptions.NotFound('Object not found')
@@ -77,7 +79,7 @@ class CategoryBudgetListView(ListAPIView):
     def get_queryset(self):
         try:
             return CategoryBudget.objects.filter(owner=self.request.user.id)
-        except exceptions.ObjectDoesNotExist:
+        except ObjectDoesNotExist:
             logger.error('Object not found for user with ID #%s for category_budget_list_view' % self.request.user.id)
             raise exceptions.NotFound('Object with your ID %s NotFound' % self.request.user.id)
 
@@ -96,7 +98,7 @@ class CategoryBudgetCreateView(CreateAPIView):
                 logger.info('Category created with title #%s for user ID #%s in category_budget_create_view'
                             % (request.data['title'], self.request.user.id))
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
-            except exceptions.FieldError:
+            except ObjectDoesNotExist:
                 logger.error('Error creation category by user ID #%s in category_budget_view' % self.request.user.id)
                 raise exceptions.FieldError('Error creation currency. Pleas check your data in request')
         else:
@@ -113,7 +115,7 @@ class CategoryBudgetRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         try:
             return CategoryBudget.objects.filter(owner=self.request.user.id)
-        except exceptions.ObjectDoesNotExist:
+        except ObjectDoesNotExist:
             logger.error('CategoryBudget for user %s and ID #%s not found for category_budget_retrieve_update_view'
                          % self.request.user.email, self.kwargs['pk'])
             raise exceptions.NotFound('Category with ID not found')
@@ -128,7 +130,7 @@ class BudgetAccountListView(ListAPIView):
     def get_queryset(self):
         try:
             return BudgetAccount.objects.filter(owner=self.request.user.id)
-        except exceptions.ObjectDoesNotExist:
+        except ObjectDoesNotExist:
             logger.error('Object not found for user with ID #%s for budget_account_list_view' % self.request.user.id)
             raise exceptions.NotFound('Object with your ID %s NotFound' % self.request.user.id)
 
@@ -139,7 +141,6 @@ class BudgetAccountCreateView(CreateAPIView):
     queryset = BudgetAccount.objects.all()
 
     def post(self, request, *args, **kwargs):
-
         if request.data:
             try:
                 user = User.objects.get(pk=self.request.user.id)
@@ -154,7 +155,7 @@ class BudgetAccountCreateView(CreateAPIView):
                 logger.info('Budget account created with name #%s for user ID #%s in budget_account_create_view'
                             % (request.data['name'], self.request.user.id))
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
-            except exceptions.FieldError:
+            except ObjectDoesNotExist:
                 logger.error('Error creation category by user ID #%s in budget_account_create_view'
                              % self.request.user.id)
                 raise exceptions.FieldError('Error creation currency. Pleas check your data in request')
@@ -172,7 +173,7 @@ class BudgetAccountRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         try:
             return BudgetAccount.objects.filter(owner=self.request.user.id)
-        except exceptions.ObjectDoesNotExist:
+        except ObjectDoesNotExist:
             logger.error('BudgetAccount for user %s and ID #%s not found for budget_account_retrieve_update_view'
                          % self.request.user.email, self.kwargs['pk'])
             raise exceptions.NotFound('Account with ID not found')
@@ -187,7 +188,7 @@ class InvoiceListView(ListAPIView):
     def get_queryset(self):
         try:
             return Invoice.objects.filter(owner=self.request.user.id)
-        except exceptions.ObjectDoesNotExist:
+        except ObjectDoesNotExist:
             logger.error('Object not found for user with ID #%s for invoice_list_view' % self.request.user.id)
             raise exceptions.NotFound('Object with your ID %s NotFound' % self.request.user.id)
 
@@ -198,7 +199,6 @@ class InvoiceCreateView(CreateAPIView):
     queryset = Invoice.objects.all()
 
     def post(self, request, *args, **kwargs):
-
         if request.data:
             try:
                 user = User.objects.get(pk=self.request.user.id)
@@ -215,7 +215,7 @@ class InvoiceCreateView(CreateAPIView):
                 serializer = self.get_serializer(new_obj)
                 logger.info('Invoice created for user ID #%s in invoice_create_view' % self.request.user.id)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
-            except exceptions.FieldError:
+            except ObjectDoesNotExist:
                 logger.error('Error creation invoice by user ID #%s in invoice_create_view' % self.request.user.id)
                 raise exceptions.FieldError('Error creation currency. Pleas check your data in request')
         else:
@@ -233,7 +233,31 @@ class InvoiceRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
         try:
             instance = Invoice.objects.filter(owner=self.request.user.id)
             return instance
-        except exceptions.NotFound:
+        except ObjectDoesNotExist:
             logger.error('Invoice ID #%s and user %s not found for invoice_retrieve_update_view'
                          % self.kwargs['pk'], self.request.user.email)
             raise exceptions.NotFound('Invoice with ID #%s not found' % self.kwargs['pk'])
+
+
+class TotalAmountView(APIView):
+    # authentication_classes = (BaseAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, budget_account_id):
+        try:
+            res = {
+                "total": 0,
+                "total_invoices": 0
+            }
+            user = User.objects.get(pk=self.request.user.id)
+            budget_account = BudgetAccount.objects.filter(pk=budget_account_id)
+            invoice_list = Invoice.objects.filter(budget_account=budget_account)
+            for invoice in invoice_list:
+                if user.id == invoice.owner.id:
+                    res['total_invoices'] += 1
+                    res['total'] += invoice.amount if invoice.transaction_type else -invoice.amount
+        except ObjectDoesNotExist:
+            logger.error('Can not get total amount for %s with budget ID #%s' % (request.user.id, budget_account_id))
+            return Response({"detail": "Can not get total amount for %s with budget ID #%s" % (
+                self.request.user.id, budget_account_id)}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(res, status=status.HTTP_200_OK)
