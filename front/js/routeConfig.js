@@ -2,7 +2,7 @@
     'use strict';
 
 angular
-    .module('Route', ['ngRoute'])
+    .module('route', ['ngRoute'])
 
     /* routes configs */
     .config(['$routeProvider', function($routeProvider){
@@ -13,15 +13,15 @@ angular
                 controllerAs: 'vm'
             })
             .when('/login', {
-                templateUrl:'templates/login.html',
-                controller:'loginCtrl',
+                templateUrl:'templates/accounts/login.html',
+                controller:'accountsCtrl',
                 controllerAs: 'vm'
             })
-            .when('/about', {
-                templateUrl:'templates/about.html',
-                controller:'aboutCtrl',
-                controllerAs: 'vm'
-            })
+//            .when('/about', {
+//                templateUrl:'templates/about.html',
+//                controller:'aboutCtrl',
+//                controllerAs: 'vm'
+//            })
             .otherwise({
                 redirectTo: '/'
             });

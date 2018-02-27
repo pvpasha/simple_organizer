@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('Login')
+        .module('accounts')
         .service('AuthService', AuthService);
 
     function AuthService($http, $location, $localStorage, LoginReqFactory, VerifyTokenFactory, RefreshTokenFactory) {

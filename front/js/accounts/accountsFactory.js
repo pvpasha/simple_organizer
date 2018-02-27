@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('Login')
+        .module('accounts')
         .factory('LoginReqFactory', LoginReqFactory)
         .factory('VerifyTokenFactory', VerifyTokenFactory)
         .factory('RefreshTokenFactory', RefreshTokenFactory);

@@ -2,10 +2,10 @@
     'use strict';
 
     angular
-        .module('Login')
-        .controller('loginCtrl', loginCtrl);
+        .module('accounts')
+        .controller('accountsCtrl', accountsCtrl);
 
-    function loginCtrl($scope, $http, $localStorage, AuthService, VerifyTokenFactory, RefreshTokenFactory) {
+    function accountsCtrl($scope, $http, $localStorage, AuthService, VerifyTokenFactory, RefreshTokenFactory) {
 //        initCtrl();
 //
 //        function initCtrl(){
