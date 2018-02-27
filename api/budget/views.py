@@ -2,7 +2,7 @@ import logging
 
 from rest_framework import status, exceptions
 from rest_framework.authentication import BaseAuthentication
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.generics import (ListAPIView, CreateAPIView, RetrieveUpdateDestroyAPIView)
 from rest_framework.views import APIView
@@ -239,7 +239,7 @@ class InvoiceRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
             raise exceptions.NotFound('Invoice with ID #%s not found' % self.kwargs['pk'])
 
 
-class TotalAmountView(APIView):
+class TotalAmountByBudgetAccountView(APIView):
     # authentication_classes = (BaseAuthentication,)
     permission_classes = (IsAuthenticated,)
 
@@ -249,7 +249,7 @@ class TotalAmountView(APIView):
                 "total": 0,
                 "total_invoices": 0
             }
-            user = User.objects.get(pk=self.request.user.id)
+            user = User.objects.get(pk=request.user.id)
             budget_account = BudgetAccount.objects.filter(pk=budget_account_id)
             invoice_list = Invoice.objects.filter(budget_account=budget_account)
             for invoice in invoice_list:
@@ -257,7 +257,81 @@ class TotalAmountView(APIView):
                     res['total_invoices'] += 1
                     res['total'] += invoice.amount if invoice.transaction_type else -invoice.amount
         except ObjectDoesNotExist:
-            logger.error('Can not get total amount for %s with budget ID #%s' % (request.user.id, budget_account_id))
+            logger.error('Can not get total amount for %s with budget ID #%s in total_amount_by_budget_account_view'
+                         % (request.user.id, budget_account_id))
             return Response({"detail": "Can not get total amount for %s with budget ID #%s" % (
-                self.request.user.id, budget_account_id)}, status=status.HTTP_400_BAD_REQUEST)
+                request.user.id, budget_account_id)}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(res, status=status.HTTP_200_OK)
+
+
+class TotalAmountByBudgetAccountListView(APIView):  # TODO: Make list of budget_accounts in response
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        try:
+            res = {
+                "budget_account_id": 0,
+                "total": 0,
+                "total_invoices": 0
+            }
+            user = User.objects.get(pk=request.user.id)
+            budget_account_list = BudgetAccount.objects.filter(owner=request.user.id)
+            for budget_account in budget_account_list:
+                invoice_list = Invoice.objects.filter(budget_account=budget_account.id)
+                for invoice in invoice_list:
+                    if user.id == invoice.owner.id:
+                        res['budget_account_id'] = budget_account.id
+                        res['total_invoices'] += 1
+                        res['total'] += invoice.amount if invoice.transaction_type else -invoice.amount
+        except ObjectDoesNotExist:
+            logger.error('Can"t get total amount for %s with budget ID #%s in total_amount_by_budget_account_list_view'
+                         % (request.user.id, budget_account.id))
+            return Response({"detail": "Can not get total amount for %s with budget ID #%s" % (
+                request.user.id, budget_account.id)}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(res, status=status.HTTP_200_OK)
+
+
+class TotalAmountByCurrencyView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, currency_id):
+        try:
+            res = {
+                "total": 0,
+                "total_invoices": 0
+            }
+            user = User.objects.get(pk=request.user.id)
+            currency = Currency.objects.filter(pk=currency_id)
+            invoice_list = Invoice.objects.filter(currency=currency)
+            for invoice in invoice_list:
+                if user.id == invoice.owner.id:
+                    res['total_invoices'] += 1
+                    res['total'] += invoice.amount if invoice.transaction_type else -invoice.amount
+        except ObjectDoesNotExist:
+            logger.error('Can not get total amount for %s with currency ID #%s in total_amount_by_currency_view'
+                         % (request.user.id, currency_id))
+            return Response({"detail": "Can not get total amount for %s with currency ID #%s" % (
+                request.user.id, currency_id)}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(res, status=status.HTTP_200_OK)
+
+
+class TotalAmountView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        try:
+            res = {
+                "total": 0,
+                "total_invoices": 0
+            }
+            user = User.objects.get(pk=request.user.id)
+            invoice_list = Invoice.objects.all()
+            for invoice in invoice_list:
+                if user.id == invoice.owner.id:
+                    res['total_invoices'] += 1
+                    res['total'] += invoice.amount if invoice.transaction_type else -invoice.amount
+        except ObjectDoesNotExist:
+            logger.error('Can not get total amount for %s in total_amount_view' % request.user.id)
+            return Response({"detail": "Can not get total amount for %s" % request.user.id},
+                            status=status.HTTP_400_BAD_REQUEST)
         return Response(res, status=status.HTTP_200_OK)
