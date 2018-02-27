@@ -12,8 +12,7 @@ urlpatterns = [
     url(r'^contacts/', include('contacts.urls')),
     url(r'^diary/', include('diary.urls')),
     url(r'^password-organizer/', include('password.urls')),
-    # url(r'^task/', include('task.urls')),
-
+    url(r'^task/', include('task.urls')),
     url(r'^token-auth/', obtain_jwt_token, name='token_auth'),              # rest_framework_jwt
     url(r'^token-refresh/', refresh_jwt_token, name='token_refresh'),       # rest_framework_jwt
     url(r'^token-verify/', verify_jwt_token, name='token_verify'),          # rest_framework_jwt

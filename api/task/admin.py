@@ -1,34 +1,36 @@
 from django.contrib import admin
-from .models import *
+from .models import CategoryTask, ShortTask, Task, Event
 
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title')
-    list_filter = ('title',)
+
+class CategoryTaskAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title', 'owner')
+    list_filter = ('owner',)
     search_fields = ('id', 'title')
     empty_value_display = '-empty-'
     readonly_field = ['id', ]
 
 
 class ShortTaskAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'creation_date', 'category', 'finished')
-    list_filter = ( 'category',)
+    list_display = ('id', 'title', 'finished')
+    list_filter = ('finished',)
     search_fields = ('id', 'title')
     empty_value_display = '-empty-'
-    readonly_field = ['id',]
+    readonly_field = ['id', ]
 
 
 class TaskAdmin (admin.ModelAdmin):
     list_display = ('id', 'owner', 'title', 'creation_date', 'finishing_date', 'category')
-    list_filter = ('owner', 'category')
-    search_fields = ('id', 'owner', 'title')
+    list_filter = ('owner', 'category', 'finished')
+    search_fields = ('id', 'title')
 
 
 class EventAdmin (admin.ModelAdmin):
-    list_display = ('id', 'owner', 'title', ) #'category'
-    list_filter = ('owner', 'category') #
+    list_display = ('id', 'owner', 'title', )
+    list_filter = ('owner',)
     search_fields = ('id', 'owner', 'title')
 
-admin.site.register(Category, CategoryAdmin)
+
+admin.site.register(CategoryTask, CategoryTaskAdmin)
 admin.site.register(ShortTask, ShortTaskAdmin)
 admin.site.register(Task, TaskAdmin)
 admin.site.register(Event, EventAdmin)

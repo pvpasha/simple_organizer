@@ -32,7 +32,6 @@ INSTALLED_APPS = [
     'contacts',
     'diary',
     'password',
-    'todo',
     'task',
 ]
 
