@@ -9,9 +9,9 @@ urlpatterns = [
 
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('accounts.urls')),
-    url(r'^token-auth/', obtain_jwt_token, name='token_auth'),              # rest_framework_jwt
-    url(r'^token-refresh/', refresh_jwt_token, name='token_refresh'),       # rest_framework_jwt
-    url(r'^token-verify/', verify_jwt_token, name='token_verify'),          # rest_framework_jwt
+    url(r'^token-auth/', obtain_jwt_token, name='token-auth'),              # rest_framework_jwt
+    url(r'^token-refresh/', refresh_jwt_token, name='token-refresh'),       # rest_framework_jwt
+    url(r'^token-verify/', verify_jwt_token, name='token-verify'),          # rest_framework_jwt
     url(r'^budget/', include('budget.urls')),
 
     # url(r'^contacts/', include('contacts.urls')),
