@@ -1,9 +1,11 @@
 from django.conf.urls import url
 
-from . import views
+from . import views as password_org_views
 
-
+# password-organizer/
 urlpatterns = [
-    url(r'^list/$', views.PasswordOrganizerListViewSet.as_view(), name='pass-list'),
-    url(r'^get/(?P<pk>.+)/$', views.PasswordOrganizerItemView.as_view(), name='pass-detail'),
+    url(r'^list/$', password_org_views.PasswordOrganizerListView.as_view(), name='password-organizer-list'),
+    url(r'^create/$', password_org_views.PasswordOrganizerCreateView.as_view(), name='password-organizer-create'),
+    url(r'^(?P<pk>.+)/$', password_org_views.PasswordOrganizerRetrieveUpdateDestroyView.as_view(),
+        name='password-organizer-retrieve-update-destroy')
 ]

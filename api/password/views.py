@@ -1,59 +1,66 @@
-from django.conf import settings
-from django.shortcuts import render, redirect
+import logging
+
 from django.core.exceptions import ObjectDoesNotExist
-from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework import status, exceptions
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
+from rest_framework.generics import CreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
 
-from accounts.models import OrganizerUser
-from .serializers import PasswordOrganizerListSerializer, PasswordOrganizerSerializer
+from accounts.models import OrganizerUser as User
 from .models import PasswordOrganizer
+from .serializers import PasswordOrganizerSerializer
 
 
-class PasswordOrganizerItemView(RetrieveAPIView):
-    queryset = PasswordOrganizer.objects.all()
-    permission_classes = (AllowAny,)
+logger = logging.getLogger(__name__)
+
+
+class PasswordOrganizerListView(ListAPIView):
     serializer_class = PasswordOrganizerSerializer
+    permission_classes = (IsAuthenticated,)
+    lookup_field = 'owner'
+
+    def get_queryset(self):
+        try:
+            return PasswordOrganizer.objects.filter(owner=self.request.user.id)
+        except ObjectDoesNotExist:
+            logger.error('Object not found for user with ID #%s in password_organizer_list_view' % self.request.user.id)
+            raise exceptions.NotFound('Object with NotFound')
+
+
+class PasswordOrganizerCreateView(CreateAPIView):
+    serializer_class = PasswordOrganizerSerializer
+    permission_classes = (IsAuthenticated,)
+    queryset = PasswordOrganizer.objects.all()
+
+    def post(self, request, *args, **kwargs):
+        try:
+            if request.data:
+                user = User.objects.get(pk=self.request.user.id)
+                new_obj = PasswordOrganizer.objects.create(owner=user,
+                                                           resource_url=request.data['resource_url'],
+                                                           password_res=request.data['password_res'])
+                serializer = self.get_serializer(new_obj)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                logger.error('Data in request are wrong with user #%s in password_organizer_create_view'
+                             % self.request.user.email)
+                raise exceptions.ValidationError('Data in request are wrong')
+        except exceptions.ValidationError:
+            logger.error('Can not creation diary by user #%s in password_organizer_create_view'
+                         % self.request.user.email)
+            raise exceptions.ValidationError('Can not creation diary. Please check your data in request')
+
+
+class PasswordOrganizerRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    serializer_class = PasswordOrganizerSerializer
+    permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
 
-
-class PasswordOrganizerListViewSet(ListCreateAPIView):
-    queryset = PasswordOrganizer.objects.all()          ## TODO: order_by(owner)
-    permission_classes = (AllowAny,)
-    serializer_class = PasswordOrganizerListSerializer
-
-    def post(self, request):
-        get_owner = request.data['owner']
-        get_resource_url = request.data['resource_url']
-        get_password_res = request.data['password_res']
-
+    def get_queryset(self):
         try:
-            user = OrganizerUser.objects.get(pk=get_owner)
-            passwordorganizer_item = PasswordOrganizer.objects.create(owner=user, resource_url=get_resource_url,
-                                                                      password_res=get_password_res)
-            serialized_data =self.get_serializer(passwordorganizer_item)
-            return Response(serialized_data.data, status=status.HTTP_201_CREATED)
+            return PasswordOrganizer.objects.filter(owner=self.request.user.id)
         except ObjectDoesNotExist:
-            return Response({'detail': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
-
-
-# def passorg(request):
-#     if request.user.is_authenticated():
-#         return render (request, 'passorg.html', {'pass_list': PasswordOrganizer.objects.all().filter(
-#             owner=request.user), 'user_avatar': request.user.main_menu_avatar})
-#     else:
-#         return redirect('%s?next=%s' % (settings.LOGIN_REDIRECT_URL, request.path))
-#
-#
-# def create_passw(request):
-#     if request.user.is_authenticated():
-#         if request.method == 'POST':
-#             form = PasswordOrganizerForm(request.POST)
-#             if form.is_valid():
-#                 form.save()
-#                 return redirect('/passorg/all/')
-#         else: # ==>GET method
-#             return render(request, 'create_passw.html', {'form': PasswordOrganizerForm})
-#     else:
-#         return redirect('%s?next=%s' % (settings.LOGIN_REDIRECT_URL, request.path))
+            logger.error('Password with ID #%s for user %s and not found in '
+                         'password_organizer_retrieve_update_destroy_view'
+                         % (self.kwargs['pk'], self.request.user.email))
+            raise exceptions.NotFound('Password with ID #%s not found' % self.kwargs['pk'])

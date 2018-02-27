@@ -11,7 +11,7 @@ urlpatterns = [
     url(r'^budget/', include('budget.urls')),
     url(r'^contacts/', include('contacts.urls')),
     url(r'^diary/', include('diary.urls')),
-    # url(r'^password/', include('password.urls')),
+    url(r'^password-organizer/', include('password.urls')),
     # url(r'^task/', include('task.urls')),
 
     url(r'^token-auth/', obtain_jwt_token, name='token_auth'),              # rest_framework_jwt
