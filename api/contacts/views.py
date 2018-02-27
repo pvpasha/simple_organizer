@@ -1,61 +1,72 @@
-from django.conf import settings
+import logging
+
+
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import render, redirect
-from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework import status, exceptions
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
+from rest_framework.generics import CreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
 
-from accounts.models import OrganizerUser
-from .serializers import ContactListSerializer, ContactSerializer
+from accounts.models import OrganizerUser as User
+from .serializers import ContactSerializer
 from .models import Contact
-from .forms import ContactForm
 
-class ContactItemView(RetrieveAPIView):
-    queryset = Contact.objects.all()
-    permission_classes = (AllowAny,)
+
+logger = logging.getLogger(__name__)
+
+
+class ContactsListView(ListAPIView):
     serializer_class = ContactSerializer
-    lookup_field = 'pk'
+    permission_classes = (IsAuthenticated,)
+    lookup_field = 'owner'
+
+    def get_queryset(self):
+        try:
+            return Contact.objects.filter(owner=self.request.user.id)
+        except ObjectDoesNotExist:
+            logger.error('Object not found for user with ID #%s in contacts_list_view' % self.request.user.id)
+            raise exceptions.NotFound('Object with your ID %s NotFound' % self.request.user.id)
 
 
-class ContactListViewSet(ListCreateAPIView):
-    queryset = Contact.objects.all()          ## TODO: order_by(owner)
-    permission_classes = (AllowAny,)
-    serializer_class = ContactListSerializer
+class ContactCreateView(CreateAPIView):
+    serializer_class = ContactSerializer
+    permission_classes = (IsAuthenticated,)
+    queryset = Contact.objects.all()
 
     def post(self, request, *args, **kwargs):
-        get_owner = request.data['owner']
-        get_name = request.data['name']
-        get_surname = request.data['surname']
-        get_phone = request.data['phone']
-        get_birthday = request.data['birthday']
-
         try:
-            user = OrganizerUser.objects.get(pk=get_owner)
-            contact_item = Contact.objects.create(owner=user, name=get_name, surname=get_surname, phone=get_phone,
-                                                  birthday=get_birthday)
-            serialized_data = self.get_serializer(contact_item)
-            return Response(serialized_data.data, status=status.HTTP_201_CREATED)
+            if request.data:
+                user = User.objects.get(pk=self.request.user.id)
+                new_obj = Contact.objects.create(owner=user,
+                                                 name=request.data['name'],
+                                                 surname=request.data['surname'],
+                                                 phone=request.data['phone'],
+                                                 email_address=request.data['email_address'],
+                                                 home_address=request.data['home_address'],
+                                                 birthday=request.data['birthday'],
+                                                 add_reminder=request.data['add_reminder'])
+                serializer = self.get_serializer(new_obj)
+                logger.info('Contact created with name #%s for user ID #%s in contact_create_view'
+                            % (request.data['name'], self.request.user.id))
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                logger.error('Data in request are wrong with user ID #%s in contact_create_view'
+                             % self.request.user.id)
+                raise exceptions.ValidationError('Data in request are wrong')
+        except exceptions.ValidationError:
+            logger.error('Can not creation contact by user ID #%s in contact_create_view' % self.request.user.id)
+            raise exceptions.ValidationError('Can not creation contact. Please check your data in request')
+
+
+class ContactsRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    serializer_class = ContactSerializer
+    permission_classes = (IsAuthenticated,)
+    lookup_field = 'pk'
+
+    def get_queryset(self):
+        try:
+            return Contact.objects.filter(owner=self.request.user.id)
         except ObjectDoesNotExist:
-            return Response({'detail': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
-
-
-# def contacts(request):
-#     if request.user.is_authenticated():
-#         return render(request, 'contacts.html', {'contact_list': Contact.objects.all().filter(owner=request.user),
-#                                                'user_avatar': request.user.main_menu_avatar})
-#     else:
-#         return redirect('%s?next=%s' % (settings.LOGIN_REDIRECT_URL, request.path))
-#
-#
-# def create_contact(request):
-#     if request.user.is_authenticated():
-#         if request.method == 'POST':
-#             form = ContactForm(request.POST)
-#             if form.is_valid():
-#                 form.save()
-#                 return redirect('/contacts/all/')
-#         else: # ==>GET method
-#             return render(request, 'create_contact.html', {'form': ContactForm})
-#     else:
-#         return redirect('%s?next=%s' % (settings.LOGIN_REDIRECT_URL, request.path))
+            logger.error('Contact for user %s and ID #%s not found in contact_retrieve_update_destroy_view'
+                         % (self.request.user.email, self.kwargs['pk']))
+            raise exceptions.NotFound('Contact with ID #%s not found' % self.kwargs['pk'])

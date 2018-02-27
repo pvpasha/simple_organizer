@@ -6,27 +6,23 @@ from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token, refresh
 
 
 urlpatterns = [
-
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('accounts.urls')),
-    url(r'^token-auth/', obtain_jwt_token, name='token-auth'),              # rest_framework_jwt
-    url(r'^token-refresh/', refresh_jwt_token, name='token-refresh'),       # rest_framework_jwt
-    url(r'^token-verify/', verify_jwt_token, name='token-verify'),          # rest_framework_jwt
     url(r'^budget/', include('budget.urls')),
-
-    # url(r'^contacts/', include('contacts.urls')),
+    url(r'^contacts/', include('contacts.urls')),
     # url(r'^diary/', include('diary.urls')),
     # url(r'^password/', include('password.urls')),
     # url(r'^task/', include('task.urls')),
-    url(r'^dj-auth/', include('django.contrib.auth.urls')),
-    url(r'^soc-auth/', include('social_django.urls', namespace='soc-auth')),
 
+    url(r'^token-auth/', obtain_jwt_token, name='token_auth'),              # rest_framework_jwt
+    url(r'^token-refresh/', refresh_jwt_token, name='token_refresh'),       # rest_framework_jwt
+    url(r'^token-verify/', verify_jwt_token, name='token_verify'),          # rest_framework_jwt
+    url(r'^dj-auth/', include('django.contrib.auth.urls')),
+    # url(r'^soc-auth/', include('social_django.urls', namespace='soc-auth')),
     # url(r'^api/login/', include('rest_social_auth.urls_session')),
     # url(r'^api/login/', include('rest_social_auth.urls_token')),
     # url(r'^api/login/', include('rest_social_auth.urls_jwt')),
-
-    url(r'^oauth/', include('rest_framework_social_oauth2.urls'))                # django-rest-framework-social-oauth2
-
+    # url(r'^oauth2/', include('rest_framework_social_oauth2.urls'))         # django-rest-framework-social-oauth2
 ]
 
 

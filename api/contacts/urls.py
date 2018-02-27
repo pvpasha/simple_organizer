@@ -1,11 +1,11 @@
 from django.conf.urls import url
 
-from . import views
+from . import views as contacts_views
 
-
+# contacts/
 urlpatterns = [
-    # url(r'^all/$', views.contacts),
-    # url(r'^create_contact/$', views.create_contact, name='add_contact'),
-    url(r'^list/$', views.ContactListViewSet.as_view(), name='contact-list'),
-    url(r'^get/(?P<pk>.+)/$', views.ContactItemView.as_view(), name='contact-detail'),
+    url(r'^list/$', contacts_views.ContactsListView.as_view(), name='contact-list'),
+    url(r'^create/$', contacts_views.ContactCreateView.as_view(), name='contact-create'),
+    url(r'^(?P<pk>.+)/$', contacts_views.ContactsRetrieveUpdateDestroyView.as_view(),
+        name='contact-retrieve-update-destroy')
 ]
