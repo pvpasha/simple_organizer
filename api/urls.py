@@ -10,7 +10,7 @@ urlpatterns = [
     url(r'^accounts/', include('accounts.urls')),
     url(r'^budget/', include('budget.urls')),
     url(r'^contacts/', include('contacts.urls')),
-    # url(r'^diary/', include('diary.urls')),
+    url(r'^diary/', include('diary.urls')),
     # url(r'^password/', include('password.urls')),
     # url(r'^task/', include('task.urls')),
 

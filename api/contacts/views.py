@@ -1,6 +1,5 @@
 import logging
 
-
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import status, exceptions
 from rest_framework.permissions import IsAuthenticated

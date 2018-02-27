@@ -1,38 +1,64 @@
-from django.conf import settings
+import logging
+
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import render, redirect
-from rest_framework import viewsets, status
-from rest_framework.permissions import AllowAny
+from rest_framework import status, exceptions
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
+from rest_framework.generics import CreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
 
-from accounts.models import OrganizerUser
+from accounts.models import OrganizerUser as User
 from .models import Diary
-from .forms import DiaryForm
-from .serializers import DiaryListSerializer, DiarySerializer
+from .serializers import DiarySerializer
 
 
-class DiaryItemView(RetrieveAPIView):
-    queryset = Diary.objects.all()
-    permission_classes = (AllowAny,)
+logger = logging.getLogger(__name__)
+
+
+class DiaryListView(ListAPIView):
     serializer_class = DiarySerializer
-    lookup_field = 'title'
+    permission_classes = (IsAuthenticated,)
+    lookup_field = 'owner'
 
-
-class DiaryListViewSet(ListCreateAPIView):
-    queryset = Diary.objects.all()          ## TODO: order_by(owner)
-    permission_classes = (AllowAny,)
-    serializer_class = DiaryListSerializer
-    lookup_field = 'title'
-
-    def post(self, request):
-        get_owner = request.data['owner']
-        get_title = request.data['title']
-        get_body = request.data['body']
+    def get_queryset(self):
         try:
-            user = OrganizerUser.objects.get(pk=get_owner)
-            diary_item = Diary.objects.create(owner=user, title=get_title, body=get_body)
-            serialized_data = self.get_serializer(diary_item)
-            return Response(serialized_data.data, status=status.HTTP_201_CREATED)
+            return Diary.objects.filter(owner=self.request.user.id)
         except ObjectDoesNotExist:
-            return Response({'detail': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+            logger.error('Object not found for user with ID #%s in diary_list_view' % self.request.user.id)
+            raise exceptions.NotFound('Object with NotFound')
+
+
+class DiaryCreateView(CreateAPIView):
+    serializer_class = DiarySerializer
+    permission_classes = (IsAuthenticated,)
+    queryset = Diary.objects.all()
+
+    def post(self, request, *args, **kwargs):
+        try:
+            if request.data:
+                user = User.objects.get(pk=self.request.user.id)
+                new_obj = Diary.objects.create(owner=user,
+                                               title=request.data['title'],
+                                               body=request.data['body'])
+                serializer = self.get_serializer(new_obj)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                logger.error('Data in request are wrong with user #%s in diary_create_view'
+                             % self.request.user.email)
+                raise exceptions.ValidationError('Data in request are wrong')
+        except exceptions.ValidationError:
+            logger.error('Can not creation diary by user #%s in diary_create_view' % self.request.user.email)
+            raise exceptions.ValidationError('Can not creation diary. Please check your data in request')
+
+
+class DiaryRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    serializer_class = DiarySerializer
+    permission_classes = (IsAuthenticated,)
+    lookup_field = 'pk'
+
+    def get_queryset(self):
+        try:
+            return Diary.objects.filter(owner=self.request.user.id)
+        except ObjectDoesNotExist:
+            logger.error('Diary for user %s and ID #%s not found in diary_retrieve_update_destroy_view'
+                         % (self.request.user.email, self.kwargs['pk']))
+            raise exceptions.NotFound('Diary with ID #%s not found' % self.kwargs['pk'])

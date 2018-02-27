@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import *
+from .models import Diary
 
 
 class DiaryAdmin(admin.ModelAdmin):
@@ -8,6 +8,7 @@ class DiaryAdmin(admin.ModelAdmin):
     list_filter = ('title', 'creation_date')
     search_fields = ('id', 'title')
     empty_value_display = '-empty-'
-    readonly_field = ['id',]
+    readonly_field = ['id', ]
+
 
 admin.site.register(Diary, DiaryAdmin)
