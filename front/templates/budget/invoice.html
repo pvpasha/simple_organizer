@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice</title>
+</head>
+<body>
+    <h1 class="page-header">Invoice <small><span class="glyphicon glyphicon-usd"></span></small></h1>
+    <ul class="nav nav-tabs">
+        <li><a href="#">My budget</a></li>
+        <li class="active"><a href="#">Invoice</a></li>
+        <li><a href="#">Budget Account</a></li>
+        <li><a href="#">Currency</a></li>
+        <li><a href="#">Category budget</a></li>
+    </ul>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <th># ID</th>
+                <th>Currency</th>
+                <th>Amount</th>
+                <th>Transaction type</th>
+                <th>Budget account</th>
+                <th>Category</th>
+                <th>Creation data</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>USD</td>
+                <td>150</td>
+                <td>Income</td>
+                <td>my card (usd)</td>
+                <td>home</td>
+                <td>20/10/2018</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>USD</td>
+                <td>230</td>
+                <td>Outcome</td>
+                <td>work card</td>
+                <td>work</td>
+                <td>28/02/2018</td>
+            </tr>
+        </table>
+    </div>
+    <div class="btn-group">
+      <button type="button" class="btn btn-info">View</button>
+      <button type="button" class="btn btn-warning">Edit</button>
+      <button type="button" class="btn btn-danger">Delete</button>
+    </div>
+        <h3>Add form</h3>
+    <div>
+        <form role="form">
+            <div class="col-md-3">
+                Currency<input type="text" class="form-control" placeholder="Currency">
+            </div>
+            <div class="col-md-3">
+                Amount<input type="text" class="form-control" placeholder="Amount">
+            </div>
+            <div class="col-md-3">
+                Transaction type<input type="text" class="form-control" placeholder="Transaction type">
+            </div>
+            <div class="col-md-3">
+                Budget account<input type="text" class="form-control" placeholder="Budget account">
+            </div>
+            <div class="col-md-3">
+                Category<input type="text" class="form-control" placeholder="Category">
+            </div>
+            <div class="col-md-6">
+                Description<input type="text" class="form-control" placeholder="Description">
+            </div>
+            <button type="button" class="btn btn-success">Add invoice</button>
+        </form>
+    </div>
+</body>
+</html>

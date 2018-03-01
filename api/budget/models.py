@@ -5,8 +5,8 @@ from accounts.models import OrganizerUser
 
 class Currency(models.Model):
     owner = models.ForeignKey(OrganizerUser, on_delete=models.CASCADE)
-    name = models.CharField(max_length=30, default='United States Dollar')
-    short_name = models.CharField(max_length=5, default='USD')
+    name = models.CharField(max_length=50)
+    short_name = models.CharField(max_length=5)
 
     def __str__(self):
         return self.short_name
@@ -14,7 +14,7 @@ class Currency(models.Model):
 
 class CategoryBudget(models.Model):
     owner = models.ForeignKey(OrganizerUser, on_delete=models.CASCADE)
-    title = models.CharField(max_length=30)
+    title = models.CharField(max_length=50)
 
     def __str__(self):
         return "%d - %s" % (self.pk, self.title)
@@ -23,8 +23,8 @@ class CategoryBudget(models.Model):
 class BudgetAccount(models.Model):
     owner = models.ForeignKey(OrganizerUser, on_delete=models.CASCADE)
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
-    name = models.CharField(max_length=30)
-    short_name = models.CharField(max_length=10)
+    name = models.CharField(max_length=50)
+    short_name = models.CharField(max_length=20)
     amount = models.IntegerField(null=True, blank=True, default=0)
     description = models.CharField(max_length=250, null=True, blank=True)
 

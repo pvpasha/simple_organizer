@@ -5,7 +5,7 @@
     <title>Contacts</title>
 </head>
 <body>
-    <h1 class="page-header">Contacts page</h1>
+    <h1 class="page-header">Contacts <small><span class="glyphicon glyphicon-earphone"></span></small></h1>
     <div class="table-responsive">
         <table class="table table-striped">
             <tr>
@@ -37,7 +37,12 @@
             </tr>
         </table>
     </div>
-    <h3>Form add</h3>
+    <div class="btn-group">
+      <button type="button" class="btn btn-info">View</button>
+      <button type="button" class="btn btn-warning">Edit</button>
+      <button type="button" class="btn btn-danger">Delete</button>
+    </div>
+    <h3>Add form</h3>
     <div>
         <form role="form">
             <div class="col-md-4">
@@ -55,8 +60,8 @@
             <div class="col-md-4">
                 <input type="tel" class="form-control" placeholder="Home address">
             </div>
-            <div class="col-md-4">
-                <input type="date" class="form-control" placeholder="Birthday">
+            <div class="col-md-2">
+                Birthday<input type="date" class="form-control" placeholder="Birthday">
             </div>
             <div class="checkbox">
                 <label><input type="checkbox" value="">Add reminder</label>

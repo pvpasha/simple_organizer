@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Short Task</title>
+</head>
+<body>
+    <h1 class="page-header">Short Task <small><span class="glyphicon glyphicon-check"></span></small></h1>
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#">Short Task</a></li>
+        <li><a href="#">Task</a></li>
+        <li><a href="#">Event</a></li>
+        <li><a href="#">Category Task</a></li>
+    </ul>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <th># ID</th>
+                <th>Title</th>
+                <th>Creation date</th>
+                <th>Finished</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>My Title 1</td>
+                <td>1/01/2017</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Title 2</td>
+                <td>19/09/2018</td>
+                <td>+</td>
+            </tr>
+        </table>
+    </div>
+    <div class="btn-group">
+      <button type="button" class="btn btn-info">View</button>
+      <button type="button" class="btn btn-warning">Edit</button>
+      <button type="button" class="btn btn-danger">Delete</button>
+    </div>
+    <h3>Add form</h3>
+    <div>
+        <form role="form">
+            <div class="col-md-4">
+               Title<input type="text" class="form-control" placeholder="Title">
+            </div>
+            <div class="col-md-8">
+                Body<textarea class="form-control" rows="3"></textarea>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value="">Finished</label>
+            </div>
+            <button type="button" class="btn btn-success">Add short task</button>
+        </form>
+    </div>
+</body>
+</html>

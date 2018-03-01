@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Task</title>
+    <title>Event</title>
 </head>
 <body>
-    <h1 class="page-header">Task <small><span class="glyphicon glyphicon-check"></span></small></h1>
+    <h1 class="page-header">Event <small><span class="glyphicon glyphicon-check"></span></small></h1>
     <ul class="nav nav-tabs">
         <li><a href="#">Task</a></li>
-        <li class="active"><a href="#">Task</a></li>
-        <li><a href="#">Event</a></li>
+        <li><a href="#">Task</a></li>
+        <li class="active"><a href="#">Event</a></li>
         <li><a href="#">Category Task</a></li>
     </ul>
     <div class="table-responsive">
@@ -17,29 +17,23 @@
             <tr>
                 <th># ID</th>
                 <th>Title</th>
-                <th>Category</th>
                 <th>Starting date</th>
                 <th>Finishing date</th>
                 <th>Reminder date</th>
-                <th>Finished</th>
             </tr>
             <tr>
                 <td>1</td>
                 <td>My Title 1</td>
-                <td>Home</td>
                 <td>1/01/2017</td>
                 <td>2/01/2017</td>
                 <td>-</td>
-                <td>+</td>
             </tr>
             <tr>
                 <td>2</td>
                 <td>Title</td>
-                <td>my work</td>
                 <td>25/03/2018</td>
                 <td>28/03/2018</td>
                 <td>23/03/2018</td>
-                <td>-</td>
             </tr>
         </table>
     </div>
@@ -57,9 +51,6 @@
             <div class="col-md-8">
                 Body<textarea class="form-control" rows="3"></textarea>
             </div>
-            <div class="col-md-4">
-                Category<input type="text" class="form-control" placeholder="Category">
-            </div>
             <div class="col-md-2">
                 Starting<input type="date" class="form-control" placeholder="Starting Date">
             </div>
@@ -69,10 +60,7 @@
             <div class="col-md-2">
                 Reminder<input type="date" class="form-control" placeholder="Reminder Date">
             </div>
-            <div class="checkbox">
-                <label><input type="checkbox" value="">Finished</label>
-            </div>
-            <button type="button" class="btn btn-success">Add task</button>
+            <button type="button" class="btn btn-success">Add event</button>
         </form>
     </div>
 </body>

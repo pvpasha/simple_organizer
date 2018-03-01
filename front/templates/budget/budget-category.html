@@ -2,26 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Diary</title>
+    <title>Category budget</title>
 </head>
 <body>
-<h1 class="page-header">Diary <small><span class="glyphicon glyphicon-pencil"></span></small></h1>
+    <h1 class="page-header">Category budget <small><span class="glyphicon glyphicon-usd"></span></small></h1>
+    <ul class="nav nav-tabs">
+        <li><a href="#">My budget</a></li>
+        <li><a href="#">Invoice</a></li>
+        <li><a href="#">Budget Account</a></li>
+        <li><a href="#">Currency</a></li>
+        <li class="active"><a href="#">Category budget</a></li>
+    </ul>
     <div class="table-responsive">
         <table class="table table-striped">
             <tr>
                 <th># ID</th>
                 <th>Title</th>
-                <th>Creation date</th>
             </tr>
             <tr>
                 <td>1</td>
-                <td>My title</td>
-                <td>25/01/2018</td>
+                <td>Home</td>
             </tr>
             <tr>
                 <td>2</td>
-                <td>Friends</td>
-                <td>1/01/2017</td>
+                <td>Work</td>
             </tr>
         </table>
     </div>
@@ -30,16 +34,13 @@
       <button type="button" class="btn btn-warning">Edit</button>
       <button type="button" class="btn btn-danger">Delete</button>
     </div>
-    <h3>Add form</h3>
+        <h3>Add form</h3>
     <div>
         <form role="form">
-            <div class="col-md-4">
-                <input type="text" class="form-control" placeholder="Title">
+            <div class="col-md-3">
+                Title<input type="text" class="form-control" placeholder="Title">
             </div>
-            <div class="col-md-8">
-                <textarea class="form-control" rows="3"></textarea>
-            </div>
-            <button type="button" class="btn btn-success">Add diary</button>
+            <button type="button" class="btn btn-success">Add category</button>
         </form>
     </div>
 </body>

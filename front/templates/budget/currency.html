@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Currency</title>
+</head>
+<body>
+    <h1 class="page-header">Currency <small><span class="glyphicon glyphicon-usd"></span></small></h1>
+    <ul class="nav nav-tabs">
+        <li><a href="#">My budget</a></li>
+        <li><a href="#">Invoice</a></li>
+        <li><a href="#">Budget Account</a></li>
+        <li class="active"><a href="#">Currency</a></li>
+        <li><a href="#">Category budget</a></li>
+    </ul>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <th># ID</th>
+                <th>Name</th>
+                <th>Short name</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>United States Dollars</td>
+                <td>USD</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>euro</td>
+                <td>EUR</td>
+            </tr>
+        </table>
+    </div>
+    <div class="btn-group">
+      <button type="button" class="btn btn-info">View</button>
+      <button type="button" class="btn btn-warning">Edit</button>
+      <button type="button" class="btn btn-danger">Delete</button>
+    </div>
+        <h3>Add form</h3>
+    <div>
+        <form role="form">
+            <div class="col-md-3">
+                Name<input type="text" class="form-control" placeholder="Name">
+            </div>
+            <div class="col-md-3">
+                Short name<input type="text" class="form-control" placeholder="Short name">
+            </div>
+            <button type="button" class="btn btn-success">Add currency</button>
+        </form>
+    </div>
+</body>
+</html>
