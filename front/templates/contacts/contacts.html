@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contacts</title>
+</head>
+<body>
+    <h1 class="page-header">Contacts page</h1>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <th># ID</th>
+                <th>Name, Surname</th>
+                <th>Phome</th>
+                <th>E-mail</th>
+                <th>Home address</th>
+                <th>Birthday</th>
+                <th>Add reminder</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Pasha, M</td>
+                <td>0356 524589654</td>
+                <td>pasha@mail</td>
+                <td>Home, His str., 5</td>
+                <td>25/01/2018</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Friend, Surname</td>
+                <td>0126 1212154</td>
+                <td>friend@mail</td>
+                <td>Country, Street str., 7</td>
+                <td>1/01/2017</td>
+                <td>No</td>
+            </tr>
+        </table>
+    </div>
+    <h3>Form add</h3>
+    <div>
+        <form role="form">
+            <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="Name">
+            </div>
+            <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="Surname">
+            </div>
+            <div class="col-md-4">
+                <input type="tel" class="form-control" placeholder="Phone">
+            </div>
+            <div class="col-md-4">
+                <input type="email" class="form-control" placeholder="E-mail">
+            </div>
+            <div class="col-md-4">
+                <input type="tel" class="form-control" placeholder="Home address">
+            </div>
+            <div class="col-md-4">
+                <input type="date" class="form-control" placeholder="Birthday">
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value="">Add reminder</label>
+            </div>
+            <button type="button" class="btn btn-success">Add contact</button>
+        </form>
+    </div>
+</body>
+</html>
