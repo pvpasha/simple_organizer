@@ -5,7 +5,7 @@ from datetime import timedelta
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = 'key034950kjhkjhkjhu'
+SECRET_KEY = 'key034950kjhkjhkjhuwer098weytvn0y30t9ywe0r9tvyw0e9trvyner'
 
 DEBUG = True
 
@@ -132,8 +132,12 @@ WSGI_APPLICATION = 'wsgi.application'
 
 DATABASES = {
     'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'organizer.sqlite3'),
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ['POSTGRES_DB'],
+            'USER': os.environ['POSTGRES_USER'],
+            'PASSWORD': os.environ['POSTGRES_PASSWORD'],
+            'HOST': os.environ['POSTGRES_SERVICE'],
+            'PORT': os.environ['POSTGRES_PORT']
         }
     # {
     #     'ENGINE': 'django.db.backends.sqlite3',
