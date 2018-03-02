@@ -43,13 +43,12 @@
         <ul class="nav navbar-nav">
             <li><a href="#!">Home</a></li>
             <li><a href="#!about">About</a></li>
-            <li><a href="#!contact">Contact</a></li>
         </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#!profile">Hello, {{ username }}</a></li>
-                <li><a href="#!singup">Log Out</a></li>
-                <li><a href="#!singup">Sing Up</a></li>
-                <li><a href="#!singin">Sing In</a></li>
+                <li><a href="#!profile">Hello, {{ username() }}</a></li>
+                <li><a href="#!logout">Log Out</a></li>
+                <li><a href="#!sing-up">Sing Up</a></li>
+                <li><a href="#!sing-in">Sing In</a></li>
             </ul>
         </div>
     </div>
@@ -60,15 +59,15 @@
             <div class="list-group">
                 <a class="list-group-item active" align="center"><span class="glyphicon glyphicon-cog"></span>
                     Your services</a>
-                <a href="/budget" class="list-group-item"><span class="glyphicon glyphicon-usd"></span>
+                <a href="#!budget" class="list-group-item"><span class="glyphicon glyphicon-usd"></span>
                     Budget</a>
-                <a href="/contacts" class="list-group-item"><span class="glyphicon glyphicon-earphone"></span>
+                <a href="#!contacts" class="list-group-item"><span class="glyphicon glyphicon-earphone"></span>
                     Contacts</a>
-                <a href="/diary" class="list-group-item"><span class="glyphicon glyphicon-pencil"></span>
+                <a href="#!diary" class="list-group-item"><span class="glyphicon glyphicon-pencil"></span>
                     Diary</a>
-                <a href="/password" class="list-group-item"><span class="glyphicon glyphicon-asterisk"></span>
+                <a href="#!password" class="list-group-item"><span class="glyphicon glyphicon-asterisk"></span>
                     Password Organizer</a>
-                <a href="/task" class="list-group-item"><span class="glyphicon glyphicon-check"></span>
+                <a href="#!task" class="list-group-item"><span class="glyphicon glyphicon-check"></span>
                     Task</a>
             </div>
         </div>

@@ -23,31 +23,30 @@
                     email: userdata.email,
                     token: token
                 };
-//                $http.defaults.headers.common.Authotization = 'JWT ' + token; // Your Prefix Header;
             })
         }
 
         function Login(userdata) {
             getToken(userdata);
+            $http.defaults.headers.common.Authorization = 'JWT ' + token;
             $location.path('/');
-            console.log('AuthService: Successfully logged!');
         }
 
         function Logout() {
             delete $localStorage.currentUser;
-//            $http.defaults.headers.common.Authotization = '';
-            console.log('AuthService: Successfully logout!');
+            $http.defaults.headers.common.Authorization = '';
+            $location.path('/');
         }
 
         function VerifyToken(data) {
-            VerifyTokenFactory.get(data)    // Add Fn If Error !!!
+            VerifyTokenFactory.get(data)
                 .then(RefreshTokenFactory.get(data)
                     .then(function(resp){
                         $localStorage.currentUser = {
                             email: data.email,
                             token: resp
                         };
-//                        $http.defaults.headers.common.Authotization = 'JWT ' + resp; // Your Prefix Header;
+                        $http.defaults.headers.common.Authorization = 'JWT ' + resp;
                         console.log('VerifyToken && AuthService: RefreshToken OK!');
                     })
                 , function(error) {                                     //If Error Do this
@@ -64,8 +63,8 @@
                     email: data.email,
                     token: resp
                 };
-//                $http.defaults.headers.common.Authotization = 'JWT ' + resp; // Your Prefix Header;
-                    console.log('AuthService: RefreshToken OK!');
+                $http.defaults.headers.common.Authorization = 'JWT ' + resp;
+                console.log('AuthService: RefreshToken OK!');
                 })
         }
 
@@ -74,11 +73,10 @@
                 console.log('Wait checking your token!');
                 VerifyToken(data);
             }else {
-//                $location.path('/login');
+                $location.path('/sing-in');
                 console.log('You DON"T Have currentUser, Please login!');
             }
         }
-
     }
 
 })();

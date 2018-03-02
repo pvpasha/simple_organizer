@@ -14,7 +14,7 @@
 
         this.title = 'Login';
         $scope.userdata = {
-            email: '',                                           //need delete this email & pass!!!
+            email: '',
             password: ''
         };
 
@@ -33,15 +33,7 @@
         $scope.verifyTokenS = function(){
             AuthService.verifyToken($localStorage.currentUser);
         };
-        $scope.verifyTokenF = function(){
-            VerifyTokenFactory.get($localStorage.currentUser);
-        };
-        $scope.verifyToken = function(){                                        //delete this fn!
-            AuthService.checkLocalStorage($localStorage.currentUser);
-        };
-        $scope.refreshTokenS = function(){
-        AuthService.refreshToken($localStorage.currentUser);
-        };
+
         $scope.refreshTokenF = function(){
             RefreshTokenFactory.get($localStorage.currentUser);
         };

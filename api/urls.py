@@ -17,11 +17,11 @@ urlpatterns = [
     url(r'^token-refresh/', refresh_jwt_token, name='token_refresh'),       # rest_framework_jwt
     url(r'^token-verify/', verify_jwt_token, name='token_verify'),          # rest_framework_jwt
     url(r'^dj-auth/', include('django.contrib.auth.urls')),
+    url(r'^oauth2/', include('rest_framework_social_oauth2.urls'))          # django-rest-framework-social-oauth2
     # url(r'^soc-auth/', include('social_django.urls', namespace='soc-auth')),
     # url(r'^api/login/', include('rest_social_auth.urls_session')),
     # url(r'^api/login/', include('rest_social_auth.urls_token')),
     # url(r'^api/login/', include('rest_social_auth.urls_jwt')),
-    # url(r'^oauth2/', include('rest_framework_social_oauth2.urls'))         # django-rest-framework-social-oauth2
 ]
 
 
