@@ -5,61 +5,61 @@
         .module('accounts')
         .controller('accountsCtrl', accountsCtrl);
 
-    function accountsCtrl($scope, $http, $localStorage, AuthService, VerifyTokenFactory, RefreshTokenFactory) {
-//        initCtrl();
-//
-//        function initCtrl(){
-//            AuthService.checkLocalStorage($localStorage.currentUser);
-//        };
+    function accountsCtrl($scope, $http, $localStorage, AuthService, RefreshTokenFactory, UserProfileFactory,
+                            UpdateNameFactory) {
+        initCtrl();
 
-        this.title = 'Login';
-        $scope.userdata = {
-            email: '',
-            password: ''
+        function initCtrl(){
+            AuthService.checkLocalStorage($localStorage.currentUser);
         };
 
+        this.title = 'SP - Home';
+
+        $scope.team = 'SP Team';
+        $scope.brand = 'Simple Organizer'
+        $scope.version = 'beta 0.01';
+
+        var date = new Date();
+        $scope.today = date;
+
+        $scope.userdata = {
+            email: 'pvpasha@meta.ua',
+            password: 'pasha123'
+        };
         $scope.username = function() {
             if ($localStorage.currentUser){
-                return $localStorage.currentUser.email
-            } else {
-                return 'Anonymous'
-            }
-        }
-
-        $scope.logFacebook = function() {
-            $http.get('http://localhost:8000/api-auth/login/facebook/')
-        };
-
-        $scope.verifyTokenS = function(){
-            AuthService.verifyToken($localStorage.currentUser);
-        };
-
-        $scope.refreshTokenF = function(){
-            RefreshTokenFactory.get($localStorage.currentUser);
-        };
-
-        $scope.status = function() {
-
-            if (AuthService.checkLocalStorage($localStorage.currentUser)) {
-                return 'Hello, ', $localStorage.currentUser.email
-            } else {
-                return 'Please login'
+                return $localStorage.currentUser.email;
             }
         };
-
-        $scope.currentu = function() {
+        $scope.status_user = function() {
             if ($localStorage.currentUser){
+                return true;
             }
         };
-
         $scope.logIn = function() {
-            AuthService.login($scope.userdata);
+            AuthService.Login($scope.userdata);
             $scope.userdata = {};
         };
-
         $scope.logOut = function() {
-            AuthService.logout();
+            AuthService.Logout();
         };
+        $scope.userProfile = function() {
+            UserProfileFactory.get($localStorage.currentUser.email).then(function(resp) {
+                $scope.item = resp;
+            });
+        };
+        $scope.new_name = {
+                username: '',
+                second_name: ''
+        };
+        $scope.updateName = function() {
+            UpdateNameFactory.patch($localStorage.currentUser.email, $scope.new_name);
+        };
+        $scope.updateEmail = function() {
+            UpdateEmailFactory.patch($localStorage.currentUser.email, $scope.new_email);
+        }
+
+
 
     }
 })();

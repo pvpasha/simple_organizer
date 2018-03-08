@@ -5,40 +5,39 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.files import File
 from django.contrib.auth.hashers import make_password, check_password
 from rest_framework import status, exceptions
-from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser, BasePermission
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView
 
 from .models import OrganizerUser
-from .serializers import UserSerializer, UserListSerializer, UserProfileSerializer
+from .serializers import UserSerializer, UserListSerializer, UserProfileSerializer, UserProfileViewSerializer
 
 
 logger = logging.getLogger(__name__)
 
 
-class RegistrationAPIView(CreateAPIView):       # >> sing-up/
+class RegistrationAPIView(CreateAPIView):
     permission_classes = (AllowAny,)
     serializer_class = UserSerializer
     queryset = OrganizerUser.objects.all()
 
     def post(self, request, *args, **kwargs):
-        user_data = request.data
-        if user_data['password1'] == user_data['password2']:
-            user = OrganizerUser.objects.create_user(email=user_data['email'],
-                                                     username=user_data['username'],
-                                                     password=user_data['password1'])
+        if request.data['password1'] == request.data['password2']:
+            user = OrganizerUser.objects.create_user(email=request.data['email'],
+                                                     username=request.data['username'],
+                                                     password=request.data['password1'])
             serializer = self.get_serializer_class()
             logger.info('User with email: "%s" and name: "%s" was created successful.'
-                        % (user_data['email'], user_data['username']))
+                        % (request.data['email'], request.data['username']))
             return Response(serializer(user).data, status=status.HTTP_201_CREATED)
         else:
             logger.error('Can not create user with email: "%s" and name: "%s". Passwords does not match at '
-                         'RegistrationAPIView' % (user_data['email'], user_data['username']))
+                         'RegistrationAPIView' % (request.data['email'], request.data['username']))
             return exceptions.ValidationError('Can not create. Passwords does not match',
                                               code=status.HTTP_417_EXPECTATION_FAILED)
 
 
-class UserListView(ListAPIView):        # >> user-list/
+class UserListView(ListAPIView):
     permission_classes = (IsAuthenticated, IsAdminUser)
     serializer_class = UserListSerializer
     lookup_field = 'pk'
@@ -57,9 +56,9 @@ class UserListView(ListAPIView):        # >> user-list/
                                               % self.request.user.id)
 
 
-class UserRetrieveView(RetrieveAPIView):        # >> profile/email/
+class UserRetrieveView(RetrieveAPIView):
     permission_classes = (IsAuthenticated,)
-    serializer_class = UserProfileSerializer
+    serializer_class = UserProfileViewSerializer
     lookup_field = 'email'
 
     def get_queryset(self):
@@ -76,9 +75,9 @@ class UserRetrieveView(RetrieveAPIView):        # >> profile/email/
             raise exceptions.NotFound('Cant get user with email %s for user_retrieve_view' % self.request.user.email)
 
 
-class UserNameUpdateView(UpdateAPIView):        # >> profile-name/email/
+class UserNameUpdateView(UpdateAPIView):
     permission_classes = (IsAuthenticated,)
-    serializer_class = UserProfileSerializer
+    serializer_class = UserProfileViewSerializer
     lookup_field = 'email'
 
     def get_queryset(self):
@@ -94,9 +93,28 @@ class UserNameUpdateView(UpdateAPIView):        # >> profile-name/email/
             logger.error('User with email %s does not exist' % self.request.user.email)
             raise exceptions.NotFound('Can not get user with email %s for UserNameUpdateView' % self.request.user.email)
 
+    def update(self, request, *args, **kwargs):
+        try:
+            if request.data['username'] or request.data['second_name']:
+                inst_user = OrganizerUser.objects.get(email=self.request.user.email)
+                serializer_user = UserProfileViewSerializer(
+                    inst_user, data={'username': request.data['username'], 'second_name': request.data['second_name']},
+                    partial=True)
+                serializer_user.is_valid()
+                serializer_user.save()
+                return Response(serializer_user.data, status=status.HTTP_200_OK)
+            else:
+                logger.error('Error update for user %s, bad request data at user_name_update_view'
+                             % self.request.user.email)
+                raise exceptions.ValidationError(
+                    'Error update for user %s, bad request data' % self.request.user.email)
+        except ObjectDoesNotExist:
+            logger.error('Error update for user %s at user_name_update_view' % self.request.user.email)
+            raise exceptions.NotFound('Error update for user %s' % self.request.user.email)
 
-class UserAvatarUpdateView(UpdateAPIView):        # >> profile-avatar/email/
-    serializer_class = UserProfileSerializer
+
+class UserAvatarUpdateView(UpdateAPIView):
+    serializer_class = UserProfileViewSerializer
     permission_classes = (IsAuthenticated,)
     lookup_field = 'email'
 
@@ -115,7 +133,6 @@ class UserAvatarUpdateView(UpdateAPIView):        # >> profile-avatar/email/
                                       % self.request.user.email)
 
     def update(self, request, *args, **kwargs):
-
         if self.request.FILES['avatar']:
             avatar = self.request.FILES['avatar']
             try:
@@ -134,9 +151,9 @@ class UserAvatarUpdateView(UpdateAPIView):        # >> profile-avatar/email/
             raise exceptions.NotFound('Can not find avatar file in files section of request')
 
 
-class UserEmailUpdateView(UpdateAPIView):        # >> profile-email/pk/
+class UserEmailUpdateView(UpdateAPIView):
     permission_classes = (IsAuthenticated,)
-    serializer_class = UserProfileSerializer
+    serializer_class = UserProfileViewSerializer
     lookup_field = 'pk'
 
     def get_queryset(self):
@@ -152,12 +169,15 @@ class UserEmailUpdateView(UpdateAPIView):        # >> profile-email/pk/
             logger.error('User with id %s does not exist' % self.request.user.id)
             raise exceptions.NotFound('Can not get user with id %s for UserEmailUpdateView' % self.request.user.id)
 
+    def update(self, request, *args, **kwargs):
+        pass
 
-class UserEmailVerifyView(UpdateAPIView):        # >> email-verify/
+
+class UserEmailVerifyView(UpdateAPIView):
     pass
 
 
-class UserPasswordUpdateView(UpdateAPIView):        # >> password-update/email/
+class UserPasswordUpdateView(UpdateAPIView):
     serializer_class = UserProfileSerializer
     permission_classes = (IsAuthenticated,)
     lookup_field = 'email'
@@ -199,7 +219,7 @@ class UserPasswordUpdateView(UpdateAPIView):        # >> password-update/email/
             raise exceptions.NotFound('Error update for user %s at UserPasswordUpdateView' % self.request.user.email)
 
 
-class UserPasswordResetView(UpdateAPIView):        # >> password-reset/
+class UserPasswordResetView(UpdateAPIView):
     pass
 
 

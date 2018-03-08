@@ -2,51 +2,54 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Currency</title>
+    <title>{{ vm.title }}</title>
 </head>
 <body>
     <h1 class="page-header">Currency <small><span class="glyphicon glyphicon-usd"></span></small></h1>
     <ul class="nav nav-tabs">
-        <li><a href="#">My budget</a></li>
-        <li><a href="#">Invoice</a></li>
-        <li><a href="#">Budget Account</a></li>
-        <li class="active"><a href="#">Currency</a></li>
-        <li><a href="#">Category budget</a></li>
+        <li><a href="#!/budget">My budget</a></li>
+        <li><a href="#!/budget/invoice">Invoice</a></li>
+        <li><a href="#!/budget/account">Budget Account</a></li>
+        <li class="active"><a href="#!/budget/currency">Currency</a></li>
+        <li><a href="#!/budget/category">Category budget</a></li>
     </ul>
+    <button type="button" class="btn btn-info" ng-click="listCurrency()">List
+        <span class="glyphicon glyphicon-refresh"></span></button>
+    <button type="button" class="btn btn-success" ng-click="addCurrency()">Add
+        <span class="glyphicon glyphicon-plus"></span></button>
     <div class="table-responsive">
         <table class="table table-striped">
             <tr>
                 <th># ID</th>
                 <th>Name</th>
                 <th>Short name</th>
+                <th>Edit</th>
+                <th>Delete</th>
             </tr>
-            <tr>
-                <td>1</td>
-                <td>United States Dollars</td>
-                <td>USD</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>euro</td>
-                <td>EUR</td>
+            <tr ng-repeat="item in listC">
+                <td>{{ item.id }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.short_name }}</td>
+                <td><button type="button" class="btn btn-info" ng-click="editCurrency(item)">
+                    <span class="glyphicon glyphicon-pencil"></span></button></td>
+                <td><button type="button" class="btn btn-danger" ng-click="deleteCurrency(item.id)">
+                    <span class="glyphicon glyphicon-remove"></span></button></td>
             </tr>
         </table>
     </div>
-    <div class="btn-group">
-      <button type="button" class="btn btn-info">View</button>
-      <button type="button" class="btn btn-warning">Edit</button>
-      <button type="button" class="btn btn-danger">Delete</button>
-    </div>
-        <h3>Add form</h3>
-    <div>
+    <div ng-if="addItemState || editItemState">
+        <h3>{{ edit_status }}</h3>
         <form role="form">
             <div class="col-md-3">
-                Name<input type="text" class="form-control" placeholder="Name">
+                Name<input type="text" class="form-control" ng-model="currency.name">
             </div>
             <div class="col-md-3">
-                Short name<input type="text" class="form-control" placeholder="Short name">
+                Short name<input type="text" class="form-control" ng-model="currency.short_name">
             </div>
-            <button type="button" class="btn btn-success">Add currency</button>
+            <button type="button" class="btn btn-success" ng-click="createCurrency()" ng-if="addItemState">
+                Add account</button>
+            <button type="button" class="btn btn-success" ng-click="updateCurrency()" ng-if="editItemState">
+                Save account</button>
         </form>
     </div>
 </body>

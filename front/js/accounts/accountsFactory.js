@@ -5,7 +5,9 @@
         .module('accounts')
         .factory('LoginReqFactory', LoginReqFactory)
         .factory('VerifyTokenFactory', VerifyTokenFactory)
-        .factory('RefreshTokenFactory', RefreshTokenFactory);
+        .factory('RefreshTokenFactory', RefreshTokenFactory)
+        .factory('UserProfileFactory', UserProfileFactory)
+        .factory('UpdateNameFactory', UpdateNameFactory);
 
     function LoginReqFactory($http, $location, $localStorage) {
         return {
@@ -18,7 +20,6 @@
             }
         }
     }
-
     function VerifyTokenFactory($http, $localStorage) {
         return {
             get: function(data) {
@@ -32,7 +33,6 @@
            }
         }
     }
-
     function RefreshTokenFactory($http, $localStorage) {
         return {
             get: function(data) {
@@ -47,5 +47,38 @@
             }
         }
     }
+    function UserProfileFactory($http, $localStorage) {
+        return {
+            get: function(email) {
+                return $http.get('http://localhost:8000/accounts/profile/' + email + '/')
+                .then(function(resp) {
+                    return resp.data
+                })
+            }
+        }
+    }
+    function UpdateNameFactory($http) {
+        return {
+            patch: function(email, name) {
+                return $http.patch('http://localhost:8000/accounts/profile-name/' + email + '/', name)
+                .then(function(resp) {
+                    console.log(resp.status)
+                    return resp.status
+                })
+            }
+        }
+    }
+    function UpdateEmailFactory($http) {
+        return {
+            patch: function(email, name) {
+                return $http.patch('http://localhost:8000/accounts/profile-name/' + email + '/', name)
+                .then(function(resp) {
+                    console.log(resp.status)
+                    return resp.status
+                })
+            }
+        }
+    }
+
 
 })();

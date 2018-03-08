@@ -8,7 +8,7 @@ angular
         $routeProvider
             .when('/', {
                 templateUrl:'templates/home.html',
-                controller:'homeCtrl',
+                controller:'accountsCtrl',
                 controllerAs: 'vm'
             })
             .when('/sing-in', {
@@ -33,32 +33,67 @@ angular
             })
             .when('/budget', {
                 templateUrl:'templates/budget/budget-home.html',
-                controller:'homeCtrl',
+                controller:'budgetCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/budget/invoice', {
+                templateUrl:'templates/budget/invoice.html',
+                controller:'budgetCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/budget/account', {
+                templateUrl:'templates/budget/budget-account.html',
+                controller:'budgetCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/budget/currency', {
+                templateUrl:'templates/budget/currency.html',
+                controller:'budgetCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/budget/category', {
+                templateUrl:'templates/budget/budget-category.html',
+                controller:'budgetCtrl',
                 controllerAs: 'vm'
             })
             .when('/contacts', {
                 templateUrl:'templates/contacts/contacts.html',
-                controller:'homeCtrl',
+                controller:'contactsCtrl',
                 controllerAs: 'vm'
             })
             .when('/diary', {
                 templateUrl:'templates/diary/diary.html',
-                controller:'homeCtrl',
+                controller:'diaryCtrl',
                 controllerAs: 'vm'
             })
             .when('/password', {
                 templateUrl:'templates/password/password.html',
-                controller:'homeCtrl',
+                controller:'passwordCtrl',
                 controllerAs: 'vm'
             })
             .when('/task', {
-                templateUrl:'templates/task/task-home.html',
-                controller:'homeCtrl',
+                templateUrl:'templates/task/task.html',
+                controller:'taskCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/task/short', {
+                templateUrl:'templates/task/short-task.html',
+                controller:'taskCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/task/event', {
+                templateUrl:'templates/task/event.html',
+                controller:'taskCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/task/category', {
+                templateUrl:'templates/task/category-task.html',
+                controller:'taskCtrl',
                 controllerAs: 'vm'
             })
             .when('/about', {
                 templateUrl:'templates/about.html',
-                controller:'homeCtrl',
+                controller:'accountsCtrl',
                 controllerAs: 'vm'
             })
             .otherwise({

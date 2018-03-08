@@ -2,17 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Invoice</title>
+    <title>{{ vm.title }}</title>
 </head>
 <body>
     <h1 class="page-header">Invoice <small><span class="glyphicon glyphicon-usd"></span></small></h1>
     <ul class="nav nav-tabs">
-        <li><a href="#">My budget</a></li>
-        <li class="active"><a href="#">Invoice</a></li>
-        <li><a href="#">Budget Account</a></li>
-        <li><a href="#">Currency</a></li>
-        <li><a href="#">Category budget</a></li>
+        <li><a href="#!/budget">My budget</a></li>
+        <li class="active"><a href="#!/budget/invoice">Invoice</a></li>
+        <li><a href="#!/budget/account">Budget Account</a></li>
+        <li><a href="#!/budget/currency">Currency</a></li>
+        <li><a href="#!/budget/category">Category budget</a></li>
     </ul>
+    <button type="button" class="btn btn-info" ng-click="listInvoice()">List
+        <span class="glyphicon glyphicon-refresh"></span></button>
+    <button type="button" class="btn btn-success" ng-click="addInvoice()">Add
+        <span class="glyphicon glyphicon-plus"></span></button>
     <div class="table-responsive">
         <table class="table table-striped">
             <tr>
@@ -23,54 +27,51 @@
                 <th>Budget account</th>
                 <th>Category</th>
                 <th>Creation data</th>
+                <th ng-hide="true">Description</th>
+                <th>Edit</th>
+                <th>Delete</th>
             </tr>
-            <tr>
-                <td>1</td>
-                <td>USD</td>
-                <td>150</td>
-                <td>Income</td>
-                <td>my card (usd)</td>
-                <td>home</td>
-                <td>20/10/2018</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>USD</td>
-                <td>230</td>
-                <td>Outcome</td>
-                <td>work card</td>
-                <td>work</td>
-                <td>28/02/2018</td>
+            <tr ng-repeat="item in listInv">
+                <td>{{ item.id }}</td>
+                <td>{{ item.currency }}</td>
+                <td>{{ item.amount }}</td>
+                <td>{{ item.transaction_type }}</td>
+                <td>{{ item.budget_account }}</td>
+                <td>{{ item.category }}</td>
+                <td>{{ item.creation_date }}</td>
+                <td ng-hide="true">{{ item.description }}</td>
+                <td><button type="button" class="btn btn-info" ng-click="editInvoice(item)">
+                    <span class="glyphicon glyphicon-pencil"></span></button></td>
+                <td><button type="button" class="btn btn-danger" ng-click="deleteInvoice(item.id)">
+                    <span class="glyphicon glyphicon-remove"></span></button></td>
             </tr>
         </table>
     </div>
-    <div class="btn-group">
-      <button type="button" class="btn btn-info">View</button>
-      <button type="button" class="btn btn-warning">Edit</button>
-      <button type="button" class="btn btn-danger">Delete</button>
-    </div>
-        <h3>Add form</h3>
-    <div>
+    <div ng-if="addItemState || editItemState">
+        <h3>{{ edit_status }}</h3>
         <form role="form">
             <div class="col-md-3">
-                Currency<input type="text" class="form-control" placeholder="Currency">
+                Currency<input type="text" class="form-control" ng-model="invoice.currency">
             </div>
             <div class="col-md-3">
-                Amount<input type="text" class="form-control" placeholder="Amount">
+                Amount<input type="text" class="form-control" ng-model="invoice.amount">
             </div>
             <div class="col-md-3">
-                Transaction type<input type="text" class="form-control" placeholder="Transaction type">
+                Transaction type<input type="text" class="form-control" ng-model="invoice.transaction_type">
             </div>
             <div class="col-md-3">
-                Budget account<input type="text" class="form-control" placeholder="Budget account">
+                Budget account<input type="text" class="form-control" ng-model="invoice.budget_account">
             </div>
             <div class="col-md-3">
-                Category<input type="text" class="form-control" placeholder="Category">
+                Category<input type="text" class="form-control" ng-model="invoice.category">
             </div>
             <div class="col-md-6">
-                Description<input type="text" class="form-control" placeholder="Description">
+                Description<input type="text" class="form-control" ng-model="invoice.description">
             </div>
-            <button type="button" class="btn btn-success">Add invoice</button>
+            <button type="button" class="btn btn-success" ng-click="createInvoice()" ng-if="addItemState">
+                Add invoice</button>
+            <button type="button" class="btn btn-success" ng-click="updateInvoice()" ng-if="editItemState">
+                Save invoice</button>
         </form>
     </div>
 </body>

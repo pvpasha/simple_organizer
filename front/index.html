@@ -1,33 +1,29 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="app" ng-controller="homeCtrl as vm">
+<html lang="en" ng-app="app" ng-controller="accountsCtrl as vm">
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
-<!-- Favicon -->
     <link rel="icon" type="image/png" sizes="16x16" href="img/icon_team_16x16.png">
-<!-- bootstrap CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-  integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-  integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-<!-- Font -->
-<!-- JS files loading -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-route.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <script src="js/jQuery/jquery-3.3.1.min.js"></script>
+    <script src="js/angularJs/angular.min.js"></script>
+    <script src="js/angularJs/angular-route.min.js"></script>
+    <script src="js/angularJs/ngStorage.min.js"></script>
+    <script src="js/angularJs/ui-bootstrap.min.js"></script>
 <!-- Modules -->
     <script src="js/app.js"></script>
-<!-- Controllers -->
-    <script src="js/homeCtrl.js"></script>
 <!-- Config -->
     <script src="js/routeConfig.js"></script>
-<!-- Module  Accounts-->
+<!-- Modules -->
     <script src="js/accounts/accountsCtrl.js"></script>
     <script src="js/accounts/accountsService.js"></script>
     <script src="js/accounts/accountsFactory.js"></script>
+<!-- Title -->
     <title>{{ vm.title }}</title>
 </head>
 <body>
+  <div class="container-fluid">
     <!-- Header -->
     <div class="navbar navbar-default">
         <div class="navbar-header">
@@ -45,32 +41,27 @@
             <li><a href="#!about">About</a></li>
         </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#!profile">Hello, {{ username() }}</a></li>
-                <li><a href="#!logout">Log Out</a></li>
-                <li><a href="#!sing-up">Sing Up</a></li>
-                <li><a href="#!sing-in">Sing In</a></li>
+                <li><a href="#!profile" ng-click="userProfile()" ng-if="status_user()">Hello, {{ username() }}</a></li>
+                <li><a href="" ng-click="logOut()" ng-if="status_user()">Log Out
+                <span class="glyphicon glyphicon-off"></span></a></li>
+                <li><a href="#!sing-up" ng-hide="status_user()">Sing Up</a></li>
+                <li><a href="#!sing-in" ng-hide="status_user()">Sing In</a></li>
             </ul>
         </div>
     </div>
     <!-- Header End -->
     <div class="row">
-        <!-- Left-side menu -->
-        <div class="col-md-2">
-            <div class="list-group">
-                <a class="list-group-item active" align="center"><span class="glyphicon glyphicon-cog"></span>
-                    Your services</a>
-                <a href="#!budget" class="list-group-item"><span class="glyphicon glyphicon-usd"></span>
-                    Budget</a>
-                <a href="#!contacts" class="list-group-item"><span class="glyphicon glyphicon-earphone"></span>
-                    Contacts</a>
-                <a href="#!diary" class="list-group-item"><span class="glyphicon glyphicon-pencil"></span>
-                    Diary</a>
-                <a href="#!password" class="list-group-item"><span class="glyphicon glyphicon-asterisk"></span>
-                    Password Organizer</a>
-                <a href="#!task" class="list-group-item"><span class="glyphicon glyphicon-check"></span>
-                    Task</a>
-            </div>
+    <!-- Left-side menu -->
+      <div class="col-md-2">
+        <div class="list-group">
+          <a class="list-group-item active" align="center"><span class="glyphicon glyphicon-cog"></span>  Your services</a>
+            <a href="#!budget" class="list-group-item"><span class="glyphicon glyphicon-usd"></span>  Budget</a>
+            <a href="#!contacts" class="list-group-item"><span class="glyphicon glyphicon-earphone"></span>  Contacts</a>
+            <a href="#!diary" class="list-group-item"><span class="glyphicon glyphicon-pencil"></span>  Diary</a>
+            <a href="#!password" class="list-group-item"><span class="glyphicon glyphicon-asterisk"></span>  Password</a>
+            <a href="#!task/short" class="list-group-item"><span class="glyphicon glyphicon-check"></span>  Task</a>
         </div>
+      </div>
     <!-- Content -->
         <div class="col-md-10">
     <!-- ng-view -->
@@ -79,15 +70,32 @@
     </div>
     <!-- End Content -->
     <!-- Footer -->
+    <hr>
     <div class="row well">
         <div class="col-md-12 text-center" >
             <img src="img/icon_team_50x50.png" alt="Logo"><br>
-            <h6><b>{{ team | uppercase }} &copy {{ today | date:'yyyy'}}</b></h6><br>
-            <h6>{{ brand }}</h6><br>
-            <h6><b>Powered by</b><i> Oleksandr K. and <a href="https://github.com/m-pasha" class="navbar-link">
-                Pasha M.</a></i></h6><br>
+            <h6><b>{{ brand | uppercase }} &copy {{ today | date:'yyyy'}}</b></h6><br>
+            <div class="col-md-2 col-md-offset-10"><h6>version: <i>{{ version }}</i></h6></div>
+            <h6><b>Powered by </b><i>{{ team | uppercase}}</i></h6><br>
         </div>
     </div>
     <!-- End Footer -->
+  </div>
+<!-- Modules -->
+    <script src="js/contacts/contactsCtrl.js"></script>
+    <script src="js/contacts/contactsService.js"></script>
+    <script src="js/contacts/contactsFactory.js"></script>
+    <script src="js/diary/diaryCtrl.js"></script>
+    <script src="js/diary/diaryService.js"></script>
+    <script src="js/diary/diaryFactory.js"></script>
+    <script src="js/password/passwordCtrl.js"></script>
+    <script src="js/password/passwordService.js"></script>
+    <script src="js/password/passwordFactory.js"></script>
+    <script src="js/task/taskCtrl.js"></script>
+    <script src="js/task/taskService.js"></script>
+    <script src="js/task/taskFactory.js"></script>
+    <script src="js/budget/budgetCtrl.js"></script>
+    <script src="js/budget/budgetService.js"></script>
+    <script src="js/budget/budgetFactory.js"></script>
 </body>
 </html>

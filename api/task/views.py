@@ -70,7 +70,7 @@ class ShortTaskListView(ListAPIView):
 
     def get_queryset(self):
         try:
-            return ShortTask.objects.filter(owner=self.request.user.id)
+            return ShortTask.objects.get(owner=self.request.user.id)
         except ObjectDoesNotExist:
             logger.error('Object not found for user with ID #%s in short_task_list_view' % self.request.user.id)
             raise exceptions.NotFound('Object with NotFound')

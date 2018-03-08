@@ -18,6 +18,13 @@ class UserListSerializer(serializers.ModelSerializer):
         fields = ('id', 'email', 'username', 'second_name')
 
 
+class UserProfileViewSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = OrganizerUser
+        fields = ('email', 'username', 'second_name', 'avatar')
+
+
 class UserProfileSerializer(serializers.ModelSerializer):
     password = serializers.CharField(max_length=30)
 
