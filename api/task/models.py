@@ -9,7 +9,7 @@ class CategoryTask(models.Model):
     title = models.CharField(max_length=50)
 
     def __str__(self):
-        return "%d - %s" % (self.pk, self.title)
+        return self.title
 
 
 class AbstractTask(models.Model):
@@ -26,7 +26,7 @@ class ShortTask(AbstractTask):
     finished = models.BooleanField(default=False)
 
     def __str__(self):
-        return "%d - %s" % (self.pk, self.title)
+        return self.title
 
 
 class Task(AbstractTask):
@@ -37,7 +37,7 @@ class Task(AbstractTask):
     reminder_date = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
-        return "%d - %s" % (self.pk, self.title)
+        return self.title
 
 
 class Event(AbstractTask):
@@ -46,4 +46,4 @@ class Event(AbstractTask):
     reminder_date = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
-        return "%d - %s" % (self.pk, self.title)
+        return self.title

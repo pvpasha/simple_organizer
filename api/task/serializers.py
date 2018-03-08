@@ -21,6 +21,7 @@ class ShortTaskSerializer(serializers.ModelSerializer):
 
 class TaskSerializer(serializers.ModelSerializer):
     owner = serializers.PrimaryKeyRelatedField(read_only=True)
+    category = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Task

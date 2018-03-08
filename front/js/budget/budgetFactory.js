@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('invoice')
+        .module('budget')
         .factory('InvoiceListFactory', InvoiceListFactory)
         .factory('InvoiceByIdFactory', InvoiceByIdFactory)
         .factory('BudgetAccountListFactory', BudgetAccountListFactory)

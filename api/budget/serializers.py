@@ -21,6 +21,7 @@ class CategoryBudgetSerializer(serializers.ModelSerializer):
 
 class BudgetAccountSerializer(serializers.ModelSerializer):
     owner = serializers.PrimaryKeyRelatedField(read_only=True)
+    currency = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = BudgetAccount
@@ -29,6 +30,10 @@ class BudgetAccountSerializer(serializers.ModelSerializer):
 
 class InvoiceSerializer(serializers.ModelSerializer):
     owner = serializers.PrimaryKeyRelatedField(read_only=True)
+    currency = serializers.StringRelatedField(read_only=True)
+    transaction_type = serializers.StringRelatedField(read_only=True)
+    category = serializers.StringRelatedField(read_only=True)
+    budget_account = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Invoice

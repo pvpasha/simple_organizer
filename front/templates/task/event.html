@@ -24,17 +24,15 @@
                 <th>Starting date</th>
                 <th>Finishing date</th>
                 <th>Reminder date</th>
-                <th ng-hide="true">Body</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
             <tr ng-repeat="item in listE">
                 <td>{{ item.id }}</td>
                 <td>{{ item.title }}</td>
-                <td>{{ item.event_date_start }}</td>
-                <td>{{ item.event_date_finish }}</td>
-                <td>{{ item.reminder_date }}</td>
-                <td ng-hide="true">{{ item.body }}</td>
+                <td>{{ item.event_date_start | date:'yyyy-MM-dd' }}</td>
+                <td>{{ item.event_date_finish | date:'yyyy-MM-dd' }}</td>
+                <td>{{ item.reminder_date | date:'yyyy-MM-dd' }}</td>
                 <td><button type="button" class="btn btn-info" ng-click="editEvent(item)">
                     <span class="glyphicon glyphicon-pencil"></span></button></td>
                 <td><button type="button" class="btn btn-danger" ng-click="deleteEvent(item.id)">

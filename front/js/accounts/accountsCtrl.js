@@ -18,9 +18,7 @@
         $scope.team = 'SP Team';
         $scope.brand = 'Simple Organizer'
         $scope.version = 'beta 0.01';
-
-        var date = new Date();
-        $scope.today = date;
+        $scope.today = new Date();
 
         $scope.userdata = {
             email: 'pvpasha@meta.ua',

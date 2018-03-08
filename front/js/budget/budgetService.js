@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('invoice')
+        .module('budget')
         .service('InvoiceByIdService', InvoiceByIdService)
         .service('BudgetAccountByIdService', BudgetAccountByIdService)
         .service('BudgetCategoryByIdService', BudgetCategoryByIdService)

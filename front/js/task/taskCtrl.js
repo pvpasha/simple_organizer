@@ -3,10 +3,12 @@
 
     angular
         .module('task')
-        .controller('taskCtrl', taskCtrl);
+        .controller('shortTaskCtrl', shortTaskCtrl)
+        .controller('taskCtrl', taskCtrl)
+        .controller('eventCtrl', eventCtrl)
+        .controller('catTaskCtrl', catTaskCtrl);
 
-    function taskCtrl($scope, $http, ShortTaskListFactory, ShortTaskByIdService, TaskListFactory, TaskByIdService,
-                        EventListFactory, EventByIdService, CategoryTaskListFactory, CategoryTaskByIdService) {
+    function shortTaskCtrl($scope, $http, ShortTaskListFactory, ShortTaskByIdService) {
 
         initCtrl();
 
@@ -14,24 +16,15 @@
             ShortTaskListFactory.get().then(function(resp) {
                 $scope.listST = resp;
             });
-            TaskListFactory.get().then(function(resp) {
-                $scope.listT = resp;
-            });
-            EventListFactory.get().then(function(resp) {
-                $scope.listE = resp;
-            });
-            CategoryTaskListFactory.get().then(function(resp) {
-                $scope.listCT = resp;
-            });
         };
 
-        this.title = 'Task'
+        this.title = 'Short Task'
 
         $scope.editTaskState = false;
         $scope.addTaskState = false;
         $scope.edit_status = '';
 
-        $scope.shortTask = {                    //ShortTask
+        $scope.shortTask = {
             title: '',
             body: '',
             finished: ''
@@ -77,7 +70,24 @@
                 $scope.listST = resp;
             });
         };
-        $scope.task = {                    //Task
+    }
+    function taskCtrl($scope, $http, TaskListFactory, TaskByIdService) {
+
+        initCtrl();
+
+        function initCtrl(){
+            TaskListFactory.get().then(function(resp) {
+                $scope.listT = resp;
+            });
+        };
+
+        this.title = 'Task'
+
+        $scope.editTaskState = false;
+        $scope.addTaskState = false;
+        $scope.edit_status = '';
+
+        $scope.task = {
             title: '',
             body: '',
             category: '',
@@ -135,7 +145,24 @@
                 $scope.listS = resp;
             });
         };
-        $scope.event = {                    //Event
+    }
+    function eventCtrl($scope, $http, EventListFactory, EventByIdService) {
+
+        initCtrl();
+
+        function initCtrl(){
+//            EventListFactory.get().then(function(resp) {
+//                $scope.listE = resp;
+//            });
+        };
+
+        this.title = 'Event'
+
+        $scope.editTaskState = false;
+        $scope.addTaskState = false;
+        $scope.edit_status = '';
+
+        $scope.event = {
             title: '',
             body: '',
             event_date_start: '',
@@ -187,7 +214,24 @@
                 $scope.listE = resp;
             });
         };
-        $scope.categoryTask = {title: ''};          //Category
+    }
+    function catTaskCtrl($scope, $http, CategoryTaskListFactory, CategoryTaskByIdService) {
+
+        initCtrl();
+
+        function initCtrl(){
+            CategoryTaskListFactory.get().then(function(resp) {
+                $scope.listCT = resp;
+            });
+        };
+
+        this.title = 'Category Task'
+
+        $scope.editTaskState = false;
+        $scope.addTaskState = false;
+        $scope.edit_status = '';
+
+        $scope.categoryTask = {title: ''};
         $scope.listCategoryTask = function() {
             CategoryTaskListFactory.get().then(function(resp) {
                 $scope.listCT = resp;
@@ -221,6 +265,5 @@
                 $scope.listCT = resp;
             });
         };
-
     }
 })();

@@ -17,7 +17,7 @@ class CategoryBudget(models.Model):
     title = models.CharField(max_length=50)
 
     def __str__(self):
-        return "%d - %s" % (self.pk, self.title)
+        return self.title
 
 
 class BudgetAccount(models.Model):
@@ -37,8 +37,8 @@ class Invoice(models.Model):
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
     amount = models.IntegerField(null=True, blank=True, default=0)
 
-    INCOME = 1
-    OUTCOME = 0
+    INCOME = True
+    OUTCOME = False
 
     TT_CHOICES = (
         (INCOME, 'Income'),
@@ -49,3 +49,5 @@ class Invoice(models.Model):
     description = models.CharField(max_length=250)
     budget_account = models.ForeignKey(BudgetAccount, on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
+    # TODO: make 'transaction_type' return 'INCOME' text
+

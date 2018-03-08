@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/sticky-footer.css">
     <script src="js/jQuery/jquery-3.3.1.min.js"></script>
     <script src="js/angularJs/angular.min.js"></script>
     <script src="js/angularJs/angular-route.min.js"></script>
@@ -54,7 +55,7 @@
     <!-- Left-side menu -->
       <div class="col-md-2">
         <div class="list-group">
-          <a class="list-group-item active" align="center"><span class="glyphicon glyphicon-cog"></span>  Your services</a>
+          <a class="list-group-item active text-center"><span class="glyphicon glyphicon-cog"></span>  Your services</a>
             <a href="#!budget" class="list-group-item"><span class="glyphicon glyphicon-usd"></span>  Budget</a>
             <a href="#!contacts" class="list-group-item"><span class="glyphicon glyphicon-earphone"></span>  Contacts</a>
             <a href="#!diary" class="list-group-item"><span class="glyphicon glyphicon-pencil"></span>  Diary</a>
@@ -68,10 +69,10 @@
             <div class="ng-view"></div>
         </div>
     </div>
+      <hr>
     <!-- End Content -->
     <!-- Footer -->
-    <hr>
-    <div class="row well">
+    <div class="row well" id="footer">
         <div class="col-md-12 text-center" >
             <img src="img/icon_team_50x50.png" alt="Logo"><br>
             <h6><b>{{ brand | uppercase }} &copy {{ today | date:'yyyy'}}</b></h6><br>

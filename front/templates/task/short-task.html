@@ -23,16 +23,14 @@
                 <th>Title</th>
                 <th>Creation date</th>
                 <th>Finished</th>
-                <th ng-hide="true">Body</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
             <tr ng-repeat="item in listST">
                 <td>{{ item.id }}</td>
                 <td>{{ item.title }}</td>
-                <td>{{ item.creation_date }}</td>
+                <td>{{ item.creation_date | date:'yyyy-MM-dd' }}</td>
                 <td>{{ item.finished }}</td>
-                <td ng-hide="true">{{ item.body }}</td>
                 <td> <button type="button" class="btn btn-info" ng-click="editShortTask(item)">
                     <span class="glyphicon glyphicon-pencil"></span></button></td>
                 <td> <button type="button" class="btn btn-danger" ng-click="deleteShortTask(item.id)">

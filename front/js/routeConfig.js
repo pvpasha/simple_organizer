@@ -38,22 +38,22 @@ angular
             })
             .when('/budget/invoice', {
                 templateUrl:'templates/budget/invoice.html',
-                controller:'budgetCtrl',
+                controller:'invoiceCtrl',
                 controllerAs: 'vm'
             })
             .when('/budget/account', {
                 templateUrl:'templates/budget/budget-account.html',
-                controller:'budgetCtrl',
+                controller:'budgetAcCtrl',
                 controllerAs: 'vm'
             })
             .when('/budget/currency', {
                 templateUrl:'templates/budget/currency.html',
-                controller:'budgetCtrl',
+                controller:'currencyCtrl',
                 controllerAs: 'vm'
             })
             .when('/budget/category', {
                 templateUrl:'templates/budget/budget-category.html',
-                controller:'budgetCtrl',
+                controller:'budgetCatCtrl',
                 controllerAs: 'vm'
             })
             .when('/contacts', {
@@ -78,17 +78,17 @@ angular
             })
             .when('/task/short', {
                 templateUrl:'templates/task/short-task.html',
-                controller:'taskCtrl',
+                controller:'shortTaskCtrl',
                 controllerAs: 'vm'
             })
             .when('/task/event', {
                 templateUrl:'templates/task/event.html',
-                controller:'taskCtrl',
+                controller:'eventCtrl',
                 controllerAs: 'vm'
             })
             .when('/task/category', {
                 templateUrl:'templates/task/category-task.html',
-                controller:'taskCtrl',
+                controller:'catTaskCtrl',
                 controllerAs: 'vm'
             })
             .when('/about', {

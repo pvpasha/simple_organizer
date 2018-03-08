@@ -27,7 +27,6 @@
                 <th>Budget account</th>
                 <th>Category</th>
                 <th>Creation data</th>
-                <th ng-hide="true">Description</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
@@ -38,8 +37,7 @@
                 <td>{{ item.transaction_type }}</td>
                 <td>{{ item.budget_account }}</td>
                 <td>{{ item.category }}</td>
-                <td>{{ item.creation_date }}</td>
-                <td ng-hide="true">{{ item.description }}</td>
+                <td>{{ item.creation_date | date:'yyyy-MM-dd' }}</td>
                 <td><button type="button" class="btn btn-info" ng-click="editInvoice(item)">
                     <span class="glyphicon glyphicon-pencil"></span></button></td>
                 <td><button type="button" class="btn btn-danger" ng-click="deleteInvoice(item.id)">

@@ -3,28 +3,17 @@
 
     angular
         .module('budget')
-        .controller('budgetCtrl', budgetCtrl);
+        .controller('budgetCtrl', budgetCtrl)
+        .controller('invoiceCtrl', invoiceCtrl)
+        .controller('budgetAcCtrl', budgetAcCtrl)
+        .controller('budgetCatCtrl', budgetCatCtrl)
+        .controller('currencyCtrl', currencyCtrl);
 
-    function budgetCtrl($scope, $http, InvoiceListFactory, InvoiceByIdService, BudgetAccountListFactory,
-                        BudgetAccountByIdService, BudgetCategoryListFactory, BudgetCategoryByIdService,
-                        CurrencyListFactory, CurrencyByIdService,) {
+    function budgetCtrl($scope, $http) {
 
         initCtrl();
 
         function initCtrl(){
-            InvoiceListFactory.get().then(function(resp) {
-                $scope.listInv = resp;
-            });
-            BudgetAccountListFactory.get().then(function(resp) {
-                $scope.listBA = resp;
-            });
-            BudgetCategoryListFactory.get().then(function(resp) {
-                $scope.listBC = resp;
-            });
-            CurrencyListFactory.get().then(function(resp) {
-                $scope.listC = resp;
-            });
-
         };
 
         this.title = 'Budget'
@@ -32,8 +21,24 @@
         $scope.editItemState = false;
         $scope.addItemState = false;
         $scope.edit_status = '';
+    }
+    function invoiceCtrl($scope, $http, InvoiceListFactory, InvoiceByIdService) {
 
-        $scope.invoice = {              //Invoice
+        initCtrl();
+
+        function initCtrl(){
+            InvoiceListFactory.get().then(function(resp) {
+                $scope.listInv = resp;
+            });
+        };
+
+        this.title = 'Invoice'
+
+        $scope.editItemState = false;
+        $scope.addItemState = false;
+        $scope.edit_status = '';
+
+        $scope.invoice = {
             currency: '',
             amount: '',
             transaction_type: '',
@@ -88,7 +93,24 @@
                 $scope.listInv = resp;
             });
         };
-        $scope.budgetAccount = {              //Budget-Account
+    }
+    function budgetAcCtrl($scope, $http, BudgetAccountListFactory, BudgetAccountByIdService) {
+
+        initCtrl();
+
+        function initCtrl(){
+            BudgetAccountListFactory.get().then(function(resp) {
+                $scope.listBA = resp;
+            });
+        };
+
+        this.title = 'Budget Account'
+
+        $scope.editItemState = false;
+        $scope.addItemState = false;
+        $scope.edit_status = '';
+
+        $scope.budgetAccount = {
             currency: '',
             amount: '',
             name: '',
@@ -140,7 +162,24 @@
                 $scope.listBA = resp;
             });
         };
-        $scope.budgetCategory = {title: ''};                //Budget-Category
+    }
+    function budgetCatCtrl($scope, $http, BudgetCategoryListFactory, BudgetCategoryByIdService) {
+
+        initCtrl();
+
+        function initCtrl(){
+            BudgetCategoryListFactory.get().then(function(resp) {
+                $scope.listBC = resp;
+            });
+        };
+
+        this.title = 'Budget Category'
+
+        $scope.editItemState = false;
+        $scope.addItemState = false;
+        $scope.edit_status = '';
+
+        $scope.budgetCategory = {title: ''};
         $scope.listBudgetCategory = function() {
             BudgetCategoryListFactory.get().then(function(resp) {
                 $scope.listBC = resp;
@@ -174,7 +213,24 @@
                 $scope.listBC = resp;
             });
         };
-        $scope.currency = {                   //Currency
+    }
+    function currencyCtrl($scope, $http, CurrencyListFactory, CurrencyByIdService) {
+
+        initCtrl();
+
+        function initCtrl(){
+            CurrencyListFactory.get().then(function(resp) {
+                $scope.listC = resp;
+            });
+        };
+
+        this.title = 'Currency'
+
+        $scope.editItemState = false;
+        $scope.addItemState = false;
+        $scope.edit_status = '';
+
+        $scope.currency = {
             name: '',
             short_name: ''
             };

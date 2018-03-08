@@ -26,7 +26,7 @@
                 <th>Finishing date</th>
                 <th>Reminder date</th>
                 <th>Finished</th>
-                <th ng-hide="true">Body</th>
+
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
@@ -34,11 +34,11 @@
                 <td>{{ item.id }}</td>
                 <td>{{ item.title }}</td>
                 <td>{{ item.category }}</td>
-                <td>{{ item.starting_date }}</td>
-                <td>{{ item.finishing_date }}</td>
+                <td>{{ item.starting_date | date:'yyyy-MM-dd' }}</td>
+                <td>{{ item.finishing_date | date:'yyyy-MM-dd' }}</td>
+                <td>{{ item.reminder_date | date:'yyyy-MM-dd' }}</td>
                 <td>{{ item.finished }}</td>
-                <td>{{ item.reminder_date }}</td>
-                <td ng-hide="true">{{ item.body }}</td>
+
                 <td><button type="button" class="btn btn-info" ng-click="editTask(item)">
                     <span class="glyphicon glyphicon-pencil"></span></button></td>
                 <td><button type="button" class="btn btn-danger" ng-click="deleteTask(item.id)">
