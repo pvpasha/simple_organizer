@@ -57,7 +57,7 @@
     function EventListFactory($http) {
         return {
             get: function() {
-                return $http.get('http://localhost:8000/task/event-list/')
+                return $http.get('http://localhost:8000/task/event-list')
                 .then(function(response){
                     console.log('Get Event List OK!')
                     return response.data.results
@@ -68,7 +68,7 @@
     function EventByIdFactory($http) {
         return {
             get: function(id) {
-                return $http.get('http://localhost:8000/task/event-' + id + '/')
+                return $http.get('http://localhost:8000/task/event-' + id)
                 .then(function(response) {
                     return response.data
                 })

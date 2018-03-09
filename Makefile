@@ -8,7 +8,7 @@ up:
 
 init:
 	docker-compose up -d
-	docker exec -it devbuild_api_1 python manage.py makemigrations accounts diary task password budget contacts
+	docker exec -it devbuild_api_1 python manage.py makemigrations accounts diary task password budget contacts thumbnail
 	docker exec -it devbuild_api_1 python manage.py migrate
 	docker exec -it devbuild_api_1 python manage.py collectstatic --noinput
 	docker-compose stop

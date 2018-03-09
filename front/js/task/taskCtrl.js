@@ -151,9 +151,9 @@
         initCtrl();
 
         function initCtrl(){
-//            EventListFactory.get().then(function(resp) {
-//                $scope.listE = resp;
-//            });
+            EventListFactory.get().then(function(resp) {
+                $scope.listE = resp;
+            });
         };
 
         this.title = 'Event'

@@ -10,7 +10,9 @@
         .factory('BudgetCategoryListFactory', BudgetCategoryListFactory)
         .factory('BudgetCategoryByIdFactory', BudgetCategoryByIdFactory)
         .factory('CurrencyListFactory', CurrencyListFactory)
-        .factory('CurrencyByIdFactory', CurrencyByIdFactory);
+        .factory('CurrencyByIdFactory', CurrencyByIdFactory)
+        .factory('TotalAmountByBAListFactory', TotalAmountByBAListFactory)
+        .factory('TotalAmountFactory', TotalAmountFactory);
 
     function InvoiceListFactory($http) {
         return {
@@ -92,6 +94,28 @@
                 return $http.get('http://localhost:8000/budget/currency-' + id + '/')
                 .then(function(response) {
                     return response.data
+                })
+            }
+        }
+    }
+    function TotalAmountByBAListFactory($http) {
+        return {
+            get: function() {
+                return $http.get('http://localhost:8000/budget/total-amount-b-a-list/')
+                .then(function(resp) {
+                console.log('Get TotalAmountByBAList OK!')
+                return resp.data
+                })
+            }
+        }
+    }
+    function TotalAmountFactory($http) {
+        return {
+            get: function() {
+                return $http.get('http://localhost:8000/budget/total-amount/')
+                .then(function(resp) {
+                console.log('Get TotalAmount OK!')
+                return resp.data
                 })
             }
         }

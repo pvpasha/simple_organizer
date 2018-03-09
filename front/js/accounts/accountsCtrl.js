@@ -21,8 +21,8 @@
         $scope.today = new Date();
 
         $scope.userdata = {
-            email: 'pvpasha@meta.ua',
-            password: 'pasha123'
+            email: '',
+            password: ''
         };
         $scope.username = function() {
             if ($localStorage.currentUser){

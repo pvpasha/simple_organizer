@@ -13,30 +13,26 @@
         <li><a href="#!/budget/currency">Currency</a></li>
         <li><a href="#!/budget/category">Category budget</a></li>
     </ul>
+    <button type="button" class="btn btn-info" ng-click="totalAmountByBAList() && totalAmount()">List
+        <span class="glyphicon glyphicon-refresh"></span></button>
     <div class="table-responsive">
         <table class="table table-striped">
             <tr>
-                <th>Account</th>
+                <th>#</th>
+                <th>#</th>
                 <th>Amount</th>
             </tr>
             <tr>
-                <td>USD</td>
-                <td>2088</td>
+                <td ng-model="totalAmountBAValue">budget_account_id: {{ totalAmountBAValue.budget_account_id }}</td>
+                <td ng-model="totalAmountBAValue">total_invoices_in_acc: {{ totalAmountBAValue.total_invoices }}</td>
+                <td ng-model="totalAmountBAValue">total: {{ totalAmountBAValue.total }}</td>
             </tr>
             <tr>
-                <td>EUR</td>
-                <td>158</td>
-            </tr>
-            <tr>
-                <td><b>Total: </b></td>
-                <td><b>0</b></td>
+                <td></td>
+                <td ng-model="totalAmountValue">invoices_processed: {{ totalAmountValue.total_invoices }}</td>
+                <td ng-model="totalAmountValue"><b>Total: {{ totalAmountValue.total }}</b></td>
             </tr>
         </table>
-    </div>
-    <div class="btn-group">
-      <button type="button" class="btn btn-info">View</button>
-      <button type="button" class="btn btn-warning">Edit</button>
-      <button type="button" class="btn btn-danger">Delete</button>
     </div>
 </body>
 </html>

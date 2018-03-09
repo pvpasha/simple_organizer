@@ -9,11 +9,17 @@
         .controller('budgetCatCtrl', budgetCatCtrl)
         .controller('currencyCtrl', currencyCtrl);
 
-    function budgetCtrl($scope, $http) {
+    function budgetCtrl($scope, $http, TotalAmountFactory, TotalAmountByBAListFactory) {
 
         initCtrl();
 
         function initCtrl(){
+            TotalAmountFactory.get().then(function(resp) {
+                $scope.totalAmountValue = resp;
+            });
+            TotalAmountByBAListFactory.get().then(function(resp) {
+                $scope.totalAmountBAValue = resp;
+            });
         };
 
         this.title = 'Budget'
@@ -21,6 +27,17 @@
         $scope.editItemState = false;
         $scope.addItemState = false;
         $scope.edit_status = '';
+
+        $scope.totalAmountByBAList = function() {
+            TotalAmountByBAListFactory.get().then(function(resp) {
+                $scope.totalAmountBAValue = resp;
+            });
+        };
+        $scope.totalAmount = function() {
+            TotalAmountFactory.get().then(function(resp) {
+                $scope.totalAmountValue = resp;
+            });
+        };
     }
     function invoiceCtrl($scope, $http, InvoiceListFactory, InvoiceByIdService) {
 
