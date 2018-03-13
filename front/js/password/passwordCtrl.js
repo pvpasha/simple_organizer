@@ -64,6 +64,14 @@
                 $scope.items = resp;
             });
         };
+        $scope.cancel = function() {
+            $scope.editPasswordState = false
+            $scope.addPasswordState = false
+            $scope.password = {
+                resource_url: '',
+                password_res: ''
+            };
+        };
 
     }
 })();

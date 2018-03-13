@@ -29,11 +29,11 @@
                 <td>{{ item.phone }}</td>
                 <td>{{ item.email_address }}</td>
                 <td>{{ item.home_address }}</td>
-                <td>{{ item.birthday | date:'dd-MM-yyyy' }}</td>
-                <td>{{ item.add_reminder }}</td>
-                <td> <button type="button" class="btn btn-info" ng-click="editContact(item)">
+                <td>{{ item.birthday | date:'dd.MM.yyyy'}}</td>
+                <td><span class="{{ item.add_reminder | addReminder }}"></span></td>
+                <td><button type="button" class="btn btn-info" ng-click="editContact(item)">
                     <span class="glyphicon glyphicon-pencil"></span></button></td>
-                <td> <button type="button" class="btn btn-danger" ng-click="delete(item.id)">
+                <td><button type="button" class="btn btn-danger" ng-click="delete(item.id)">
                     <span class="glyphicon glyphicon-remove"></span></button></td>
             </tr>
         </table>
@@ -57,15 +57,16 @@
             <div class="col-md-4">
                 Home address<input type="text" class="form-control" ng-model="contact.home_address">
             </div>
-            <div class="col-md-2">
-                Birthday<input type="date" class="form-control" format="mm/dd/yyyy" ng-model="contact.birthday">
+            <div class="col-md-3">
+                Birthday<input type="date" class="form-control" ng-model="contact.birthday">
             </div>
             <div class="checkbox">
                 <label><input type="checkbox" value="" ng-model="contact.add_reminder">Add reminder</label>
             </div>
-
             <button type="button" class="btn btn-success" ng-click="createItem()" ng-if="addContactState">Add contact</button>
             <button type="button" class="btn btn-success" ng-click="editItem()" ng-if="editContactState">Save contact</button>
+            <button type="button" class="btn btn-warning" ng-click="cancel()" ng-if="editContactState || addContactState">
+                Cancel</button>
         </form>
     </div>
 </body>

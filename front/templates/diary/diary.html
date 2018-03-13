@@ -43,6 +43,8 @@
                 Add diary</button>
             <button type="button" class="btn btn-success" ng-click="updateDiary()" ng-if="editDiaryState">
                 Save diary</button>
+            <button type="button" class="btn btn-warning" ng-click="cancel()" ng-if="addDiaryState || editDiaryState">
+                Cancel</button>
         </form>
     </div>
 </body>

@@ -12,12 +12,12 @@ urlpatterns = [
     url(r'^short-create/$', task_views.ShortTaskCreateView.as_view(), name='short-task-create'),
     url(r'^short-(?P<pk>.+)/$', task_views.ShortTaskRetrieveUpdateDestroyView.as_view(),
         name='short-task-retrieve-update-destroy'),
-    url(r'^list/$', task_views.TaskListView.as_view(), name='task-list'),
-    url(r'^create/$', task_views.TaskCreateView.as_view(), name='task-create'),
-    url(r'^(?P<pk>.+)/$', task_views.TaskRetrieveUpdateDestroyView.as_view(), name='task-retrieve-update-destroy'),
-    url(r'^event-list$', task_views.EventListView.as_view(), name='event-list'),
-    url(r'^event-create$', task_views.EventCreateView.as_view(), name='event-create'),
-    url(r'^event-(?P<pk>.+)$', task_views.EventRetrieveUpdateDestroyView.as_view(),
+    url(r'^task/list/$', task_views.TaskListView.as_view(), name='task-list'),
+    url(r'^task/create/$', task_views.TaskCreateView.as_view(), name='task-create'),
+    url(r'^task/(?P<pk>.+)/$', task_views.TaskRetrieveUpdateDestroyView.as_view(), name='task-retrieve-update-destroy'),
+    url(r'^event-list/$', task_views.EventListView.as_view(), name='event-list'),
+    url(r'^event-create/$', task_views.EventCreateView.as_view(), name='event-create'),
+    url(r'^event-(?P<pk>.+)/$', task_views.EventRetrieveUpdateDestroyView.as_view(),
         name='event-retrieve-update-destroy')
-    # TODO: problem with "event-list" with "/" dont work !&& ('^event-list$')
+
 ]

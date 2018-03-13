@@ -110,6 +110,18 @@
                 $scope.listInv = resp;
             });
         };
+        $scope.cancel = function() {
+            $scope.editItemState = false
+            $scope.addItemState = false
+            $scope.invoice = {
+                currency: '',
+                amount: '',
+                transaction_type: '',
+                category: '',
+                description: '',
+                budget_account: ''
+            };
+        };
     }
     function budgetAcCtrl($scope, $http, BudgetAccountListFactory, BudgetAccountByIdService) {
 
@@ -179,6 +191,17 @@
                 $scope.listBA = resp;
             });
         };
+        $scope.cancel = function() {
+            $scope.editItemState = false
+            $scope.addItemState = false
+            $scope.budgetAccount = {
+                currency: '',
+                amount: '',
+                name: '',
+                short_name: '',
+                description: ''
+            };
+        };
     }
     function budgetCatCtrl($scope, $http, BudgetCategoryListFactory, BudgetCategoryByIdService) {
 
@@ -229,6 +252,11 @@
             BudgetCategoryByIdService.delete(id).then(function(resp) {
                 $scope.listBC = resp;
             });
+        };
+        $scope.cancel = function() {
+            $scope.editItemState = false
+            $scope.addItemState = false
+            $scope.budgetCategory = {title: ''};
         };
     }
     function currencyCtrl($scope, $http, CurrencyListFactory, CurrencyByIdService) {
@@ -289,6 +317,14 @@
             CurrencyByIdService.delete(id).then(function(resp) {
                 $scope.listC = resp;
             });
+        };
+        $scope.cancel = function() {
+            $scope.editItemState = false
+            $scope.addItemState = false
+            $scope.currency = {
+                name: '',
+                short_name: ''
+                };
         };
 
     }

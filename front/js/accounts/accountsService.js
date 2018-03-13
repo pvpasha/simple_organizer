@@ -32,13 +32,11 @@
             getToken(userdata);
             $location.path('/');
         }
-
         function Logout() {
             delete $localStorage.currentUser;
             $http.defaults.headers.common.Authorization = '';
             $location.path('/');
         }
-
         function VerifyToken(data) {
             VerifyTokenFactory.get(data)
                 .then(RefreshTokenFactory.get(data)
@@ -56,7 +54,6 @@
                         console.log('AuthService: VerifyToken ERROR!', error.status);
                     })
         }
-
         function RefreshToken(data) {
             RefreshTokenFactory.get(data)
                 .then(function(resp){
@@ -65,9 +62,13 @@
                     token: resp
                 };
                 $http.defaults.headers.common.Authorization = 'JWT ' + resp;
+                }, function(error) {
+                    delete $localStorage.currentUser;
+                    $http.defaults.headers.common.Authorization = '';
+                    console.log('RefreshToken Error!!!', error.status);
+                    return error.status
                 })
         }
-
         function CheckLocalStorage(data) {
             if ($localStorage.currentUser){
                 RefreshToken(data);
@@ -75,9 +76,5 @@
                 delete $localStorage.currentUser;
             }
         }
-
-
-
-
     }
 })();

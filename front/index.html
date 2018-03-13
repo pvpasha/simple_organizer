@@ -53,19 +53,19 @@
     <!-- Header End -->
     <div class="row">
     <!-- Left-side menu -->
-      <div class="col-md-2">
+      <div class="col-md-2" ng-if="status_user()">
         <div class="list-group">
-          <a class="list-group-item active text-center"><span class="glyphicon glyphicon-cog"></span>  Your services</a>
-            <a href="#!budget" class="list-group-item"><span class="glyphicon glyphicon-usd"></span>  Budget</a>
-            <a href="#!contacts" class="list-group-item"><span class="glyphicon glyphicon-earphone"></span>  Contacts</a>
-            <a href="#!diary" class="list-group-item"><span class="glyphicon glyphicon-pencil"></span>  Diary</a>
-            <a href="#!password" class="list-group-item"><span class="glyphicon glyphicon-asterisk"></span>  Password</a>
-            <a href="#!task/short" class="list-group-item"><span class="glyphicon glyphicon-check"></span>  Task</a>
+          <a class="list-group-item active text-center"><span class="glyphicon glyphicon-cog"></span> Your services</a>
+            <a href="#!budget" class="list-group-item"><span class="glyphicon glyphicon-usd"></span> Budget</a>
+            <a href="#!contacts" class="list-group-item"><span class="glyphicon glyphicon-earphone"></span> Contacts</a>
+            <a href="#!diary" class="list-group-item"><span class="glyphicon glyphicon-pencil"></span> Diary</a>
+            <a href="#!password" class="list-group-item"><span class="glyphicon glyphicon-asterisk"></span> Password</a>
+            <a href="#!task/short" class="list-group-item"><span class="glyphicon glyphicon-check"></span> Task</a>
         </div>
       </div>
     <!-- Content -->
+        <div class="col-md-12" ng-hide="status_user()"><h5 class="alert alert-warning">Hello! Please SignIn or SignUp</h5></div>
         <div class="col-md-10">
-            <div ng-hide="status_user()"><h5 class="alert alert-warning">Hello! Please SignIn or SignUp</h5></div>
     <!-- ng-view -->
             <div class="ng-view"></div>
         </div>
@@ -87,6 +87,7 @@
     <script src="js/contacts/contactsCtrl.js"></script>
     <script src="js/contacts/contactsService.js"></script>
     <script src="js/contacts/contactsFactory.js"></script>
+    <script src="js/contacts/contactsFilter.js"></script>
     <script src="js/diary/diaryCtrl.js"></script>
     <script src="js/diary/diaryService.js"></script>
     <script src="js/diary/diaryFactory.js"></script>
@@ -96,8 +97,10 @@
     <script src="js/task/taskCtrl.js"></script>
     <script src="js/task/taskService.js"></script>
     <script src="js/task/taskFactory.js"></script>
+    <script src="js/task/taskFilter.js"></script>
     <script src="js/budget/budgetCtrl.js"></script>
     <script src="js/budget/budgetService.js"></script>
     <script src="js/budget/budgetFactory.js"></script>
+    <script src="js/budget/budgetFilter.js"></script>
 </body>
 </html>

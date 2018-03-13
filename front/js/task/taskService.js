@@ -45,9 +45,9 @@
     function TaskByIdService($http) {
         return {
             post: function(data) {
-                return $http.post('http://localhost:8000/task/create/', data)
+                return $http.post('http://localhost:8000/task/task/create/', data)
                 .then(function() {
-                    return $http.get('http://localhost:8000/task/list/')
+                    return $http.get('http://localhost:8000/task/task/list/')
                         .then(function(response){
                             console.log('Created task & update TaskList OK!')
                             return response.data.results
@@ -55,9 +55,9 @@
                 })
             },
             patch: function(id, data) {
-                return $http.patch('http://localhost:8000/task/' + id + '/', data)
+                return $http.patch('http://localhost:8000/task/task/' + id + '/', data)
                 .then(function(response) {
-                    return $http.get('http://localhost:8000/task/list/')
+                    return $http.get('http://localhost:8000/task/task/list/')
                         .then(function(response){
                             console.log('Updated task & update TaskList OK!')
                             return response.data.results
@@ -65,9 +65,9 @@
                 })
             },
             delete: function(id) {
-                return $http.delete('http://localhost:8000/task/' + id + '/')
+                return $http.delete('http://localhost:8000/task/task/' + id + '/')
                 .then(function() {
-                    return $http.get('http://localhost:8000/task/list/')
+                    return $http.get('http://localhost:8000/task/task/list/')
                         .then(function(response){
                             console.log('Deleted task & update TaskList OK!')
                             return response.data.results
@@ -79,9 +79,9 @@
     function EventByIdService($http) {
         return {
             post: function(data) {
-                return $http.post('http://localhost:8000/task/event-create', data)
+                return $http.post('http://localhost:8000/task/event-create/', data)
                 .then(function() {
-                    return $http.get('http://localhost:8000/task/event-list')
+                    return $http.get('http://localhost:8000/task/event-list/')
                         .then(function(response){
                             console.log('Created event & update EventList OK!')
                             return response.data.results
@@ -89,9 +89,9 @@
                 })
             },
             patch: function(id, data) {
-                return $http.patch('http://localhost:8000/task/event-' + id, data)
+                return $http.patch('http://localhost:8000/task/event-' + id + '/', data)
                 .then(function(response) {
-                    return $http.get('http://localhost:8000/task/event-list')
+                    return $http.get('http://localhost:8000/task/event-list/')
                         .then(function(response){
                             console.log('Updated event & update EventList OK!')
                             return response.data.results
@@ -99,9 +99,9 @@
                 })
             },
             delete: function(id) {
-                return $http.delete('http://localhost:8000/task/event-' + id)
+                return $http.delete('http://localhost:8000/task/event-' + id + '/')
                 .then(function() {
-                    return $http.get('http://localhost:8000/task/event-list')
+                    return $http.get('http://localhost:8000/task/event-list/')
                         .then(function(response){
                             console.log('Deleted event & update EventList OK!')
                             return response.data.results

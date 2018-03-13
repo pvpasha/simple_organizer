@@ -6,22 +6,31 @@
 </head>
 <body>
     <h1 class="page-header">About project</h1>
-    <div class="well">
-        <h3>In project we use:</h3>
-        <li><strong><a href="https://www.djangoproject.com/">Python/Django</a> - back-end</strong>
-            <img src="img/python-django.png"></li>
-        <li><strong><a href="http://www.django-rest-framework.org/">Django REST framework</a> - API</strong>
-            <img src="img/django-rest-framework.png"></li>
-        <li><strong><a href="https://angularjs.org/">AngularJS</a> - front-end</strong>
-            <img src="img/angularjs.png"></li>
-        <li><strong><a href="https://getbootstrap.com/">Bootstrap</a> - css</strong>
-            <img src="img/bootstrap.png"></li>
-        <li><strong><a href="https://www.docker.com/">Docker</a> - containerization</strong>
-            <img src="img/docker.png"></li>
-        <li><strong><a href="https://nginx.org/">nginx</a> - server </strong>
-            <img src="img/nginx.png"></li>
-        <p class="text-center"><strong>Best regards {{ team }}</strong></p>
-        <div class="text-center"><img src="img/organizer_logo_small.png"></div>
+    <div class="row well">
+        <h3 class="text-center">In project we use:</h3>
+        <div class="col-md-6">
+            <li><strong><a href="https://www.djangoproject.com/">Python/Django</a> - back-end</strong>
+                <img src="img/python-django.png"></li>
+            <li><strong><a href="http://www.django-rest-framework.org/">Django REST framework</a> - API</strong>
+                <img src="img/django-rest-framework.png"></li>
+            <li><strong><a href="https://www.postgresql.org/">PostgreSQL</a> - DB</strong>
+                <img src="img/postgresql.png"></li>
+            <li><strong><a href="https://angularjs.org/">AngularJS</a> - front-end</strong>
+                <img src="img/angularjs.png"></li>
+        </div>
+        <div class="col-md-6">
+            <li><strong><a href="https://getbootstrap.com/">Bootstrap</a> - css</strong>
+                <img src="img/bootstrap.png"></li>
+            <li><strong><a href="https://www.docker.com/">Docker</a> - containerization</strong>
+                <img src="img/docker.png"></li>
+            <li><strong><a href="https://nginx.org/">nginx</a> - server </strong>
+                <img src="img/nginx.png"></li>
+        </div>
+        <div class="col-md-12">
+            <p class="text-center"><strong>Best regards {{ team }}</strong></p>
+            <div class="text-center"><img src="img/organizer_logo_small.png"></div>
+        </div>
+    </div>
     </div>
 </body>
 </html>

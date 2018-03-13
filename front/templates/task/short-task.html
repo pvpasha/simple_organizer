@@ -30,7 +30,7 @@
                 <td>{{ item.id }}</td>
                 <td>{{ item.title }}</td>
                 <td>{{ item.creation_date | date:'yyyy-MM-dd' }}</td>
-                <td>{{ item.finished }}</td>
+                <td><span class="{{ item.finished | taskFinished }}"></span></td>
                 <td> <button type="button" class="btn btn-info" ng-click="editShortTask(item)">
                     <span class="glyphicon glyphicon-pencil"></span></button></td>
                 <td> <button type="button" class="btn btn-danger" ng-click="deleteShortTask(item.id)">
@@ -54,6 +54,8 @@
                 Add task</button>
             <button type="button" class="btn btn-success" ng-click="updateShortTask()" ng-if="editTaskState">
                 Save task</button>
+            <button type="button" class="btn btn-warning" ng-click="cancel()" ng-if="addTaskState || editTaskState">
+                Cancel</button>
         </form>
     </div>
 </body>

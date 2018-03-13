@@ -64,6 +64,14 @@
                 $scope.items = resp;
             });
         };
+        $scope.cancel = function() {
+            $scope.editDiaryState = false
+            $scope.addDiaryState = false
+            $scope.diary = {
+                title: '',
+                body: ''
+            };
+        };
 
     }
 })();

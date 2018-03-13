@@ -70,6 +70,15 @@
                 $scope.listST = resp;
             });
         };
+        $scope.cancel = function() {
+            $scope.editTaskState = false
+            $scope.addTaskState = false
+            $scope.shortTask = {
+                title: '',
+                body: '',
+                finished: ''
+            };
+        };
     }
     function taskCtrl($scope, $http, TaskListFactory, TaskByIdService) {
 
@@ -145,6 +154,19 @@
                 $scope.listS = resp;
             });
         };
+        $scope.cancel = function() {
+            $scope.editTaskState = false
+            $scope.addTaskState = false
+            $scope.task = {
+                title: '',
+                body: '',
+                category: '',
+                starting_date: '',
+                finishing_date: '',
+                finished: '',
+                reminder_date: ''
+            };
+        };
     }
     function eventCtrl($scope, $http, EventListFactory, EventByIdService) {
 
@@ -214,6 +236,17 @@
                 $scope.listE = resp;
             });
         };
+        $scope.cancel = function() {
+            $scope.editTaskState = false
+            $scope.addTaskState = false
+            $scope.event = {
+                title: '',
+                body: '',
+                event_date_start: '',
+                event_date_finish: '',
+                reminder_date: ''
+            };
+        };
     }
     function catTaskCtrl($scope, $http, CategoryTaskListFactory, CategoryTaskByIdService) {
 
@@ -264,6 +297,11 @@
             CategoryTaskByIdService.delete(id).then(function(resp) {
                 $scope.listCT = resp;
             });
+        };
+        $scope.cancel = function() {
+            $scope.editTaskState = false
+            $scope.addTaskState = false
+            $scope.categoryTask = {title: ''};
         };
     }
 })();

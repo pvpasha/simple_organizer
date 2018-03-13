@@ -37,7 +37,7 @@
                 <td>{{ item.starting_date | date:'yyyy-MM-dd' }}</td>
                 <td>{{ item.finishing_date | date:'yyyy-MM-dd' }}</td>
                 <td>{{ item.reminder_date | date:'yyyy-MM-dd' }}</td>
-                <td>{{ item.finished }}</td>
+                <td><span class="{{ item.finished | taskFinished }}"></span></td>
 
                 <td><button type="button" class="btn btn-info" ng-click="editTask(item)">
                     <span class="glyphicon glyphicon-pencil"></span></button></td>
@@ -74,6 +74,8 @@
                 Add task</button>
             <button type="button" class="btn btn-success" ng-click="updateTask()" ng-if="editTaskState">
                 Save task</button>
+            <button type="button" class="btn btn-warning" ng-click="cancel()" ng-if="addTaskState || editTaskState">
+                Cancel</button>
         </form>
     </div>
 </body>

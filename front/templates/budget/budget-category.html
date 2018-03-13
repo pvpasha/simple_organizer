@@ -45,6 +45,8 @@
                 Add account</button>
             <button type="button" class="btn btn-success" ng-click="updateBudgetCategory()" ng-if="editItemState">
                 Save account</button>
+            <button type="button" class="btn btn-warning" ng-click="cancel()" ng-if="addItemState || editItemState">
+                Cancel</button>
         </form>
     </div>
 </body>

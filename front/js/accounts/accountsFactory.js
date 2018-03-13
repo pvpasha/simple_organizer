@@ -41,8 +41,9 @@
                    console.log('RefreshTokenFactory OK!', resp.status);
                     return resp.data.token
                 }, function(error) {
-                    console.log('RefreshTokenFactory Error!', error.status);
-                    return error.status
+                    delete $localStorage.currentUser;
+                    $http.defaults.headers.common.Authorization = '';
+                    console.log('RefreshTokenFactory Error!!!', error.status);
                 })
             }
         }

@@ -16,13 +16,13 @@
         this.title = 'SP - Home';
 
         $scope.team = 'SP Team';
-        $scope.brand = 'Simple Organizer'
+        $scope.brand = 'Simple Organizer';
         $scope.version = 'beta 0.01';
         $scope.today = new Date();
 
         $scope.userdata = {
-            email: '',
-            password: ''
+            email: 'pvpasha@meta.ua',
+            password: 'pasha123'
         };
         $scope.username = function() {
             if ($localStorage.currentUser){

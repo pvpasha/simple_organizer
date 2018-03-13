@@ -34,10 +34,10 @@
                 <td>{{ item.id }}</td>
                 <td>{{ item.currency }}</td>
                 <td>{{ item.amount }}</td>
-                <td>{{ item.transaction_type }}</td>
+                <td><span class="{{ item.transaction_type | transactionType }}"></span></td>
                 <td>{{ item.budget_account }}</td>
                 <td>{{ item.category }}</td>
-                <td>{{ item.creation_date | date:'yyyy-MM-dd' }}</td>
+                <td>{{ item.creation_date | date:'yyyy.MM.dd' }}</td>
                 <td><button type="button" class="btn btn-info" ng-click="editInvoice(item)">
                     <span class="glyphicon glyphicon-pencil"></span></button></td>
                 <td><button type="button" class="btn btn-danger" ng-click="deleteInvoice(item.id)">
@@ -70,6 +70,8 @@
                 Add invoice</button>
             <button type="button" class="btn btn-success" ng-click="updateInvoice()" ng-if="editItemState">
                 Save invoice</button>
+            <button type="button" class="btn btn-warning" ng-click="cancel()" ng-if="addItemState || editItemState">
+                Cancel</button>
         </form>
     </div>
 </body>

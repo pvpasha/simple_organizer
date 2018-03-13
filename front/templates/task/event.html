@@ -62,6 +62,8 @@
                 Add event</button>
             <button type="button" class="btn btn-success" ng-click="updateEvent()" ng-if="editTaskState">
                 Save event</button>
+            <button type="button" class="btn btn-warning" ng-click="cancel()" ng-if="addTaskState || editTaskState">
+                Cancel</button>
         </form>
     </div>
 </body>

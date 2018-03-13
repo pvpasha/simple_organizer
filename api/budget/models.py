@@ -49,5 +49,3 @@ class Invoice(models.Model):
     description = models.CharField(max_length=250)
     budget_account = models.ForeignKey(BudgetAccount, on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
-    # TODO: make 'transaction_type' return 'INCOME' text
-
