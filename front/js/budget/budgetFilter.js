@@ -3,11 +3,21 @@
 
     angular
         .module('budget')
-        .filter('transactionType', transactionType);
+        .filter('transactionTypeIcon', transactionTypeIcon)
+        .filter('transactionTypeText', transactionTypeText);
 
-    function transactionType(){
+    function transactionTypeIcon(){
         return function(data) {
-            return data ? 'glyphicon glyphicon-log-in' : 'glyphicon glyphicon-log-out';
+            if (data == 1) { return 'glyphicon glyphicon-log-in'
+            } else { return 'glyphicon glyphicon-log-out'
+            }
+        }
+    }
+    function transactionTypeText(){
+        return function(data) {
+            if (data == 1) { return 'Income'
+            } else { return 'Outcome'
+            }
         }
     }
 

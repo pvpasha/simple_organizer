@@ -1,73 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>{{ vm.title }}</title>
+  <meta charset="UTF-8">
+  <title>{{ vm.title }}</title>
 </head>
 <body>
-    <h1 class="page-header">Contacts <small><span class="glyphicon glyphicon-earphone"></span></small></h1>
-    <button type="button" class="btn btn-info" ng-click="listContacts()">List
-        <span class="glyphicon glyphicon-refresh"></span></button>
-    <button type="button" class="btn btn-success" ng-click="addContact()">Add
-        <span class="glyphicon glyphicon-plus"></span></button>
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <tr>
-                <th># ID</th>
-                <th>Name, Surname</th>
-                <th>Phome</th>
-                <th>E-mail</th>
-                <th>Home address</th>
-                <th>Birthday</th>
-                <th>Add reminder</th>
-                <th>Edit</th>
-                <th>Delete</th>
-            </tr>
-            <tr ng-repeat="item in items">
-                <td>{{ item.id }}</td>
-                <td>{{ item.name }} {{ item.surname }}</td>
-                <td>{{ item.phone }}</td>
-                <td>{{ item.email_address }}</td>
-                <td>{{ item.home_address }}</td>
-                <td>{{ item.birthday | date:'dd.MM.yyyy'}}</td>
-                <td><span class="{{ item.add_reminder | addReminder }}"></span></td>
-                <td><button type="button" class="btn btn-info" ng-click="editContact(item)">
-                    <span class="glyphicon glyphicon-pencil"></span></button></td>
-                <td><button type="button" class="btn btn-danger" ng-click="delete(item.id)">
-                    <span class="glyphicon glyphicon-remove"></span></button></td>
-            </tr>
-        </table>
-    </div>
-    <!--<h3>Add form</h3>-->
-    <div ng-if="addContactState || editContactState">
-        <h3>{{ edit_status }}</h3>
-        <form role="form">
-            <div class="col-md-4">
-                Name<input type="text" class="form-control" ng-model="contact.name">
-            </div>
-            <div class="col-md-4">
-                Surname<input type="text" class="form-control" ng-model="contact.surname">
-            </div>
-            <div class="col-md-4">
-                Phone<input type="tel" class="form-control" ng-model="contact.phone">
-            </div>
-            <div class="col-md-4">
-                E-mail<input type="email" class="form-control" ng-model="contact.email_address">
-            </div>
-            <div class="col-md-4">
-                Home address<input type="text" class="form-control" ng-model="contact.home_address">
-            </div>
-            <div class="col-md-3">
-                Birthday<input type="date" class="form-control" ng-model="contact.birthday">
-            </div>
-            <div class="checkbox">
-                <label><input type="checkbox" value="" ng-model="contact.add_reminder">Add reminder</label>
-            </div>
-            <button type="button" class="btn btn-success" ng-click="createItem()" ng-if="addContactState">Add contact</button>
-            <button type="button" class="btn btn-success" ng-click="editItem()" ng-if="editContactState">Save contact</button>
-            <button type="button" class="btn btn-warning" ng-click="cancel()" ng-if="editContactState || addContactState">
-                Cancel</button>
-        </form>
-    </div>
+  <h1 class="page-header">Contacts <small><span class="glyphicon glyphicon-earphone"></span></small></h1>
+  <button type="button" class="btn btn-info" ng-click="listContacts()">
+      List <span class="glyphicon glyphicon-refresh"></span></button>
+  <button type="button" class="btn btn-success" ng-click="addContact()">
+      Add <span class="glyphicon glyphicon-plus"></span></button>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <tr>
+        <th># ID</th>
+        <th>Name, Surname</th>
+        <th>Phome</th>
+        <th>E-mail</th>
+        <th>Home address</th>
+        <th>Birthday</th>
+        <th>Add reminder</th>
+        <th>Edit Delete</th>
+      </tr>
+      <tr ng-repeat="item in items">
+        <td>{{ item.id }}</td>
+        <td>{{ item.name }} {{ item.surname }}</td>
+        <td>{{ item.phone }}</td>
+        <td>{{ item.email_address }}</td>
+        <td>{{ item.home_address }}</td>
+        <td>{{ item.birthday | date:'dd.MM.yyyy'}}</td>
+        <td><span class="{{ item.add_reminder | addReminder }}"></span></td>
+        <td><button type="button" class="btn btn-info" ng-click="editContact(item)">
+            <span class="glyphicon glyphicon-pencil"></span></button>
+          <button type="button" class="btn btn-danger" ng-click="delete(item.id)">
+            <span class="glyphicon glyphicon-remove"></span></button></td>
+      </tr>
+    </table>
+  </div>
+  <div ng-if="addContactState || editContactState">
+    <h3>{{ edit_status }}</h3>
+    <form role="form">
+      <div class="col-md-4">Name<input type="text" class="form-control" ng-model="contact.name"></div>
+      <div class="col-md-4">Surname<input type="text" class="form-control" ng-model="contact.surname"></div>
+      <div class="col-md-4">Phone<input type="number" class="form-control" ng-model="contact.phone"></div>
+      <div class="col-md-4">E-mail<input type="email" class="form-control" ng-model="contact.email_address"></div>
+      <div class="col-md-4">Home address<input type="text" class="form-control" ng-model="contact.home_address"></div>
+      <div class="col-md-3">Birthday<input type="date" class="form-control" ng-model="contact.birthday"></div>
+      <div class="checkbox"><label><input type="checkbox" value="" ng-model="contact.add_reminder">Add reminder</label>
+      </div>
+      <button type="button" class="btn btn-success" ng-click="createItem()" ng-if="addContactState">Add contact</button>
+      <button type="button" class="btn btn-success" ng-click="editItem()" ng-if="editContactState">Save contact</button>
+      <button type="button" class="btn btn-warning" ng-click="cancel()" ng-if="editContactState || addContactState">
+          Cancel</button>
+    </form>
+  </div>
 </body>
 </html>

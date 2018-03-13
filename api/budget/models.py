@@ -37,8 +37,8 @@ class Invoice(models.Model):
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
     amount = models.IntegerField(null=True, blank=True, default=0)
 
-    INCOME = True
-    OUTCOME = False
+    INCOME = 1
+    OUTCOME = 0
 
     TT_CHOICES = (
         (INCOME, 'Income'),

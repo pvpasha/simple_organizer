@@ -1,71 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>{{ vm.title }}</title>
+  <meta charset="UTF-8">
+  <title>{{ vm.title }}</title>
 </head>
 <body>
-    <h1 class="page-header">Budget Account<small><span class="glyphicon glyphicon-usd"></span></small></h1>
-    <ul class="nav nav-tabs">
-        <li><a href="#!/budget">My budget</a></li>
-        <li><a href="#!/budget/invoice">Invoice</a></li>
-        <li  class="active"><a href="#!/budget/account">Budget Account</a></li>
-        <li><a href="#!/budget/currency">Currency</a></li>
-        <li><a href="#!/budget/category">Category budget</a></li>
-    </ul>
-    <button type="button" class="btn btn-info" ng-click="listBudgetAccount()">List
+  <h1 class="page-header">Budget Account<small><span class="glyphicon glyphicon-usd"></span></small></h1>
+  <ul class="nav nav-tabs">
+    <li><a href="#!/budget">My budget</a></li>
+    <li><a href="#!/budget/invoice">Invoice</a></li>
+    <li class="active"><a href="#!/budget/account">Budget Account</a></li>
+    <li><a href="#!/budget/currency">Currency</a></li>
+    <li><a href="#!/budget/category">Category budget</a></li>
+  </ul>
+  <button type="button" class="btn btn-info" ng-click="listBudgetAccount()">List
         <span class="glyphicon glyphicon-refresh"></span></button>
-    <button type="button" class="btn btn-success" ng-click="addBudgetAccount()">Add
+  <button type="button" class="btn btn-success" ng-click="addBudgetAccount()">Add
         <span class="glyphicon glyphicon-plus"></span></button>
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <tr>
-                <th># ID</th>
-                <th>Currency</th>
-                <th>Name</th>
-                <th>Short name</th>
-                <th>Amount</th>
-                <th>Edit</th>
-                <th>Delete</th>
-            </tr>
-            <tr ng-repeat="item in listBA">
-                <td>{{ item.id }}</td>
-                <td>{{ item.currency }}</td>
-                <td>{{ item.name }}</td>
-                <td>{{ item.short_name }}</td>
-                <td>{{ item.amount }}</td>
-                <td><button type="button" class="btn btn-info" ng-click="editBudgetAccount(item)">
-                    <span class="glyphicon glyphicon-pencil"></span></button></td>
-                <td><button type="button" class="btn btn-danger" ng-click="deleteBudgetAccount(item.id)">
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <tr>
+        <th># ID</th>
+        <th>Currency</th>
+        <th>Name</th>
+        <th>Short name</th>
+        <th>Amount</th>
+        <th>Edit Delete</th>
+      </tr>
+      <tr ng-repeat="item in listBA">
+        <td>{{ item.id }}</td>
+        <td>{{ item.currency }}</td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.short_name }}</td>
+        <td>{{ item.amount }}</td>
+        <td><button type="button" class="btn btn-info" ng-click="editBudgetAccount(item)">
+                    <span class="glyphicon glyphicon-pencil"></span></button>
+          <button type="button" class="btn btn-danger" ng-click="deleteBudgetAccount(item.id)">
                     <span class="glyphicon glyphicon-remove"></span></button></td>
-            </tr>
-        </table>
-    </div>
-    <div ng-if="addItemState || editItemState">
-        <h3>{{ edit_status }}</h3>
-        <form role="form">
-            <div class="col-md-3">
-                Currency<input type="text" class="form-control" ng-model="budgetAccount.currency">
-            </div>
-            <div class="col-md-3">
-                Name<input type="text" class="form-control" ng-model="budgetAccount.name">
-            </div>
-            <div class="col-md-3">
-                Short name<input type="text" class="form-control" ng-model="budgetAccount.short_name">
-            </div>
-            <div class="col-md-3">
-                Amount<input type="text" class="form-control" ng-model="budgetAccount.amount">
-            </div>
-            <div class="col-md-6">
-                Description<input type="text" class="form-control" ng-model="budgetAccount.description">
-            </div>
-            <button type="button" class="btn btn-success" ng-click="createBudgetAccount()" ng-if="addItemState">
+      </tr>
+    </table>
+  </div>
+  <div ng-if="addItemState || editItemState">
+    <h3>{{ edit_status }}</h3>
+    <form role="form">
+      <div class="col-md-3">
+        Currency<input type="text" class="form-control" ng-model="budgetAccount.currency">
+      </div>
+      <div class="col-md-3">
+        Name<input type="text" class="form-control" ng-model="budgetAccount.name">
+      </div>
+      <div class="col-md-3">
+        Short name<input type="text" class="form-control" ng-model="budgetAccount.short_name">
+      </div>
+      <div class="col-md-3">
+        Amount<input type="text" class="form-control" ng-model="budgetAccount.amount">
+      </div>
+      <div class="col-md-6">
+        Description<input type="text" class="form-control" ng-model="budgetAccount.description">
+      </div>
+      <button type="button" class="btn btn-success" ng-click="createBudgetAccount()" ng-if="addItemState">
                 Add account</button>
-            <button type="button" class="btn btn-success" ng-click="updateBudgetAccount()" ng-if="editItemState">
+      <button type="button" class="btn btn-success" ng-click="updateBudgetAccount()" ng-if="editItemState">
                 Save account</button>
-            <button type="button" class="btn btn-warning" ng-click="cancel()" ng-if="addItemState || editItemState">
+      <button type="button" class="btn btn-warning" ng-click="cancel()" ng-if="addItemState || editItemState">
                 Cancel</button>
-        </form>
-    </div>
+    </form>
+  </div>
 </body>
 </html>

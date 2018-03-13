@@ -1,46 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Profile</title>
+  <meta charset="UTF-8">
+  <title>Profile</title>
 </head>
 <body>
-    <h1 class="page-header">User profile <small><span class="glyphicon glyphicon-user"></span></small></h1>
-    <div class="col-md-6">
-        <table class="table table-bordered">
-            <tbody>
-                <tr>
-                    <td>Avatar:</td>
-                    <td><img src="{{item.avatar}}"></td>
-                    <td><button type="button" class="btn btn-default">
+  <h1 class="page-header">User profile <small><span class="glyphicon glyphicon-user"></span></small></h1>
+  <div class="col-md-6">
+    <table class="table table-bordered">
+      <tbody>
+        <tr>
+          <td>Avatar:</td>
+          <td><img src="{{item.avatar}}"></td>
+          <td><button type="button" class="btn btn-default">
                     <span class="glyphicon glyphicon-pencil"></span></button></td>
-                </tr>
-                <tr>
-                    <td>Name, Surname:</td>
-                    <td><b>{{item.username}}<br>{{item.second_name}}</b></td>
-                    <td>
-                        <button type="button" class="btn btn-info" ng-click="updateName()">
+        </tr>
+        <tr>
+          <td>Name, Surname:</td>
+          <td><b>{{item.username}}<br>{{item.second_name}}</b></td>
+          <td>
+            <button type="button" class="btn btn-info" ng-click="updateName()">
                         <span class="glyphicon glyphicon-pencil"></span></button>
-                        <input type="text" ng-model="new_name.username" placeholder="Name">
-                        <input type="text" ng-model="new_name.second_name" placeholder="Surname">
-                    </td>
-                </tr>
-                <tr>
-                    <td>Email:</td>
-                    <td><b>{{item.email}}</b></td>
-                    <td>
-                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span>
+            <input type="text" ng-model="new_name.username" placeholder="Name">
+            <input type="text" ng-model="new_name.second_name" placeholder="Surname">
+          </td>
+        </tr>
+        <tr>
+          <td>Email:</td>
+          <td><b>{{item.email}}</b></td>
+          <td>
+            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span>
                         </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Password:</td>
-                    <td><b>***password***</b></td>
-                    <td><button type="button" class="btn btn-default">
+          </td>
+        </tr>
+        <tr>
+          <td>Password:</td>
+          <td><b>***password***</b></td>
+          <td><button type="button" class="btn btn-default">
                         <span class="glyphicon glyphicon-pencil"></span></button></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </body>
 </html>

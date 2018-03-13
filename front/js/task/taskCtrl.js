@@ -109,19 +109,36 @@
             TaskListFactory.get().then(function(resp) {
                 $scope.listT = resp;
             });
+        };  // TODO: Make list CategoryForTask in add&&edit form
+        $scope.listCategoryForTask = function() {
+            CategoryTaskListFactory.get().then(function(resp) {
+                $scope.listCatForTask = resp;
+            });
         };
         $scope.addTask= function() {
             $scope.addTaskState = true;
             $scope.edit_status = 'Add Form';
         };
         $scope.editTask = function(task) {
+            var starting_date = new Date(task.starting_date);
+            var finishing_date = new Date(task.finishing_date);
+            var reminder_date = new Date(task.reminder_date);
             $scope.task = task;
+            $scope.task.starting_date = starting_date;
+            $scope.task.finishing_date = finishing_date;
+            $scope.task.reminder_date = reminder_date;
             $scope.editTaskState = true;
             $scope.edit_status = 'Edit Form';
         };
-        $scope.createTask = function() {
-            $scope.addTaskState = false;
-            TaskByIdService.post($scope.task).then(function(resp) {
+        $scope.updateTask = function() {
+            $scope.editTaskState = false;
+            var starting_date = $scope.task.starting_date.toISOString();
+            var finishing_date = $scope.task.finishing_date.toISOString();
+            var reminder_date = $scope.task.reminder_date.toISOString();
+            $scope.task.starting_date = starting_date;
+            $scope.task.finishing_date = finishing_date;
+            $scope.task.reminder_date = reminder_date;
+            TaskByIdService.patch($scope.task.id, $scope.task).then(function(resp) {
                 $scope.listT = resp;
             });
             $scope.task = {
@@ -134,9 +151,16 @@
                 reminder_date: ''
             };
         };
-        $scope.updateTask = function() {
-            $scope.editTaskState = false;
-            TaskByIdService.patch($scope.task.id, $scope.task).then(function(resp) {
+        $scope.createTask = function() {
+            $scope.addTaskState = false;
+            var starting_date2 = $scope.task.starting_date.toISOString();
+            var finishing_date2 = $scope.task.finishing_date.toISOString();
+            var reminder_date2 = $scope.task.reminder_date.toISOString();
+            $scope.task.starting_date = starting_date2;
+            $scope.task.finishing_date = finishing_date2;
+            $scope.task.reminder_date = reminder_date2;
+            console.log($scope.task)
+            TaskByIdService.post($scope.task).then(function(resp) {
                 $scope.listT = resp;
             });
             $scope.task = {
@@ -201,12 +225,24 @@
             $scope.edit_status = 'Add Form';
         };
         $scope.editEvent = function(event) {
-            $scope.event = event;
             $scope.editTaskState = true;
             $scope.edit_status = 'Edit Form';
+            var event_date_start = new Date(event.event_date_start);
+            var event_date_finish = new Date(event.event_date_finish);
+            var reminder_date = new Date(event.reminder_date);
+            $scope.event = event;
+            $scope.event.event_date_start = event_date_start;
+            $scope.event.event_date_finish = event_date_finish;
+            $scope.event.reminder_date = reminder_date;
         };
         $scope.createEvent = function() {
             $scope.addTaskState = false;
+            var event_date_start2 = $scope.event.event_date_start.toISOString();
+            var event_date_finish2 = $scope.event.event_date_finish.toISOString();
+            var reminder_date2 = $scope.event.reminder_date.toISOString();
+            $scope.event.event_date_start = event_date_start2;
+            $scope.event.event_date_finish = event_date_finish2;
+            $scope.event.reminder_date = reminder_date2;
             EventByIdService.post($scope.event).then(function(resp) {
                 $scope.listE = resp;
             });
@@ -220,6 +256,12 @@
         };
         $scope.updateEvent = function() {
             $scope.editTaskState = false;
+            var event_date_start2 = $scope.event.event_date_start.toISOString();
+            var event_date_finish2 = $scope.event.event_date_finish.toISOString();
+            var reminder_date2 = $scope.event.reminder_date.toISOString();
+            $scope.event.event_date_start = event_date_start2;
+            $scope.event.event_date_finish = event_date_finish2;
+            $scope.event.reminder_date = reminder_date2;
             EventByIdService.patch($scope.event.id, $scope.event).then(function(resp) {
                 $scope.listE = resp;
             });

@@ -1,38 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Budget</title>
+  <meta charset="UTF-8">
+  <title>Budget</title>
 </head>
 <body>
-    <h1 class="page-header">Budget <small><span class="glyphicon glyphicon-usd"></span></small></h1>
-    <ul class="nav nav-tabs">
-        <li class="active"><a href="#!/budget">My budget</a></li>
-        <li><a href="#!/budget/invoice">Invoice</a></li>
-        <li><a href="#!/budget/account">Budget Account</a></li>
-        <li><a href="#!/budget/currency">Currency</a></li>
-        <li><a href="#!/budget/category">Category budget</a></li>
-    </ul>
-    <button type="button" class="btn btn-info" ng-click="totalAmountByBAList() && totalAmount()">List
+  <h1 class="page-header">Budget <small><span class="glyphicon glyphicon-usd"></span></small></h1>
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#!/budget">My budget</a></li>
+    <li><a href="#!/budget/invoice">Invoice</a></li>
+    <li><a href="#!/budget/account">Budget Account</a></li>
+    <li><a href="#!/budget/currency">Currency</a></li>
+    <li><a href="#!/budget/category">Category budget</a></li>
+  </ul>
+  <button type="button" class="btn btn-info" ng-click="totalAmountByBAList() && totalAmount()">List
         <span class="glyphicon glyphicon-refresh"></span></button>
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <tr>
-                <th>#</th>
-                <th>#</th>
-                <th>Amount</th>
-            </tr>
-            <tr>
-                <td ng-model="totalAmountBAValue">budget_account_id: {{ totalAmountBAValue.budget_account_id }}</td>
-                <td ng-model="totalAmountBAValue">total_invoices_in_acc: {{ totalAmountBAValue.total_invoices }}</td>
-                <td ng-model="totalAmountBAValue">total: {{ totalAmountBAValue.total }}</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td ng-model="totalAmountValue">invoices_processed: {{ totalAmountValue.total_invoices }}</td>
-                <td ng-model="totalAmountValue"><b>Total: {{ totalAmountValue.total }}</b></td>
-            </tr>
-        </table>
-    </div>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <tr>
+        <th>#</th>
+        <th>#</th>
+        <th>Amount</th>
+      </tr>
+      <tr>
+        <td ng-model="totalAmountBAValue">budget_account_id: {{ totalAmountBAValue.budget_account_id }}</td>
+        <td ng-model="totalAmountBAValue">total_invoices_in_acc: {{ totalAmountBAValue.total_invoices }}</td>
+        <td ng-model="totalAmountBAValue">total: {{ totalAmountBAValue.total }}</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td ng-model="totalAmountValue">invoices_processed: {{ totalAmountValue.total_invoices }}</td>
+        <td ng-model="totalAmountValue"><b>Total: {{ totalAmountValue.total }}</b></td>
+      </tr>
+    </table>
+  </div>
 </body>
 </html>

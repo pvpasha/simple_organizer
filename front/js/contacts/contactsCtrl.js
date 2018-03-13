@@ -50,9 +50,9 @@
             $scope.edit_status = 'Edit Form'
         }
         $scope.createItem = function() {
+            $scope.addContactState = false;
             var birthday2 = $scope.contact.birthday.toISOString().slice(0,10);
             $scope.contact.birthday = birthday2;
-            $scope.addContactState = false;
             ContactsByIdService.post($scope.contact).then(function(resp) {
                 $scope.items = resp;
             });
