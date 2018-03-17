@@ -14,6 +14,7 @@
         service.verifyToken = VerifyToken;
         service.refreshToken = RefreshToken;
         service.checkLocalStorage = CheckLocalStorage;
+        service.SignUp = SignUp;
 
         return service;
 
@@ -75,6 +76,16 @@
             }else {
                 delete $localStorage.currentUser;
             }
+        }
+        function SignUp(data) {
+            $http.post('http://localhost:8000/accounts/sing-up/', data)
+                .then(function(response){
+                    console.log('SignUp OK!!', response.status);
+                    $location.path('/sing-in');
+                    return response.status
+                });
+
+
         }
     }
 })();

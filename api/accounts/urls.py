@@ -13,5 +13,6 @@ urlpatterns = [
     url(r'^profile-email/(?P<pk>.+)/$', accounts_views.UserEmailUpdateView.as_view(), name='user-email-update'),
     url(r'^profile-password/(?P<email>.+)/$', accounts_views.UserPasswordUpdateView.as_view(),
         name='user-password-update'),
-
+    url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        accounts_views.activate, name='activate'),
 ]

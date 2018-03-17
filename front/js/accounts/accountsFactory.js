@@ -7,15 +7,18 @@
         .factory('VerifyTokenFactory', VerifyTokenFactory)
         .factory('RefreshTokenFactory', RefreshTokenFactory)
         .factory('UserProfileFactory', UserProfileFactory)
-        .factory('UpdateNameFactory', UpdateNameFactory);
+        .factory('UpdateNameFactory', UpdateNameFactory)
+        .factory('UpdateAvatarFactory', UpdateAvatarFactory)
+        .factory('UpdateEmailFactory', UpdateEmailFactory);
+
 
     function LoginReqFactory($http, $location, $localStorage) {
         return {
             get: function(udata) {
                 return $http.post('http://localhost:8000/token-auth/', udata)
-                .then(function(resp) {
-                    console.log('LoginReqFactory OK!', resp.status);
-                    return resp.data.token;
+                .then(function(response) {
+                    console.log('LoginReqFactory OK!', response.status);
+                    return response.data.token;
                 })
             }
         }
@@ -24,8 +27,8 @@
         return {
             get: function(data) {
                 return $http.post('http://localhost:8000/token-verify/', {token:data.token}) // Add Fn If Error ?!
-                .then(function(resp) {
-                    console.log('VerifyTokenFactory OK!', resp.status);
+                .then(function(response) {
+                    console.log('VerifyTokenFactory OK!', response.status);
                 }, function(error) {
                     console.log('VerifyTokenFactory Error!', error.status);
                     return error.status
@@ -37,9 +40,9 @@
         return {
             get: function(data) {
                 return $http.post('http://localhost:8000/token-refresh/', {token:data.token})
-                .then(function(resp) {
-                   console.log('RefreshTokenFactory OK!', resp.status);
-                    return resp.data.token
+                .then(function(response) {
+                   console.log('RefreshTokenFactory OK!', response.status);
+                    return response.data.token
                 }, function(error) {
                     delete $localStorage.currentUser;
                     $http.defaults.headers.common.Authorization = '';
@@ -52,8 +55,8 @@
         return {
             get: function(email) {
                 return $http.get('http://localhost:8000/accounts/profile/' + email + '/')
-                .then(function(resp) {
-                    return resp.data
+                .then(function(response) {
+                    return response.data
                 })
             }
         }
@@ -62,9 +65,19 @@
         return {
             patch: function(email, name) {
                 return $http.patch('http://localhost:8000/accounts/profile-name/' + email + '/', name)
-                .then(function(resp) {
-                    console.log(resp.status)
-                    return resp.status
+                .then(function(response) {
+                    return response.data
+                })
+            }
+        }
+    }
+    function UpdateAvatarFactory($http) {
+        return {
+            patch: function(email, file) {
+                return $http.patch('http://localhost:8000/accounts/profile-avatar/' + email + '/', file)
+                .then(function(response) {
+                    console.log(response)
+                    return response
                 })
             }
         }
@@ -73,9 +86,9 @@
         return {
             patch: function(email, name) {
                 return $http.patch('http://localhost:8000/accounts/profile-name/' + email + '/', name)
-                .then(function(resp) {
-                    console.log(resp.status)
-                    return resp.status
+                .then(function(response) {
+                    console.log(response.status)
+                    return response.status
                 })
             }
         }

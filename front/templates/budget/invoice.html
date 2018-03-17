@@ -26,10 +26,10 @@
         <th>Transaction type</th>
         <th>Budget account</th>
         <th>Category</th>
-        <th>Creation data</th>
+        <th>Creation date</th>
         <th>Edit Delete</th>
       </tr>
-      <tr ng-repeat="item in listInv">
+      <tr ng-repeat="item in listInvoice">
         <td>{{ item.id }}</td>
         <td>{{ item.currency }}</td>
         <td>{{ item.amount }}</td>
@@ -47,20 +47,34 @@
   <div ng-if="addItemState || editItemState">
     <h3>{{ edit_status }}</h3>
     <form role="form">
-      <div class="col-md-3">
-        Currency<input type="text" class="form-control" ng-model="invoice.currency">
+      <div class="col-md-2">
+        <select id="selected_currency">
+          <option value="" disabled="disabled" selected="selected">Select a currency</option>
+          <option ng-repeat="currency in listCurrency" value="{{ currency.id }}">{{ currency.short_name }}</option>
+        </select>
       </div>
-      <div class="col-md-3">
-        Amount<input type="text" class="form-control" ng-model="invoice.amount">
+      <div class="col-md-2">
+        Amount<input type="number" class="form-control" ng-model="invoice.amount">
       </div>
-      <div class="col-md-3">
-        Transaction type<input type="text" class="form-control" ng-model="invoice.transaction_type">
+      <div class="col-md-2">
+        <select id="selected_transaction_type">
+          <option value="" disabled="disabled" selected="selected">Select transaction type</option>
+          <option value="1">Income</option>
+          <option value="0">Outcome</option>
+        </select>
       </div>
-      <div class="col-md-3">
-        Budget account<input type="text" class="form-control" ng-model="invoice.budget_account">
+      <div class="col-md-2">
+        <select id="selected_budget_account">
+          <option value="" disabled="disabled" selected="selected">Select a budget account</option>
+          <option ng-repeat="account in listBudgetAccount" value="{{ account.id }}">
+            {{ account.currency }} - {{ account.short_name }}</option>
+        </select>
       </div>
-      <div class="col-md-3">
-        Category<input type="text" class="form-control" ng-model="invoice.category">
+      <div class="col-md-2">
+        <select id="selected_category">
+          <option value="" disabled="disabled" selected="selected">Select a category</option>
+          <option ng-repeat="category in listBudgetCategory" value="{{ category.id }}">{{ category.title }}</option>
+        </select>
       </div>
       <div class="col-md-6">
         Description<input type="text" class="form-control" ng-model="invoice.description">

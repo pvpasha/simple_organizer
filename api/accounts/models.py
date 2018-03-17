@@ -22,6 +22,7 @@ class UserManager(BaseUserManager):
         user = self.create_user(username, email, password)
         user.is_superuser = True
         user.is_staff = True
+        user.is_active = True
         user.save()
         return user
 
@@ -35,11 +36,11 @@ class OrganizerUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=30)
     second_name = models.CharField(max_length=30, blank=True, null=True)
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
-    avatar = ImageField(upload_to=dir_name, default='empty.jpg')
+    avatar = ImageField(upload_to=dir_name, default='empty.png')
     jwt_token = models.CharField(max_length=512, blank=True)
     jwt_date = models.DateTimeField(blank=True, null=True)
 
@@ -47,14 +48,16 @@ class OrganizerUser(AbstractBaseUser, PermissionsMixin):
         im = get_thumbnail(self.avatar, '30x30', crop='center', quality=99)
         return u'<img src="%s"/>' % im.url
 
-    image_thumb.short_description = 'Image'
-    image_thumb.allow_tags = True
-
     def main_menu_avatar(self):
-        return get_thumbnail(self.avatar, '50x50', crop='center', quality=99).url
+        pic = get_thumbnail(self.avatar, '50x50', crop='center', quality=99)
+        return u'http://localhost:8000%s' % pic.url
 
     def main_menu_avatar_big(self):
-        return get_thumbnail(self.avatar, '150x150', crop='center', quality=99).url
+        pic = get_thumbnail(self.avatar, '100x100', crop='center', quality=99)
+        return u'http://localhost:8000%s' % pic.url
+
+    image_thumb.short_description = 'Image'
+    image_thumb.allow_tags = True
 
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = 'email'

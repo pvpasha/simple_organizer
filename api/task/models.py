@@ -42,7 +42,7 @@ class Task(AbstractTask):
 
 class Event(AbstractTask):
     event_date_start = models.DateTimeField(default=datetime.now)
-    event_date_finish = models.DateTimeField(default=datetime.now, blank=True, null=True)
+    event_date_finish = models.DateTimeField(blank=True, null=True)
     reminder_date = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):

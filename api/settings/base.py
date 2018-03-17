@@ -132,8 +132,12 @@ WSGI_APPLICATION = 'wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'organizer.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ['POSTGRES_DB'],
+        'USER': os.environ['POSTGRES_USER'],
+        'PASSWORD': os.environ['POSTGRES_PASSWORD'],
+        'HOST': os.environ['POSTGRES_SERVICE'],
+        'PORT': os.environ['POSTGRES_PORT']
         }
     # {
     #     'ENGINE': 'django.db.backends.sqlite3',
@@ -264,16 +268,16 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'pv.pasha.pv@gmail.com'
-EMAIL_HOST_PASSWORD = '!!!!!!!!!!!!!!!!'
-EMAIL_USE_TLS = 587
+EMAIL_HOST_USER = 'organizer2018.new@gmail.com'
+EMAIL_HOST_PASSWORD = 'adminadmin123!'
+EMAIL_USE_TLS = True
 # EMAIL_USE_SSL = 465
 # EMAIL_TIMEOUT =
 
 # SERVER_EMAIL = 'pv.pasha.pv@gmail.com'    # 'django@my-domain.com'
 
 ADMINS = (
-    ('Pasha Adm', 'pvpasha2@meta.ua'),
+    ('Pasha M', 'pv.pasha.pv@gmail.com'),
 )
 
 

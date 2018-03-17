@@ -55,7 +55,10 @@
         Body<textarea class="form-control" rows="8" ng-model="task.body"></textarea>
       </div>
       <div class="col-md-4">
-        Category<input type="text" class="form-control" ng-model="task.category">
+        <select id="selected_category">
+          <option value="" disabled="disabled" selected="selected">Please select a category</option>
+          <option ng-repeat="category in listCategoryForTask" value="{{ category.id }}">{{ category.title }}</option>
+        </select>
       </div>
       <div class="col-md-3">
         Start date<input type="datetime-local" class="form-control" ng-model="task.starting_date">

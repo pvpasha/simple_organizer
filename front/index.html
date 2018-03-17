@@ -41,18 +41,22 @@
           <li><a href="#!about">About</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="#!profile" ng-click="userProfile()" ng-if="status_user()">Hello, {{ username() }}</a></li>
-          <li><a href="" ng-click="logOut()" ng-if="status_user()">Log Out
+          <li><a href="#!profile" ng-click="userProfile()" ng-if="userEmail()">Hello, {{ userEmail() }}</a></li>
+          <li><a href="" ng-click="logOut()" ng-show="userEmail()">Log Out
                 <span class="glyphicon glyphicon-off"></span></a></li>
-          <li><a href="#!sing-up" ng-hide="status_user()">Sign Up</a></li>
-          <li><a href="#!sing-in" ng-hide="status_user()">Sign In</a></li>
+          <li><a href="#!sing-up" ng-hide="userEmail()">Sign Up</a></li>
+          <li><a href="#!sing-in" ng-hide="userEmail()">Sign In</a></li>
         </ul>
       </div>
     </div>
     <!-- Header End -->
     <div class="row">
       <!-- Left-side menu -->
-      <div class="col-md-2" ng-if="status_user()">
+      <div class="col-md-2" ng-hide="userEmail()">
+        <h4 class="alert alert-warning text-center"><br><br><b>Hello!</b><br><br><hr>
+          <br>Please SignIn or SignUp<br><br><hr></h4>
+      </div>
+      <div class="col-md-2" ng-if="userEmail()">
         <div class="list-group">
           <a class="list-group-item active text-center"><span class="glyphicon glyphicon-cog"></span> Your services</a>
           <a href="#!budget" class="list-group-item"><span class="glyphicon glyphicon-usd"></span> Budget</a>
@@ -63,9 +67,6 @@
         </div>
       </div>
       <!-- Content -->
-      <div class="col-md-12" ng-hide="status_user()">
-        <h5 class="alert alert-warning">Hello! Please SignIn or SignUp</h5>
-      </div>
       <div class="col-md-10">
         <!-- ng-view -->
         <div class="ng-view"></div>

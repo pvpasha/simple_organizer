@@ -39,13 +39,14 @@
             });
         };
     }
-    function invoiceCtrl($scope, $http, InvoiceListFactory, InvoiceByIdService) {
+    function invoiceCtrl($scope, $http, InvoiceListFactory, InvoiceByIdService, CurrencyListFactory,
+                            BudgetAccountListFactory, BudgetCategoryListFactory) {
 
         initCtrl();
 
         function initCtrl(){
-            InvoiceListFactory.get().then(function(resp) {
-                $scope.listInv = resp;
+            InvoiceListFactory.get().then(function(response) {
+                $scope.listInvoice = response;
             });
         };
 
@@ -57,57 +58,87 @@
 
         $scope.invoice = {
             currency: '',
-            amount: '',
+            amount: 0,
             transaction_type: '',
-            category: '',
+            category: null,
             description: '',
             budget_account: ''
         };
         $scope.listInvoice = function() {
             InvoiceListFactory.get().then(function(resp) {
-                $scope.listInv = resp;
+                $scope.listInvoice = resp;
             });
         };
         $scope.addInvoice = function() {
             $scope.addItemState = true;
             $scope.edit_status = 'Add Form';
+            CurrencyListFactory.get().then(function(currency) {
+                $scope.listCurrency = currency;
+            });
+            BudgetAccountListFactory.get().then(function(account) {
+                $scope.listBudgetAccount = account;
+            });
+            BudgetCategoryListFactory.get().then(function(category) {
+                $scope.listBudgetCategory = category;
+            });
         };
         $scope.editInvoice = function(invoice) {
             $scope.invoice = invoice;
             $scope.editItemState = true;
             $scope.edit_status = 'Edit Form';
+            CurrencyListFactory.get().then(function(currency) {
+                $scope.listCurrency = currency;
+            });
+            BudgetAccountListFactory.get().then(function(account) {
+                $scope.listBudgetAccount = account;
+            });
+            BudgetCategoryListFactory.get().then(function(category) {
+                $scope.listBudgetCategory = category;
+            });
         };
         $scope.createInvoice = function() {
             $scope.addItemState = false;
-            InvoiceByIdService.post($scope.invoice).then(function(resp) {
-                $scope.listInv = resp;
+            var a = document.getElementById('selected_currency');
+            var currency_id = a.options[a.selectedIndex].value;
+            $scope.invoice.currency = currency_id;
+            var b = document.getElementById('selected_transaction_type');
+            var transaction_type_id = b.options[b.selectedIndex].value;
+            $scope.invoice.transaction_type = transaction_type_id;
+            var c = document.getElementById('selected_budget_account');
+            var budget_account_id = c.options[c.selectedIndex].value;
+            $scope.invoice.budget_account = budget_account_id;
+            var d = document.getElementById('selected_category');
+            var category_id = d.options[d.selectedIndex].value;
+            $scope.invoice.category = category_id;
+            InvoiceByIdService.post($scope.invoice).then(function(response) {
+                $scope.listInvoice = response;
             });
             $scope.invoice = {
                 currency: '',
-                amount: '',
+                amount: 0,
                 transaction_type: '',
-                category: '',
+                category: null,
                 description: '',
                 budget_account: ''
             };
         };
         $scope.updateInvoice = function() {
             $scope.editItemState = false;
-            InvoiceByIdService.patch($scope.invoice.id, $scope.invoice).then(function(resp) {
-                $scope.listInv = resp;
+            InvoiceByIdService.patch($scope.invoice.id, $scope.invoice).then(function(response) {
+                $scope.listInvoice = response;
             });
             $scope.invoice = {
                 currency: '',
-                amount: '',
+                amount: 0,
                 transaction_type: '',
-                category: '',
+                category: null,
                 description: '',
                 budget_account: ''
             };
         };
         $scope.deleteInvoice = function(id) {
-            InvoiceByIdService.delete(id).then(function(resp) {
-                $scope.listInv = resp;
+            InvoiceByIdService.delete(id).then(function(response) {
+                $scope.listInvoice = response;
             });
         };
         $scope.cancel = function() {
@@ -115,15 +146,15 @@
             $scope.addItemState = false
             $scope.invoice = {
                 currency: '',
-                amount: '',
+                amount: 0,
                 transaction_type: '',
-                category: '',
+                category: null,
                 description: '',
                 budget_account: ''
             };
         };
     }
-    function budgetAcCtrl($scope, $http, BudgetAccountListFactory, BudgetAccountByIdService) {
+    function budgetAcCtrl($scope, $http, BudgetAccountListFactory, BudgetAccountByIdService, CurrencyListFactory) {
 
         initCtrl();
 
@@ -141,10 +172,10 @@
 
         $scope.budgetAccount = {
             currency: '',
-            amount: '',
+            amount: 0,
             name: '',
             short_name: '',
-            description: ''
+            description: null
         };
         $scope.listBudgetAccount = function() {
             BudgetAccountListFactory.get().then(function(resp) {
@@ -154,36 +185,48 @@
         $scope.addBudgetAccount = function() {
             $scope.addItemState = true;
             $scope.edit_status = 'Add Form';
+            CurrencyListFactory.get().then(function(currency) {
+                $scope.listCurrency = currency;
+            });
         };
         $scope.editBudgetAccount = function(budgetAccount) {
             $scope.budgetAccount = budgetAccount;
             $scope.editItemState = true;
             $scope.edit_status = 'Edit Form';
+            CurrencyListFactory.get().then(function(currency) {
+                $scope.listCurrency = currency;
+            });
         };
         $scope.createBudgetAccount = function() {
             $scope.addItemState = false;
+            var e = document.getElementById('selected_currency');
+            var currency_id = e.options[e.selectedIndex].value;
+            $scope.budgetAccount.currency = currency_id;
             BudgetAccountByIdService.post($scope.budgetAccount).then(function(resp) {
                 $scope.listBA = resp;
             });
             $scope.budgetAccount = {
                 currency: '',
-                amount: '',
+                amount: 0,
                 name: '',
                 short_name: '',
-                description: ''
+                description: null
             };
         };
         $scope.updateBudgetAccount = function() {
             $scope.editItemState = false;
+            var e = document.getElementById('selected_currency');
+            var currency_id = e.options[e.selectedIndex].value;
+            $scope.budgetAccount.currency = currency_id;
             BudgetAccountByIdService.patch($scope.budgetAccount.id, $scope.budgetAccount).then(function(resp) {
                 $scope.listBA = resp;
             });
             $scope.budgetAccount = {
                 currency: '',
-                amount: '',
+                amount: 0,
                 name: '',
                 short_name: '',
-                description: ''
+                description: null
             };
         };
         $scope.deleteBudgetAccount = function(id) {
@@ -196,10 +239,10 @@
             $scope.addItemState = false
             $scope.budgetAccount = {
                 currency: '',
-                amount: '',
+                amount: 0,
                 name: '',
                 short_name: '',
-                description: ''
+                description: null
             };
         };
     }

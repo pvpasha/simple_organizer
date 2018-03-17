@@ -26,8 +26,8 @@
 
         $scope.shortTask = {
             title: '',
-            body: '',
-            finished: ''
+            body: null,
+            finished: false
         };
         $scope.listShortTask = function() {
             ShortTaskListFactory.get().then(function(resp) {
@@ -50,8 +50,8 @@
             });
             $scope.shortTask = {
                 title: '',
-                body: '',
-                finished: ''
+                body: null,
+                finished: false
             };
         };
         $scope.updateShortTask = function() {
@@ -61,8 +61,8 @@
             });
             $scope.shortTask = {
                 title: '',
-                body: '',
-                finished: ''
+                body: null,
+                finished: false
             };
         };
         $scope.deleteShortTask = function(id) {
@@ -75,12 +75,12 @@
             $scope.addTaskState = false
             $scope.shortTask = {
                 title: '',
-                body: '',
-                finished: ''
+                body: null,
+                finished: false
             };
         };
     }
-    function taskCtrl($scope, $http, TaskListFactory, TaskByIdService) {
+    function taskCtrl($scope, $http, TaskListFactory, TaskByIdService, CategoryTaskListFactory) {
 
         initCtrl();
 
@@ -98,26 +98,26 @@
 
         $scope.task = {
             title: '',
-            body: '',
-            category: '',
+            body: null,
+            category: null,
             starting_date: '',
-            finishing_date: '',
-            finished: '',
-            reminder_date: ''
+            finishing_date: null,
+            finished: false,
+            reminder_date: null
         };
         $scope.listTask = function() {
             TaskListFactory.get().then(function(resp) {
                 $scope.listT = resp;
             });
-        };  // TODO: Make list CategoryForTask in add&&edit form
-        $scope.listCategoryForTask = function() {
-            CategoryTaskListFactory.get().then(function(resp) {
-                $scope.listCatForTask = resp;
-            });
         };
-        $scope.addTask= function() {
+        $scope.addTask = function() {
             $scope.addTaskState = true;
             $scope.edit_status = 'Add Form';
+            CategoryTaskListFactory.get().then(function(category) {
+                $scope.listCategoryForTask = category;
+                console.log('listCatForTask: ', $scope.listCategoryForTask)
+            });
+
         };
         $scope.editTask = function(task) {
             var starting_date = new Date(task.starting_date);
@@ -132,50 +132,60 @@
         };
         $scope.updateTask = function() {
             $scope.editTaskState = false;
-            var starting_date = $scope.task.starting_date.toISOString();
-            var finishing_date = $scope.task.finishing_date.toISOString();
-            var reminder_date = $scope.task.reminder_date.toISOString();
-            $scope.task.starting_date = starting_date;
-            $scope.task.finishing_date = finishing_date;
-            $scope.task.reminder_date = reminder_date;
+            var starting_date2 = $scope.task.starting_date.toISOString();
+            $scope.task.starting_date = starting_date2;
+            if ($scope.task.finishing_date) {
+                var finishing_date2 = $scope.task.finishing_date.toISOString();
+                $scope.task.finishing_date = finishing_date2;
+            };
+            if ($scope.task.reminder_date) {
+                var reminder_date2 = $scope.task.reminder_date.toISOString();
+                $scope.task.reminder_date = reminder_date2;
+            };
             TaskByIdService.patch($scope.task.id, $scope.task).then(function(resp) {
                 $scope.listT = resp;
             });
             $scope.task = {
                 title: '',
-                body: '',
-                category: '',
+                body: null,
+                category: null,
                 starting_date: '',
-                finishing_date: '',
-                finished: '',
-                reminder_date: ''
+                finishing_date: null,
+                finished: false,
+                reminder_date: null
             };
         };
         $scope.createTask = function() {
             $scope.addTaskState = false;
             var starting_date2 = $scope.task.starting_date.toISOString();
-            var finishing_date2 = $scope.task.finishing_date.toISOString();
-            var reminder_date2 = $scope.task.reminder_date.toISOString();
             $scope.task.starting_date = starting_date2;
-            $scope.task.finishing_date = finishing_date2;
-            $scope.task.reminder_date = reminder_date2;
-            console.log($scope.task)
+            if ($scope.task.finishing_date) {
+                var finishing_date2 = $scope.task.finishing_date.toISOString();
+                $scope.task.finishing_date = finishing_date2;
+            };
+            if ($scope.task.reminder_date) {
+                var reminder_date2 = $scope.task.reminder_date.toISOString();
+                $scope.task.reminder_date = reminder_date2;
+            };
+            var e = document.getElementById('selected_category');
+            var category_id = e.options[e.selectedIndex].value;
+            $scope.task.category = category_id;
             TaskByIdService.post($scope.task).then(function(resp) {
                 $scope.listT = resp;
             });
             $scope.task = {
                 title: '',
-                body: '',
-                category: '',
+                body: null,
+                category: null,
                 starting_date: '',
-                finishing_date: '',
-                finished: '',
-                reminder_date: ''
+                finishing_date: null,
+                finished: false,
+                reminder_date: null
             };
         };
         $scope.deleteTask = function(id) {
             TaskByIdService.delete(id).then(function(resp) {
-                $scope.listS = resp;
+                $scope.listT = resp;
             });
         };
         $scope.cancel = function() {
@@ -183,12 +193,12 @@
             $scope.addTaskState = false
             $scope.task = {
                 title: '',
-                body: '',
-                category: '',
+                body: null,
+                category: null,
                 starting_date: '',
-                finishing_date: '',
-                finished: '',
-                reminder_date: ''
+                finishing_date: null,
+                finished: false,
+                reminder_date: null
             };
         };
     }
@@ -210,10 +220,10 @@
 
         $scope.event = {
             title: '',
-            body: '',
+            body: null,
             event_date_start: '',
-            event_date_finish: '',
-            reminder_date: ''
+            event_date_finish: null,
+            reminder_date: null
         };
         $scope.listEvent = function() {
             EventListFactory.get().then(function(resp) {
@@ -238,39 +248,47 @@
         $scope.createEvent = function() {
             $scope.addTaskState = false;
             var event_date_start2 = $scope.event.event_date_start.toISOString();
-            var event_date_finish2 = $scope.event.event_date_finish.toISOString();
-            var reminder_date2 = $scope.event.reminder_date.toISOString();
             $scope.event.event_date_start = event_date_start2;
-            $scope.event.event_date_finish = event_date_finish2;
-            $scope.event.reminder_date = reminder_date2;
+            if ($scope.event.event_date_finish) {
+                var event_date_finish2 = $scope.event.event_date_finish.toISOString();
+                $scope.event.event_date_finish = event_date_finish2;
+            };
+            if ($scope.event.reminder_date) {
+                var reminder_date2 = $scope.event.reminder_date.toISOString();
+                $scope.event.reminder_date = reminder_date2;
+            };
             EventByIdService.post($scope.event).then(function(resp) {
                 $scope.listE = resp;
             });
             $scope.event = {
                 title: '',
-                body: '',
+                body: null,
                 event_date_start: '',
-                event_date_finish: '',
-                reminder_date: ''
+                event_date_finish: null,
+                reminder_date: null
             };
         };
         $scope.updateEvent = function() {
             $scope.editTaskState = false;
             var event_date_start2 = $scope.event.event_date_start.toISOString();
-            var event_date_finish2 = $scope.event.event_date_finish.toISOString();
-            var reminder_date2 = $scope.event.reminder_date.toISOString();
             $scope.event.event_date_start = event_date_start2;
-            $scope.event.event_date_finish = event_date_finish2;
-            $scope.event.reminder_date = reminder_date2;
+            if ($scope.event.event_date_finish) {
+                var event_date_finish2 = $scope.event.event_date_finish.toISOString();
+                $scope.event.event_date_finish = event_date_finish2;
+            };
+            if ($scope.event.reminder_date) {
+                var reminder_date2 = $scope.event.reminder_date.toISOString();
+                $scope.event.reminder_date = reminder_date2;
+            };
             EventByIdService.patch($scope.event.id, $scope.event).then(function(resp) {
                 $scope.listE = resp;
             });
             $scope.event = {
                 title: '',
-                body: '',
+                body: null,
                 event_date_start: '',
-                event_date_finish: '',
-                reminder_date: ''
+                event_date_finish: null,
+                reminder_date: null
             };
         };
         $scope.deleteEvent = function(id) {
@@ -283,10 +301,10 @@
             $scope.addTaskState = false
             $scope.event = {
                 title: '',
-                body: '',
+                body: null,
                 event_date_start: '',
-                event_date_finish: '',
-                reminder_date: ''
+                event_date_finish: null,
+                reminder_date: null
             };
         };
     }

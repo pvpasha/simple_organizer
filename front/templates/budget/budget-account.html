@@ -44,7 +44,10 @@
     <h3>{{ edit_status }}</h3>
     <form role="form">
       <div class="col-md-3">
-        Currency<input type="text" class="form-control" ng-model="budgetAccount.currency">
+        <select id="selected_currency">
+          <option value="" disabled="disabled" selected="selected">Select a currency</option>
+          <option ng-repeat="currency in listCurrency" value="{{ currency.id }}">{{ currency.short_name }}</option>
+        </select>
       </div>
       <div class="col-md-3">
         Name<input type="text" class="form-control" ng-model="budgetAccount.name">

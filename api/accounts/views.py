@@ -4,6 +4,12 @@ from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.files import File
 from django.contrib.auth.hashers import make_password, check_password
+from django.http import HttpResponse
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage
 from rest_framework import status, exceptions
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
@@ -11,6 +17,7 @@ from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView,
 
 from .models import OrganizerUser
 from .serializers import UserSerializer, UserListSerializer, UserProfileSerializer, UserProfileViewSerializer
+from .tokens import account_activation_token
 
 
 logger = logging.getLogger(__name__)
@@ -27,6 +34,19 @@ class RegistrationAPIView(CreateAPIView):
                                                      username=request.data['username'],
                                                      password=request.data['password1'])
             serializer = self.get_serializer_class()
+            current_site = get_current_site(request)
+            mail_subject = 'Simple Organizer - Activate your account.'
+            message = render_to_string('activate_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': account_activation_token.make_token(user),
+            })
+            to_email = request.data['email']
+            email = EmailMessage(
+                mail_subject, message, to=[to_email]
+            )
+            email.send()
             logger.info('User with email: "%s" and name: "%s" was created successful.'
                         % (request.data['email'], request.data['username']))
             return Response(serializer(user).data, status=status.HTTP_201_CREATED)
@@ -35,6 +55,20 @@ class RegistrationAPIView(CreateAPIView):
                          'RegistrationAPIView' % (request.data['email'], request.data['username']))
             return exceptions.ValidationError('Can not create. Passwords does not match',
                                               code=status.HTTP_417_EXPECTATION_FAILED)
+
+
+def activate(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = OrganizerUser.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+    else:
+        return HttpResponse('Activation link is invalid!')
 
 
 class UserListView(ListAPIView):
@@ -123,14 +157,12 @@ class UserAvatarUpdateView(UpdateAPIView):
             if self.request.user.email == self.kwargs['email']:
                 return OrganizerUser.objects.get(email=self.request.user.email)
             else:
-                logger.error('User with email %s cannot get user instance with email %s' % (
-                    self.request.user.email, self.kwargs['email']))
-                raise exceptions.PermissionDenied('Can not get user with email %s for UserAvatarUpdateView'
-                                                  % self.kwargs['email'])
+                logger.error('User with email %s cannot get user instance with email %s for UserAvatarUpdateView'
+                             % (self.request.user.email, self.kwargs['email']))
+                raise exceptions.PermissionDenied('Can not get user with email %s' % self.kwargs['email'])
         except ObjectDoesNotExist:
-            logger.error('User with email %s does not exist' % self.request.user.email)
-            raise exceptions.NotFound('Can not get user with email %s for UserAvatarUpdateView'
-                                      % self.request.user.email)
+            logger.error('User with email %s does not exist for UserAvatarUpdateView' % self.request.user.email)
+            raise exceptions.NotFound('Can not get user with email %s ' % self.request.user.email)
 
     def update(self, request, *args, **kwargs):
         if self.request.FILES['avatar']:
@@ -139,10 +171,10 @@ class UserAvatarUpdateView(UpdateAPIView):
                 instance = self.get_queryset()
                 if instance.avatar:
                     instance.avatar.delete()
-                instance.avatar.save(avatar.name, File(avatar))
-                instance.save()
-                serializer = self.get_serializer(instance)
-                return Response(serializer.data, status=status.HTTP_200_OK)
+                    instance.avatar.save(avatar.name, File(avatar))
+                    instance.save()
+                    serializer = self.get_serializer(instance)
+                    return Response(serializer.data, status=status.HTTP_200_OK)
             except TypeError:
                 logger.error('Wrong file type')
                 raise exceptions.ValidationError('Can not use this file type')

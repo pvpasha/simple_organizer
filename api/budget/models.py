@@ -35,7 +35,7 @@ class BudgetAccount(models.Model):
 class Invoice(models.Model):
     owner = models.ForeignKey(OrganizerUser, on_delete=models.CASCADE)
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
-    amount = models.IntegerField(null=True, blank=True, default=0)
+    amount = models.IntegerField(default=0)
 
     INCOME = 1
     OUTCOME = 0
@@ -46,6 +46,6 @@ class Invoice(models.Model):
     )
     transaction_type = models.IntegerField(choices=TT_CHOICES, default=INCOME)
     category = models.ForeignKey(CategoryBudget, models.SET_NULL, blank=True, null=True)
-    description = models.CharField(max_length=250)
+    description = models.CharField(max_length=500)
     budget_account = models.ForeignKey(BudgetAccount, on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
