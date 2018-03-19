@@ -6,6 +6,7 @@ api/files/static/
 api/files/
 !api/files/media/empty.jpg
 
+*.log
 *.env
 *.pyc
 *.sqlite3
