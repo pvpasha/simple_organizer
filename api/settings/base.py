@@ -5,7 +5,7 @@ from datetime import timedelta
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = 'key034950kjhkjhkjhuwer098weytvn0y30t9ywe0r9tvyw0e9trvyner'
+SECRET_KEY = 'O97L9FEPi8XuIoAE4xFT437zm06yXI0GwS8Gyme7YOzvqVQgFfsoNp09DKacQtcuIL8lS4gYAw9h6kMs6F9m'
 
 DEBUG = True
 
@@ -339,7 +339,7 @@ LOGGING = {
             'filters': ['debug_true'],
         },
         'mail_admins': {
-            'level': 'INFO',
+            'level': 'WARNING',
             'filters': ['debug_true'],
             'class': 'django.utils.log.AdminEmailHandler'
             # 'include_html': True,

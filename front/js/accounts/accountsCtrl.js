@@ -81,6 +81,7 @@
         $scope.updateName = function() {
             $scope.change_name_state = false;
             UpdateNameFactory.patch($localStorage.currentUser.email, $scope.newName).then(function(user) {
+                console.log(user);
                 $scope.userCurrent = user;
             });
         };
