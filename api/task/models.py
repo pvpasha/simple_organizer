@@ -20,7 +20,7 @@ class AbstractTask(models.Model):
 
     class Meta:
         abstract = True
-
+1
 
 class ShortTask(AbstractTask):
     finished = models.BooleanField(default=False)

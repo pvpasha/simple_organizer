@@ -5,7 +5,7 @@ from datetime import timedelta
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = 'O97L9FEPi8XuIoAE4xFT437zm06yXI0GwS8Gyme7YOzvqVQgFfsoNp09DKacQtcuIL8lS4gYAw9h6kMs6F9m'
+SECRET_KEY = 'Your KEY'
 
 DEBUG = True
 
@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
     'oauth2_provider',                  # oauth2
     'corsheaders',
+    'storages',
 
     'accounts',
     'budget',
@@ -82,31 +83,31 @@ AUTH_USER_MODEL = 'accounts.OrganizerUser'
 
 
 # Facebook configuration developers.facebook.com
-SOCIAL_AUTH_FACEBOOK_KEY = '1941904676136083'
-SOCIAL_AUTH_FACEBOOK_SECRET = 'f3bfc8c5f7d125186a379cc733f41326'
+SOCIAL_AUTH_FACEBOOK_KEY = '000000000000000000000000'
+SOCIAL_AUTH_FACEBOOK_SECRET = '000000000000000000000000'
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {'fields': 'id, name, email'}
 
 # Twitter configuration apps.twitter.com
-SOCIAL_AUTH_TWITTER_KEY = 'tq328SxBckRKIabef8bAElWWn'
-SOCIAL_AUTH_TWITTER_SECRET = 'yafk1bOOA18GkLabk7tY9WlruIKexVwvwSLRAdNBUcGIMYVDzr'
+SOCIAL_AUTH_TWITTER_KEY = '000000000000000000000000'
+SOCIAL_AUTH_TWITTER_SECRET = '000000000000000000000000'
 SOCIAL_AUTH_TWITTER_SCOPE = ['email']
 
 # Google configuration console.developers.google.com
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '870374304466-mntnl7obbg1ok09jujq915e03q3q74en.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'T-82D89sXjiMYE2FhgPmPNI1'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '000000000000000000000000'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '000000000000000000000000'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
     'https://www.googleapis.com/auth/userinfo.email',
     'https://www.googleapis.com/auth/userinfo.profile'
 ]
 
 # GitHUB configuration github.com/settings/developers
-SOCIAL_AUTH_GITHUB_KEY = '4605b9332d9a03eca134'
-SOCIAL_AUTH_GITHUB_SECRET = '883bbb40d1bd4082b867a4950783fe642eee1207'
+SOCIAL_AUTH_GITHUB_KEY = '000000000000000000000000'
+SOCIAL_AUTH_GITHUB_SECRET = '000000000000000000000000'
 
 # LinkedIn configuration linkedin.com/developer/apps
-SOCIAL_AUTH_LINKEDIN_OAUTH2_KEY = '86upih6mvan2z2'
-SOCIAL_AUTH_LINKEDIN_OAUTH2_SECRET = 'WqOkSGrE3cR5zVID'
+SOCIAL_AUTH_LINKEDIN_OAUTH2_KEY = '000000000000000000000000'
+SOCIAL_AUTH_LINKEDIN_OAUTH2_SECRET = '000000000000000000000000'
 SOCIAL_AUTH_LINKEDIN_OAUTH2_SCOPE = ['r_basicprofile', 'r_emailaddress']
 SOCIAL_AUTH_LINKEDIN_OAUTH2_SELECTORS = ['email-address', 'headline', 'industry']
 SOCIAL_AUTH_LINKEDIN_OAUTH2_DATA = [('id', 'id'),
@@ -132,25 +133,9 @@ WSGI_APPLICATION = 'wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ['POSTGRES_DB'],
-        'USER': os.environ['POSTGRES_USER'],
-        'PASSWORD': os.environ['POSTGRES_PASSWORD'],
-        'HOST': os.environ['POSTGRES_SERVICE'],
-        'PORT': os.environ['POSTGRES_PORT']
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'organizer.sqlite3')
         }
-    # {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': os.path.join(BASE_DIR, 'organizer.sqlite3')
-    # }
-    # {
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': os.environ['POSTGRES_DB'],
-    #     'USER': os.environ['POSTGRES_USER'],
-    #     'PASSWORD': os.environ['POSTGRES_PASSWORD'],
-    #     'HOST': os.environ['POSTGRES_SERVICE'],
-    #     'PORT': os.environ['POSTGRES_PORT']
-    # }
 }
 
 
@@ -174,23 +159,38 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
-# DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
-
 USE_I18N = True
 
 USE_L10N = True
 
 USE_TZ = True
 
+# AWS S3
+AWS_ACCESS_KEY_ID = '000000000000000000000000'
+AWS_SECRET_ACCESS_KEY = '000000000000000000000000'
+AWS_STORAGE_BUCKET_NAME = 'organizer-static'
+AWS_S3_CUSTOM_DOMAIN = 'https://%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'files', 'media')
-MEDIA_URL = '/media/'
-AVATAR_DIR = os.path.join(MEDIA_ROOT, 'avatar')
 
+MEDIA_URL = AWS_S3_CUSTOM_DOMAIN + '/media/'
+MEDIA_ROOT = MEDIA_URL
+AVATAR_DIR = MEDIA_URL + 'avatar/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'files', 'static')
-STATIC_URL = '/static/'
+# DEFAULT_FILE_STORAGE = 'storage_backends.MediaStorage'
+# from storages.backends.s3boto3 import S3Boto3Storage
+# class MediaStorage(S3Boto3Storage):
+#     location = 'media'
+#     file_overwrite = False
+
+AWS_LOCATION = '/static/'
+
+STATIC_URL = AWS_S3_CUSTOM_DOMAIN + AWS_LOCATION
+STATIC_ROOT = AWS_S3_CUSTOM_DOMAIN + AWS_LOCATION
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -214,7 +214,7 @@ REST_FRAMEWORK = {
         'rest_framework_social_oauth2.authentication.SocialAuthentication',
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10,
+    'PAGE_SIZE': 20,
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
@@ -268,16 +268,16 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'organizer2018.new@gmail.com'
-EMAIL_HOST_PASSWORD = 'adminadmin123!'
+EMAIL_HOST_USER = 'Your_e-mail.com'
+EMAIL_HOST_PASSWORD = '000000000000000000000000'
 EMAIL_USE_TLS = True
 # EMAIL_USE_SSL = 465
 # EMAIL_TIMEOUT =
 
-# SERVER_EMAIL = 'pv.pasha.pv@gmail.com'    # 'django@my-domain.com'
+# SERVER_EMAIL = 'e-mail.com'    # 'django@my-domain.com'
 
 ADMINS = (
-    ('Pasha M', 'pv.pasha.pv@gmail.com'),
+    ('User admin', 'admin_@e_mail.com'),
 )
 
 

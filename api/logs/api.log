@@ -1,0 +1,488 @@
+03/19 23:20:21: INFO >> "OPTIONS /token-refresh/ HTTP/1.1" 200 0
+03/19 23:20:22: INFO >> "OPTIONS /token-refresh/ HTTP/1.1" 200 0
+03/19 23:20:22: WARNING >> "POST /token-refresh/ HTTP/1.1" 400 39
+03/19 23:20:22: WARNING >> "POST /token-refresh/ HTTP/1.1" 400 39
+03/19 23:20:47: INFO >> "OPTIONS /token-auth/ HTTP/1.1" 200 0
+03/19 23:20:48: INFO >> Token for user with email <BoundField value=pvpasha@meta.ua errors=None> was save
+03/19 23:20:48: INFO >> "POST /token-auth/ HTTP/1.1" 200 236
+03/19 23:22:24: INFO >> "OPTIONS /accounts/sing-up/ HTTP/1.1" 200 0
+03/19 23:22:29: INFO >> User with email: "pvpasha2@meta.ua" and name: "pashamok" was created successful.
+03/19 23:22:29: INFO >> "POST /accounts/sing-up/ HTTP/1.1" 201 328
+03/19 23:23:01: WARNING >> "POST /token-auth/ HTTP/1.1" 400 57
+03/19 23:23:17: INFO >> "GET /accounts/activate/MTE/4um-c49967df7479e50858c3/ HTTP/1.1" 200 70
+03/19 23:23:18: WARNING >> Not Found: /favicon.ico
+03/19 23:23:18: WARNING >> "GET /favicon.ico HTTP/1.1" 404 3491
+03/19 23:23:57: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/19 23:23:57: INFO >> "POST /token-auth/ HTTP/1.1" 200 240
+03/19 23:24:03: INFO >> "OPTIONS /accounts/profile/pvpasha2@meta.ua/ HTTP/1.1" 200 0
+03/19 23:24:03: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/19 23:24:03: INFO >> "GET /accounts/profile/pvpasha2@meta.ua/ HTTP/1.1" 200 118
+03/19 23:24:03: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/19 23:24:53: INFO >> "OPTIONS /accounts/sing-up/ HTTP/1.1" 200 0
+03/19 23:24:53: ERROR >> Internal Server Error: /accounts/sing-up/
+Traceback (most recent call last):
+  File "D:\PV\My_work\splutsk\dev_build\venv\lib\site-packages\django\db\backends\utils.py", line 65, in execute
+    return self.cursor.execute(sql, params)
+  File "D:\PV\My_work\splutsk\dev_build\venv\lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return Database.Cursor.execute(self, query, params)
+sqlite3.IntegrityError: UNIQUE constraint failed: accounts_organizeruser.email
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\PV\My_work\splutsk\dev_build\venv\lib\site-packages\django\core\handlers\exception.py", line 41, in inner
+    response = get_response(request)
+  File "D:\PV\My_work\splutsk\dev_build\venv\lib\site-packages\django\core\handlers\base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\PV\My_work\splutsk\dev_build\venv\lib\site-packages\django\core\handlers\base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\PV\My_work\splutsk\dev_build\venv\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\PV\My_work\splutsk\dev_build\venv\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "D:\PV\My_work\splutsk\dev_build\venv\lib\site-packages\rest_framework\views.py", line 489, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\PV\My_work\splutsk\dev_build\venv\lib\site-packages\rest_framework\views.py", line 449, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\PV\My_work\splutsk\dev_build\venv\lib\site-packages\rest_framework\views.py", line 486, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\PV\My_work\splutsk\dev_build\api\accounts\views.py", line 35, in post
+    password=request.data['password1'])
+  File "D:\PV\My_work\splutsk\dev_build\api\accounts\models.py", line 16, in create_user
+    user.save()
+  File "D:\PV\My_work\splutsk\dev_build\venv\lib\site-packages\django\contrib\auth\base_user.py", line 80, in save
+    super(AbstractBaseUser, self).save(*args, **kwargs)
+  File "D:\PV\My_work\splutsk\dev_build\venv\lib\site-packages\django\db\models\base.py", line 808, in save
+    force_update=force_update, update_fields=update_fields)
+  File "D:\PV\My_work\splutsk\dev_build\venv\lib\site-packages\django\db\models\base.py", line 838, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "D:\PV\My_work\splutsk\dev_build\venv\lib\site-packages\django\db\models\base.py", line 924, in _save_table
+    result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+  File "D:\PV\My_work\splutsk\dev_build\venv\lib\site-packages\django\db\models\base.py", line 963, in _do_insert
+    using=using, raw=raw)
+  File "D:\PV\My_work\splutsk\dev_build\venv\lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "D:\PV\My_work\splutsk\dev_build\venv\lib\site-packages\django\db\models\query.py", line 1076, in _insert
+    return query.get_compiler(using=using).execute_sql(return_id)
+  File "D:\PV\My_work\splutsk\dev_build\venv\lib\site-packages\django\db\models\sql\compiler.py", line 1107, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\PV\My_work\splutsk\dev_build\venv\lib\site-packages\django\db\backends\utils.py", line 80, in execute
+    return super(CursorDebugWrapper, self).execute(sql, params)
+  File "D:\PV\My_work\splutsk\dev_build\venv\lib\site-packages\django\db\backends\utils.py", line 65, in execute
+    return self.cursor.execute(sql, params)
+  File "D:\PV\My_work\splutsk\dev_build\venv\lib\site-packages\django\db\utils.py", line 94, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "D:\PV\My_work\splutsk\dev_build\venv\lib\site-packages\django\utils\six.py", line 685, in reraise
+    raise value.with_traceback(tb)
+  File "D:\PV\My_work\splutsk\dev_build\venv\lib\site-packages\django\db\backends\utils.py", line 65, in execute
+    return self.cursor.execute(sql, params)
+  File "D:\PV\My_work\splutsk\dev_build\venv\lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return Database.Cursor.execute(self, query, params)
+django.db.utils.IntegrityError: UNIQUE constraint failed: accounts_organizeruser.email
+03/19 23:24:54: ERROR >> "POST /accounts/sing-up/ HTTP/1.1" 500 25719
+03/19 23:26:41: INFO >> User with email: "pv.pasha.pv@gmail.com" and name: "pasha" was created successful.
+03/19 23:26:41: INFO >> "POST /accounts/sing-up/ HTTP/1.1" 201 330
+03/19 23:27:11: INFO >> "GET /accounts/activate/MTI/4um-6c497e708c8af020c49f/ HTTP/1.1" 200 70
+03/19 23:28:36: INFO >> "OPTIONS /token-auth/ HTTP/1.1" 200 0
+03/19 23:28:36: INFO >> Token for user with email <BoundField value=pv.pasha.pv@gmail.com errors=None> was save
+03/19 23:28:36: INFO >> "POST /token-auth/ HTTP/1.1" 200 253
+03/19 23:28:40: INFO >> "OPTIONS /accounts/profile/pv.pasha.pv@gmail.com/ HTTP/1.1" 200 0
+03/19 23:28:40: INFO >> "OPTIONS /token-refresh/ HTTP/1.1" 200 0
+03/19 23:28:40: INFO >> "GET /accounts/profile/pv.pasha.pv@gmail.com/ HTTP/1.1" 200 120
+03/19 23:28:40: INFO >> Token for user with email <BoundField value=pv.pasha.pv@gmail.com errors=None> was save
+03/19 23:28:40: INFO >> "POST /token-refresh/ HTTP/1.1" 200 253
+03/19 23:28:55: INFO >> "OPTIONS /accounts/profile-name/pv.pasha.pv@gmail.com/ HTTP/1.1" 200 0
+03/19 23:28:55: INFO >> "PATCH /accounts/profile-name/pv.pasha.pv@gmail.com/ HTTP/1.1" 200 99
+03/19 23:28:57: INFO >> "GET /accounts/profile/pv.pasha.pv@gmail.com/ HTTP/1.1" 200 120
+03/19 23:29:02: INFO >> "OPTIONS /budget/total-amount-b-a-list/ HTTP/1.1" 200 0
+03/19 23:29:02: INFO >> "OPTIONS /budget/total-amount/ HTTP/1.1" 200 0
+03/19 23:29:02: INFO >> "GET /budget/total-amount-b-a-list/ HTTP/1.1" 200 52
+03/19 23:29:02: INFO >> "GET /budget/total-amount/ HTTP/1.1" 200 30
+03/19 23:29:17: INFO >> "GET /accounts/profile/pv.pasha.pv@gmail.com/ HTTP/1.1" 200 120
+03/19 23:29:17: INFO >> Token for user with email <BoundField value=pv.pasha.pv@gmail.com errors=None> was save
+03/19 23:29:17: INFO >> "POST /token-refresh/ HTTP/1.1" 200 253
+03/19 23:29:21: INFO >> "GET /accounts/profile/pv.pasha.pv@gmail.com/ HTTP/1.1" 200 120
+03/19 23:29:23: INFO >> "GET /accounts/profile/pv.pasha.pv@gmail.com/ HTTP/1.1" 200 120
+03/19 23:29:59: INFO >> "OPTIONS /contacts/list/ HTTP/1.1" 200 0
+03/19 23:30:00: INFO >> "GET /contacts/list/ HTTP/1.1" 200 52
+03/19 23:31:13: INFO >> "OPTIONS /contacts/create/ HTTP/1.1" 200 0
+03/19 23:31:14: INFO >> "POST /contacts/create/ HTTP/1.1" 201 185
+03/19 23:31:14: INFO >> "GET /contacts/list/ HTTP/1.1" 200 237
+03/19 23:31:29: INFO >> "OPTIONS /diary/list/ HTTP/1.1" 200 0
+03/19 23:31:29: INFO >> "GET /diary/list/ HTTP/1.1" 200 52
+03/19 23:31:43: INFO >> "OPTIONS /diary/create/ HTTP/1.1" 200 0
+03/19 23:31:43: INFO >> "POST /diary/create/ HTTP/1.1" 201 95
+03/19 23:31:43: INFO >> "GET /diary/list/ HTTP/1.1" 200 147
+03/19 23:31:46: INFO >> "OPTIONS /password-organizer/list/ HTTP/1.1" 200 0
+03/19 23:31:46: INFO >> "GET /password-organizer/list/ HTTP/1.1" 200 52
+03/19 23:31:59: INFO >> "OPTIONS /password-organizer/create/ HTTP/1.1" 200 0
+03/19 23:31:59: INFO >> "POST /password-organizer/create/ HTTP/1.1" 201 76
+03/19 23:31:59: INFO >> "GET /password-organizer/list/ HTTP/1.1" 200 128
+03/19 23:32:02: INFO >> "OPTIONS /task/short-list/ HTTP/1.1" 200 0
+03/19 23:32:03: INFO >> "GET /task/short-list/ HTTP/1.1" 200 52
+03/19 23:32:29: INFO >> "OPTIONS /task/short-create/ HTTP/1.1" 200 0
+03/19 23:32:29: INFO >> "POST /task/short-create/ HTTP/1.1" 201 442
+03/19 23:32:29: INFO >> "GET /task/short-list/ HTTP/1.1" 200 494
+03/19 23:32:35: INFO >> "OPTIONS /task/short-1/ HTTP/1.1" 200 0
+03/19 23:32:35: INFO >> "PATCH /task/short-1/ HTTP/1.1" 200 441
+03/19 23:32:35: INFO >> "GET /task/short-list/ HTTP/1.1" 200 493
+03/19 23:32:38: INFO >> "GET /task/short-list/ HTTP/1.1" 200 493
+03/19 23:32:40: INFO >> "OPTIONS /task/task/list/ HTTP/1.1" 200 0
+03/19 23:32:40: INFO >> "GET /task/task/list/ HTTP/1.1" 200 52
+03/19 23:32:44: INFO >> "OPTIONS /task/category-list/ HTTP/1.1" 200 0
+03/19 23:32:44: INFO >> "GET /task/category-list/ HTTP/1.1" 200 52
+03/19 23:33:12: INFO >> "GET /task/category-list/ HTTP/1.1" 200 52
+03/19 23:33:20: INFO >> "OPTIONS /task/category-create/ HTTP/1.1" 200 0
+03/19 23:33:20: INFO >> "POST /task/category-create/ HTTP/1.1" 201 34
+03/19 23:33:21: INFO >> "GET /task/category-list/ HTTP/1.1" 200 86
+03/19 23:33:27: INFO >> "POST /task/category-create/ HTTP/1.1" 201 34
+03/19 23:33:27: INFO >> "GET /task/category-list/ HTTP/1.1" 200 121
+03/19 23:33:32: INFO >> "OPTIONS /task/event-list/ HTTP/1.1" 200 0
+03/19 23:33:32: INFO >> "GET /task/event-list/ HTTP/1.1" 200 52
+03/19 23:33:33: INFO >> "GET /task/task/list/ HTTP/1.1" 200 52
+03/19 23:33:35: INFO >> "GET /task/category-list/ HTTP/1.1" 200 121
+03/19 23:34:11: INFO >> "OPTIONS /task/task/create/ HTTP/1.1" 200 0
+03/19 23:34:11: INFO >> "POST /task/task/create/ HTTP/1.1" 201 263
+03/19 23:34:11: INFO >> "GET /task/task/list/ HTTP/1.1" 200 303
+03/19 23:34:19: INFO >> "GET /task/event-list/ HTTP/1.1" 200 52
+03/19 23:35:02: INFO >> "OPTIONS /task/event-create/ HTTP/1.1" 200 0
+03/19 23:35:02: INFO >> "POST /task/event-create/ HTTP/1.1" 201 231
+03/19 23:35:02: INFO >> "GET /task/event-list/ HTTP/1.1" 200 271
+03/19 23:35:06: INFO >> "GET /task/short-list/ HTTP/1.1" 200 493
+03/19 23:35:08: INFO >> "GET /task/task/list/ HTTP/1.1" 200 303
+03/19 23:35:09: INFO >> "GET /task/event-list/ HTTP/1.1" 200 271
+03/19 23:35:09: INFO >> "GET /task/category-list/ HTTP/1.1" 200 121
+03/19 23:35:11: INFO >> "GET /task/short-list/ HTTP/1.1" 200 493
+03/19 23:35:13: INFO >> "GET /password-organizer/list/ HTTP/1.1" 200 128
+03/19 23:35:14: INFO >> "GET /diary/list/ HTTP/1.1" 200 147
+03/19 23:35:15: INFO >> "GET /password-organizer/list/ HTTP/1.1" 200 128
+03/19 23:35:16: INFO >> "GET /diary/list/ HTTP/1.1" 200 147
+03/19 23:35:17: INFO >> "GET /contacts/list/ HTTP/1.1" 200 237
+03/19 23:35:20: INFO >> "GET /budget/total-amount/ HTTP/1.1" 200 30
+03/19 23:35:20: INFO >> "GET /budget/total-amount-b-a-list/ HTTP/1.1" 200 52
+03/19 23:35:21: INFO >> "OPTIONS /budget/invoice-list/ HTTP/1.1" 200 0
+03/19 23:35:22: INFO >> "GET /budget/invoice-list/ HTTP/1.1" 200 52
+03/19 23:35:23: INFO >> "OPTIONS /budget/category-list/ HTTP/1.1" 200 0
+03/19 23:35:23: INFO >> "GET /budget/category-list/ HTTP/1.1" 200 52
+03/19 23:35:30: INFO >> "OPTIONS /budget/category-create/ HTTP/1.1" 200 0
+03/19 23:35:31: INFO >> "POST /budget/category-create/ HTTP/1.1" 201 33
+03/19 23:35:31: INFO >> "GET /budget/category-list/ HTTP/1.1" 200 85
+03/19 23:35:44: INFO >> "OPTIONS /budget/category-1/ HTTP/1.1" 200 0
+03/19 23:35:45: INFO >> "DELETE /budget/category-1/ HTTP/1.1" 204 0
+03/19 23:35:45: INFO >> "OPTIONS /budget/category-list HTTP/1.1" 200 0
+03/19 23:35:45: INFO >> "GET /budget/category-list HTTP/1.1" 301 0
+03/19 23:35:45: INFO >> "GET /budget/category-list/ HTTP/1.1" 200 52
+03/19 23:35:56: INFO >> "POST /budget/category-create/ HTTP/1.1" 201 34
+03/19 23:35:57: INFO >> "GET /budget/category-list/ HTTP/1.1" 200 86
+03/19 23:36:06: INFO >> "POST /budget/category-create/ HTTP/1.1" 201 34
+03/19 23:36:06: INFO >> "GET /budget/category-list/ HTTP/1.1" 200 121
+03/19 23:36:48: INFO >> "POST /budget/category-create/ HTTP/1.1" 201 34
+03/19 23:36:48: INFO >> "GET /budget/category-list/ HTTP/1.1" 200 156
+03/19 23:36:49: INFO >> "OPTIONS /budget/currency-list/ HTTP/1.1" 200 0
+03/19 23:36:49: INFO >> "GET /budget/currency-list/ HTTP/1.1" 200 52
+03/19 23:37:03: INFO >> "OPTIONS /budget/currency-create/ HTTP/1.1" 200 0
+03/19 23:37:03: INFO >> "POST /budget/currency-create/ HTTP/1.1" 201 54
+03/19 23:37:03: INFO >> "GET /budget/currency-list/ HTTP/1.1" 200 106
+03/19 23:37:15: INFO >> "POST /budget/currency-create/ HTTP/1.1" 201 52
+03/19 23:37:15: INFO >> "GET /budget/currency-list/ HTTP/1.1" 200 159
+03/19 23:37:17: INFO >> "OPTIONS /budget/account-list/ HTTP/1.1" 200 0
+03/19 23:37:18: INFO >> "GET /budget/account-list/ HTTP/1.1" 200 52
+03/19 23:37:21: INFO >> "GET /budget/currency-list/ HTTP/1.1" 200 159
+03/19 23:38:27: INFO >> "OPTIONS /budget/account-create/ HTTP/1.1" 200 0
+03/19 23:38:27: INFO >> "POST /budget/account-create/ HTTP/1.1" 201 149
+03/19 23:38:27: INFO >> "GET /budget/account-list/ HTTP/1.1" 200 201
+03/19 23:38:32: INFO >> "GET /budget/currency-list/ HTTP/1.1" 200 159
+03/19 23:39:28: INFO >> "POST /budget/account-create/ HTTP/1.1" 201 139
+03/19 23:39:28: INFO >> "GET /budget/account-list/ HTTP/1.1" 200 341
+03/19 23:39:30: INFO >> "GET /budget/invoice-list/ HTTP/1.1" 200 52
+03/19 23:39:33: INFO >> "GET /budget/category-list/ HTTP/1.1" 200 156
+03/19 23:39:33: INFO >> "GET /budget/account-list/ HTTP/1.1" 200 341
+03/19 23:39:33: INFO >> "GET /budget/currency-list/ HTTP/1.1" 200 159
+03/19 23:40:14: INFO >> "OPTIONS /budget/invoice-create/ HTTP/1.1" 200 0
+03/19 23:40:15: INFO >> "POST /budget/invoice-create/ HTTP/1.1" 201 199
+03/19 23:40:15: INFO >> "GET /budget/invoice-list/ HTTP/1.1" 200 251
+03/19 23:40:19: INFO >> "OPTIONS /budget/total-amount/ HTTP/1.1" 200 0
+03/19 23:40:19: INFO >> "OPTIONS /budget/total-amount-b-a-list/ HTTP/1.1" 200 0
+03/19 23:40:19: INFO >> "GET /budget/total-amount/ HTTP/1.1" 200 32
+03/19 23:40:19: INFO >> "GET /budget/total-amount-b-a-list/ HTTP/1.1" 200 54
+03/19 23:41:02: INFO >> "GET /budget/invoice-list/ HTTP/1.1" 200 251
+03/19 23:41:03: INFO >> "GET /budget/account-list/ HTTP/1.1" 200 341
+03/19 23:41:04: INFO >> "GET /budget/currency-list/ HTTP/1.1" 200 159
+03/19 23:41:04: INFO >> "GET /budget/category-list/ HTTP/1.1" 200 156
+03/19 23:44:36: INFO >> "OPTIONS /token-refresh/ HTTP/1.1" 200 0
+03/19 23:44:37: INFO >> Token for user with email <BoundField value=pv.pasha.pv@gmail.com errors=None> was save
+03/19 23:44:37: INFO >> "POST /token-refresh/ HTTP/1.1" 200 253
+03/19 23:44:39: INFO >> Token for user with email <BoundField value=pv.pasha.pv@gmail.com errors=None> was save
+03/19 23:44:39: INFO >> "POST /token-refresh/ HTTP/1.1" 200 253
+03/19 23:45:29: INFO >> "OPTIONS /token-auth/ HTTP/1.1" 200 0
+03/19 23:45:30: INFO >> Token for user with email <BoundField value=pv.pasha.pv@gmail.com errors=None> was save
+03/19 23:45:30: INFO >> "POST /token-auth/ HTTP/1.1" 200 253
+03/19 23:45:34: INFO >> "GET /budget/total-amount/ HTTP/1.1" 200 32
+03/19 23:45:34: INFO >> "GET /budget/total-amount-b-a-list/ HTTP/1.1" 200 54
+03/19 23:45:35: INFO >> "OPTIONS /contacts/list/ HTTP/1.1" 200 0
+03/19 23:45:36: INFO >> "GET /contacts/list/ HTTP/1.1" 200 237
+03/19 23:45:37: INFO >> "OPTIONS /diary/list/ HTTP/1.1" 200 0
+03/19 23:45:37: INFO >> "GET /diary/list/ HTTP/1.1" 200 147
+03/19 23:45:38: INFO >> "OPTIONS /password-organizer/list/ HTTP/1.1" 200 0
+03/19 23:45:38: INFO >> "GET /password-organizer/list/ HTTP/1.1" 200 128
+03/19 23:45:39: INFO >> "OPTIONS /task/short-list/ HTTP/1.1" 200 0
+03/19 23:45:39: INFO >> "GET /task/short-list/ HTTP/1.1" 200 493
+03/19 23:47:00: INFO >> Token for user with email <BoundField value=pv.pasha.pv@gmail.com errors=None> was save
+03/19 23:47:00: INFO >> "POST /token-auth/ HTTP/1.1" 200 253
+03/19 23:47:16: INFO >> "OPTIONS /accounts/profile/pv.pasha.pv@gmail.com/ HTTP/1.1" 200 0
+03/19 23:47:17: INFO >> Token for user with email <BoundField value=pv.pasha.pv@gmail.com errors=None> was save
+03/19 23:47:17: INFO >> "POST /token-refresh/ HTTP/1.1" 200 253
+03/19 23:47:17: INFO >> "GET /accounts/profile/pv.pasha.pv@gmail.com/ HTTP/1.1" 200 120
+03/19 23:48:21: INFO >> "OPTIONS /accounts/profile-name/pv.pasha.pv@gmail.com/ HTTP/1.1" 200 0
+03/19 23:48:22: INFO >> "PATCH /accounts/profile-name/pv.pasha.pv@gmail.com/ HTTP/1.1" 200 98
+03/19 23:48:52: INFO >> "GET /accounts/profile/pv.pasha.pv@gmail.com/ HTTP/1.1" 200 119
+03/19 23:50:04: INFO >> Token for user with email <BoundField value=pv.pasha.pv@gmail.com errors=None> was save
+03/19 23:50:04: INFO >> "POST /token-refresh/ HTTP/1.1" 200 253
+03/19 23:50:06: INFO >> "GET /budget/total-amount/ HTTP/1.1" 200 32
+03/19 23:50:06: INFO >> "GET /budget/total-amount-b-a-list/ HTTP/1.1" 200 54
+03/19 23:50:07: INFO >> "GET /contacts/list/ HTTP/1.1" 200 237
+03/19 23:50:09: INFO >> "GET /diary/list/ HTTP/1.1" 200 147
+03/19 23:50:10: INFO >> "GET /password-organizer/list/ HTTP/1.1" 200 128
+03/19 23:50:12: INFO >> "GET /task/short-list/ HTTP/1.1" 200 493
+03/19 23:50:29: INFO >> Token for user with email <BoundField value=pv.pasha.pv@gmail.com errors=None> was save
+03/19 23:50:29: INFO >> "POST /token-refresh/ HTTP/1.1" 200 253
+03/19 23:50:31: INFO >> "OPTIONS /budget/total-amount/ HTTP/1.1" 200 0
+03/19 23:50:31: INFO >> "OPTIONS /budget/total-amount-b-a-list/ HTTP/1.1" 200 0
+03/19 23:50:31: INFO >> "GET /budget/total-amount/ HTTP/1.1" 200 32
+03/19 23:50:32: INFO >> "GET /budget/total-amount-b-a-list/ HTTP/1.1" 200 54
+03/19 23:50:34: INFO >> Token for user with email <BoundField value=pv.pasha.pv@gmail.com errors=None> was save
+03/19 23:50:34: INFO >> "POST /token-refresh/ HTTP/1.1" 200 253
+03/19 23:50:38: INFO >> Token for user with email <BoundField value=pv.pasha.pv@gmail.com errors=None> was save
+03/19 23:50:38: INFO >> "POST /token-refresh/ HTTP/1.1" 200 253
+03/19 23:50:56: INFO >> Token for user with email <BoundField value=pv.pasha.pv@gmail.com errors=None> was save
+03/19 23:50:56: INFO >> "POST /token-refresh/ HTTP/1.1" 200 253
+03/19 23:55:46: INFO >> "GET /budget/total-amount-b-a-list/ HTTP/1.1" 200 54
+03/19 23:55:46: INFO >> "GET /budget/total-amount/ HTTP/1.1" 200 32
+03/19 23:55:51: INFO >> "OPTIONS /contacts/list/ HTTP/1.1" 200 0
+03/19 23:55:52: INFO >> "GET /contacts/list/ HTTP/1.1" 200 237
+03/19 23:55:53: INFO >> "OPTIONS /task/short-list/ HTTP/1.1" 200 0
+03/19 23:55:53: INFO >> "GET /task/short-list/ HTTP/1.1" 200 493
+03/19 23:55:55: INFO >> "OPTIONS /task/task/list/ HTTP/1.1" 200 0
+03/19 23:55:55: INFO >> "GET /task/task/list/ HTTP/1.1" 200 303
+03/19 23:55:56: INFO >> "OPTIONS /task/category-list/ HTTP/1.1" 200 0
+03/19 23:55:57: INFO >> "GET /task/category-list/ HTTP/1.1" 200 121
+03/20 00:00:36: INFO >> "OPTIONS /task/short-list/ HTTP/1.1" 200 0
+03/20 00:00:37: INFO >> "GET /task/short-list/ HTTP/1.1" 200 52
+03/20 00:00:40: INFO >> "OPTIONS /token-refresh/ HTTP/1.1" 200 0
+03/20 00:00:41: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:00:41: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:00:44: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:00:44: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:00:45: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:00:45: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:00:46: INFO >> "GET /task/short-list/ HTTP/1.1" 200 52
+03/20 00:00:48: INFO >> "OPTIONS /task/task/list/ HTTP/1.1" 200 0
+03/20 00:00:48: INFO >> "GET /task/task/list/ HTTP/1.1" 200 52
+03/20 00:00:51: INFO >> "OPTIONS /task/category-list/ HTTP/1.1" 200 0
+03/20 00:00:51: INFO >> "GET /task/category-list/ HTTP/1.1" 200 52
+03/20 00:01:25: INFO >> "OPTIONS /budget/total-amount/ HTTP/1.1" 200 0
+03/20 00:01:25: INFO >> "OPTIONS /budget/total-amount-b-a-list/ HTTP/1.1" 200 0
+03/20 00:01:26: INFO >> "GET /budget/total-amount/ HTTP/1.1" 200 30
+03/20 00:01:26: INFO >> "GET /budget/total-amount-b-a-list/ HTTP/1.1" 200 52
+03/20 00:01:27: INFO >> "OPTIONS /contacts/list/ HTTP/1.1" 200 0
+03/20 00:01:27: INFO >> "GET /contacts/list/ HTTP/1.1" 200 52
+03/20 00:01:28: INFO >> "GET /budget/total-amount/ HTTP/1.1" 200 30
+03/20 00:01:28: INFO >> "GET /budget/total-amount-b-a-list/ HTTP/1.1" 200 52
+03/20 00:01:29: INFO >> "OPTIONS /budget/account-list/ HTTP/1.1" 200 0
+03/20 00:01:29: INFO >> "GET /budget/account-list/ HTTP/1.1" 200 52
+03/20 00:01:30: INFO >> "OPTIONS /budget/currency-list/ HTTP/1.1" 200 0
+03/20 00:01:30: INFO >> "GET /budget/currency-list/ HTTP/1.1" 200 52
+03/20 00:01:40: INFO >> "GET /budget/currency-list/ HTTP/1.1" 200 52
+03/20 00:01:41: INFO >> "OPTIONS /budget/category-list/ HTTP/1.1" 200 0
+03/20 00:01:41: INFO >> "GET /budget/category-list/ HTTP/1.1" 200 52
+03/20 00:01:42: INFO >> "GET /budget/currency-list/ HTTP/1.1" 200 52
+03/20 00:01:43: INFO >> "OPTIONS /budget/invoice-list/ HTTP/1.1" 200 0
+03/20 00:01:43: INFO >> "GET /budget/invoice-list/ HTTP/1.1" 200 52
+03/20 00:01:44: INFO >> "OPTIONS /diary/list/ HTTP/1.1" 200 0
+03/20 00:01:44: INFO >> "GET /diary/list/ HTTP/1.1" 200 52
+03/20 00:03:58: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:03:58: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:04:00: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:04:00: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:04:00: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:04:01: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:04:03: INFO >> "GET /task/short-list/ HTTP/1.1" 200 52
+03/20 00:04:04: INFO >> "GET /task/task/list/ HTTP/1.1" 200 52
+03/20 00:04:05: INFO >> "GET /task/category-list/ HTTP/1.1" 200 52
+03/20 00:05:47: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:05:47: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:05:47: WARNING >> "GET /task/task/list/ HTTP/1.1" 401 58
+03/20 00:05:50: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:05:50: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:05:51: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:05:51: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:05:52: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:05:52: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:05:54: INFO >> "GET /task/short-list/ HTTP/1.1" 200 52
+03/20 00:05:58: INFO >> "GET /task/task/list/ HTTP/1.1" 200 52
+03/20 00:05:59: INFO >> "GET /task/category-list/ HTTP/1.1" 200 52
+03/20 00:07:06: INFO >> "OPTIONS /task/event-list/ HTTP/1.1" 200 0
+03/20 00:07:06: INFO >> "GET /task/event-list/ HTTP/1.1" 200 52
+03/20 00:08:30: INFO >> "OPTIONS /task/event-create/ HTTP/1.1" 200 0
+03/20 00:08:31: INFO >> "POST /task/event-create/ HTTP/1.1" 201 231
+03/20 00:08:31: INFO >> "GET /task/event-list/ HTTP/1.1" 200 271
+03/20 00:08:34: INFO >> "GET /task/task/list/ HTTP/1.1" 200 52
+03/20 00:08:35: INFO >> "GET /task/category-list/ HTTP/1.1" 200 52
+03/20 00:13:23: INFO >> "OPTIONS /token-refresh/ HTTP/1.1" 200 0
+03/20 00:13:23: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:13:23: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:13:26: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:13:26: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:13:26: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:13:26: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:13:28: INFO >> "OPTIONS /task/short-list/ HTTP/1.1" 200 0
+03/20 00:13:28: INFO >> "GET /task/short-list/ HTTP/1.1" 200 52
+03/20 00:13:29: INFO >> "OPTIONS /task/task/list/ HTTP/1.1" 200 0
+03/20 00:13:30: INFO >> "GET /task/task/list/ HTTP/1.1" 200 52
+03/20 00:13:32: INFO >> "OPTIONS /task/category-list/ HTTP/1.1" 200 0
+03/20 00:13:32: INFO >> "GET /task/category-list/ HTTP/1.1" 200 52
+03/20 00:14:20: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:14:20: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:14:26: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:14:26: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:14:26: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:14:26: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:14:29: INFO >> "GET /task/short-list/ HTTP/1.1" 200 52
+03/20 00:14:31: INFO >> "GET /task/task/list/ HTTP/1.1" 200 52
+03/20 00:14:35: INFO >> "GET /task/category-list/ HTTP/1.1" 200 52
+03/20 00:15:12: WARNING >> "GET /task/task/list/ HTTP/1.1" 401 58
+03/20 00:15:12: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:15:12: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:15:13: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:15:13: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:15:15: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:15:15: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:15:15: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:15:15: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:15:17: INFO >> "GET /task/short-list/ HTTP/1.1" 200 52
+03/20 00:15:19: INFO >> "GET /task/task/list/ HTTP/1.1" 200 52
+03/20 00:15:22: INFO >> "GET /task/category-list/ HTTP/1.1" 200 52
+03/20 00:16:27: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:16:27: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:16:29: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:16:29: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:16:30: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:16:30: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:16:31: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:16:31: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:16:32: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:16:32: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:16:32: INFO >> "GET /task/short-list/ HTTP/1.1" 200 52
+03/20 00:16:33: INFO >> "GET /task/event-list/ HTTP/1.1" 200 271
+03/20 00:17:26: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:17:26: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:17:28: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:17:28: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:17:29: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:17:29: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:17:30: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:17:30: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:17:31: INFO >> "GET /task/short-list/ HTTP/1.1" 200 52
+03/20 00:17:32: INFO >> "GET /task/task/list/ HTTP/1.1" 200 52
+03/20 00:17:33: INFO >> "GET /task/category-list/ HTTP/1.1" 200 52
+03/20 00:17:54: INFO >> "GET /task/category-list/ HTTP/1.1" 200 52
+03/20 00:18:01: INFO >> "OPTIONS /task/category-create/ HTTP/1.1" 200 0
+03/20 00:18:01: INFO >> "POST /task/category-create/ HTTP/1.1" 201 34
+03/20 00:18:01: INFO >> "GET /task/category-list/ HTTP/1.1" 200 86
+03/20 00:18:08: INFO >> "POST /task/category-create/ HTTP/1.1" 201 34
+03/20 00:18:09: INFO >> "GET /task/category-list/ HTTP/1.1" 200 121
+03/20 00:18:09: INFO >> "GET /task/task/list/ HTTP/1.1" 200 52
+03/20 00:18:11: INFO >> "GET /task/category-list/ HTTP/1.1" 200 121
+03/20 00:18:40: INFO >> "OPTIONS /task/task/create/ HTTP/1.1" 200 0
+03/20 00:18:40: INFO >> "POST /task/task/create/ HTTP/1.1" 201 249
+03/20 00:18:40: INFO >> "GET /task/task/list/ HTTP/1.1" 200 293
+03/20 00:19:05: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:19:05: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:19:07: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:19:07: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:19:07: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:19:07: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:19:09: INFO >> "GET /task/short-list/ HTTP/1.1" 200 52
+03/20 00:19:10: INFO >> "GET /task/task/list/ HTTP/1.1" 200 293
+03/20 00:19:11: INFO >> "GET /task/category-list/ HTTP/1.1" 200 121
+03/20 00:20:10: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:20:10: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:20:12: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:20:12: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:20:12: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:20:12: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:20:13: INFO >> "GET /task/short-list/ HTTP/1.1" 200 52
+03/20 00:20:15: INFO >> "GET /task/task/list/ HTTP/1.1" 200 293
+03/20 00:20:17: INFO >> "GET /task/category-list/ HTTP/1.1" 200 121
+03/20 00:23:35: INFO >> "OPTIONS /token-refresh/ HTTP/1.1" 200 0
+03/20 00:23:36: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:23:36: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:23:39: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:23:39: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:23:39: INFO >> Token for user with email <BoundField value=pvpasha2@meta.ua errors=None> was save
+03/20 00:23:39: INFO >> "POST /token-refresh/ HTTP/1.1" 200 240
+03/20 00:23:44: INFO >> "OPTIONS /task/short-list/ HTTP/1.1" 200 0
+03/20 00:23:44: INFO >> "GET /task/short-list/ HTTP/1.1" 200 52
+03/20 00:23:45: INFO >> "OPTIONS /task/task/list/ HTTP/1.1" 200 0
+03/20 00:23:46: INFO >> "GET /task/task/list/ HTTP/1.1" 200 293
+03/20 00:23:47: INFO >> "OPTIONS /task/category-list/ HTTP/1.1" 200 0
+03/20 00:23:47: INFO >> "GET /task/category-list/ HTTP/1.1" 200 121
+04/21 23:52:15: WARNING >> Not Found: /
+04/21 23:52:15: WARNING >> "GET / HTTP/1.1" 404 3440
+04/22 00:04:48: INFO >> User with email: "pasha__m@meta.ua" and name: "Pasha" was created successful.
+04/22 00:04:48: INFO >> "POST /accounts/sing-up/ HTTP/1.1" 201 325
+04/22 00:06:09: INFO >> "GET /accounts/activate/MTM/4vk-22cf691f1ac9193f5b73/ HTTP/1.1" 200 70
+05/09 18:21:26: WARNING >> Not Found: /api-docs/
+05/09 18:21:26: WARNING >> "GET /api-docs/ HTTP/1.1" 404 3230
+05/09 18:21:32: WARNING >> Not Found: /
+05/09 18:21:32: WARNING >> "GET / HTTP/1.1" 404 3185
+05/09 18:21:32: WARNING >> Not Found: /favicon.ico
+05/09 18:21:32: WARNING >> "GET /favicon.ico HTTP/1.1" 404 3236
+05/09 18:21:55: INFO >> "GET /admin HTTP/1.1" 301 0
+05/09 18:21:55: INFO >> "GET /admin/ HTTP/1.1" 302 0
+05/09 18:21:56: INFO >> "GET /admin/login/?next=/admin/ HTTP/1.1" 200 1725
+05/09 20:40:39: WARNING >> Not Found: /
+05/09 20:40:40: WARNING >> "GET / HTTP/1.1" 404 3185
+05/09 20:40:46: INFO >> "GET /admin/ HTTP/1.1" 302 0
+05/09 20:40:47: INFO >> "GET /admin/login/?next=/admin/ HTTP/1.1" 200 1725
+05/09 21:04:27: INFO >> "GET /admin/ HTTP/1.1" 302 0
+05/09 21:04:27: INFO >> "GET /admin/login/?next=/admin/ HTTP/1.1" 200 1733
+05/09 21:04:38: INFO >> "GET /admin/login/?next=/admin/ HTTP/1.1" 200 1733
+05/09 21:05:09: INFO >> "POST /admin/login/?next=/admin/ HTTP/1.1" 200 1902
+05/09 21:05:36: INFO >> "POST /admin/login/?next=/admin/ HTTP/1.1" 200 1907
+05/09 21:07:06: INFO >> "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+05/09 21:07:06: INFO >> "GET /admin/ HTTP/1.1" 200 14982
+05/09 21:09:54: INFO >> "GET /admin/ HTTP/1.1" 200 14982
+05/09 21:09:59: INFO >> "GET /admin/ HTTP/1.1" 200 14982
+05/09 21:10:05: INFO >> "GET /admin/diary/ HTTP/1.1" 200 2280
+05/09 21:16:31: INFO >> "GET /admin/diary/ HTTP/1.1" 200 2280
+05/09 21:16:50: INFO >> "GET /admin/ HTTP/1.1" 200 14982
+05/09 21:17:02: INFO >> "GET /admin/accounts/organizeruser/ HTTP/1.1" 200 11336
+05/09 21:17:03: INFO >> "GET /admin/jsi18n/ HTTP/1.1" 200 3189
+05/09 21:17:30: INFO >> "GET /admin/accounts/organizeruser/ HTTP/1.1" 200 11336
+05/09 21:25:07: INFO >> "GET /admin/accounts/organizeruser/ HTTP/1.1" 200 11336
+05/10 00:22:45: INFO >> "GET /admin/ HTTP/1.1" 200 14994
+05/10 00:23:16: INFO >> "GET /admin/ HTTP/1.1" 200 14994
+05/10 00:23:28: INFO >> "GET /admin/ HTTP/1.1" 200 14994
+05/10 00:25:08: INFO >> "GET /admin/ HTTP/1.1" 200 14994
+05/10 00:25:13: INFO >> "GET /admin/ HTTP/1.1" 200 14994
+05/10 00:25:18: INFO >> "GET /admin/ HTTP/1.1" 200 14994
+05/10 00:25:21: WARNING >> Not Found: /favicon.ico
+05/10 00:25:21: WARNING >> "GET /favicon.ico HTTP/1.1" 404 3364
+05/10 00:25:23: INFO >> "GET /admin/ HTTP/1.1" 200 14994
+05/10 00:25:30: WARNING >> Not Found: /favicon.ico
+05/10 00:25:30: WARNING >> "GET /favicon.ico HTTP/1.1" 404 3364
+05/10 00:25:52: INFO >> "GET /admin/ HTTP/1.1" 200 14994
+05/10 00:25:55: WARNING >> Not Found: /favicon.ico
+05/10 00:25:55: WARNING >> "GET /favicon.ico HTTP/1.1" 404 3364
+05/10 00:26:18: INFO >> "GET /admin/ HTTP/1.1" 200 14994
+05/10 00:26:25: WARNING >> Not Found: /favicon.ico
+05/10 00:26:25: WARNING >> "GET /favicon.ico HTTP/1.1" 404 3364
+05/10 00:26:48: INFO >> "GET /admin/ HTTP/1.1" 200 14994
+05/10 00:26:55: WARNING >> Not Found: /favicon.ico
+05/10 00:26:55: WARNING >> "GET /favicon.ico HTTP/1.1" 404 3236
+05/10 00:35:27: WARNING >> Not Found: /
+05/10 00:35:27: WARNING >> "GET / HTTP/1.1" 404 3185
+05/10 00:35:42: WARNING >> Not Found: /budget/
+05/10 00:35:42: WARNING >> "GET /budget/ HTTP/1.1" 404 6471
+05/10 00:36:08: INFO >> "GET /budget/currency-list/ HTTP/1.1" 200 5805

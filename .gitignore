@@ -1,10 +1,8 @@
 .idea/
 migrations/
 venv/
-api/static/rest_framework/
-api/files/static/
-api/files/
-!api/files/media/empty.jpg
+api/logs/
+
 
 *.log
 *.env

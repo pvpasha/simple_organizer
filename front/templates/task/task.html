@@ -48,36 +48,38 @@
   <div ng-if="addTaskState || editTaskState">
     <h3>{{ edit_status }}</h3>
     <form role="form">
-      <div class="col-md-4">
-        Title<input type="text" class="form-control" ng-model="task.title">
+      <div class="form-group">
+        <div class="col-md-4">
+          Title<input type="text" class="form-control" ng-model="task.title">
+        </div>
+        <div class="col-md-6">
+          Body<textarea class="form-control" rows="8" ng-model="task.body"></textarea>
+        </div>
+        <div class="col-md-4">
+          <select id="selected_category">
+            <option value="" disabled="disabled" selected="selected">Please select a category</option>
+            <option ng-repeat="category in listCategoryForTask" value="{{ category.id }}">{{ category.title }}</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          Start date<input type="datetime-local" class="form-control" ng-model="task.starting_date">
+        </div>
+        <div class="col-md-3">
+          Finish date<input type="datetime-local" class="form-control" ng-model="task.finishing_date">
+        </div>
+        <div class="col-md-3">
+          Reminder date<input type="datetime-local" class="form-control" ng-model="task.reminder_date">
+        </div>
+        <div class="checkbox">
+          <label><input type="checkbox" ng-model="task.finished">Finished</label>
+        </div>
+        <button type="button" class="btn btn-success" ng-click="createTask()" ng-if="addTaskState">
+                  Add task</button>
+        <button type="button" class="btn btn-success" ng-click="updateTask()" ng-if="editTaskState">
+                  Save task</button>
+        <button type="button" class="btn btn-warning" ng-click="cancel()" ng-if="addTaskState || editTaskState">
+                  Cancel</button>
       </div>
-      <div class="col-md-8">
-        Body<textarea class="form-control" rows="8" ng-model="task.body"></textarea>
-      </div>
-      <div class="col-md-4">
-        <select id="selected_category">
-          <option value="" disabled="disabled" selected="selected">Please select a category</option>
-          <option ng-repeat="category in listCategoryForTask" value="{{ category.id }}">{{ category.title }}</option>
-        </select>
-      </div>
-      <div class="col-md-3">
-        Start date<input type="datetime-local" class="form-control" ng-model="task.starting_date">
-      </div>
-      <div class="col-md-3">
-        Finish date<input type="datetime-local" class="form-control" ng-model="task.finishing_date">
-      </div>
-      <div class="col-md-3">
-        Reminder date<input type="datetime-local" class="form-control" ng-model="task.reminder_date">
-      </div>
-      <div class="checkbox">
-        <label><input type="checkbox" ng-model="task.finished">Finished</label>
-      </div>
-      <button type="button" class="btn btn-success" ng-click="createTask()" ng-if="addTaskState">
-                Add task</button>
-      <button type="button" class="btn btn-success" ng-click="updateTask()" ng-if="editTaskState">
-                Save task</button>
-      <button type="button" class="btn btn-warning" ng-click="cancel()" ng-if="addTaskState || editTaskState">
-                Cancel</button>
     </form>
   </div>
 </body>
