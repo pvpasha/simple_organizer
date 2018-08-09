@@ -1,6 +1,11 @@
-.env/
 .idea/
-
 migrations/
+venv/
+api/logs/
 
+
+*.log
+*.env
 *.pyc
+*.sqlite3
+*.sqlite3-journal

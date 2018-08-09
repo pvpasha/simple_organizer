@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ vm.title }}</title>
+</head>
+<body>
+  <h1 class="page-header">Invoice <small><span class="glyphicon glyphicon-usd"></span></small></h1>
+  <ul class="nav nav-tabs">
+    <li><a href="#!/budget">My budget</a></li>
+    <li class="active"><a href="#!/budget/invoice">Invoice</a></li>
+    <li><a href="#!/budget/account">Budget Account</a></li>
+    <li><a href="#!/budget/currency">Currency</a></li>
+    <li><a href="#!/budget/category">Category budget</a></li>
+  </ul>
+  <button type="button" class="btn btn-info" ng-click="listInvoice()">List
+        <span class="glyphicon glyphicon-refresh"></span></button>
+  <button type="button" class="btn btn-success" ng-click="addInvoice()">Add
+        <span class="glyphicon glyphicon-plus"></span></button>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <tr>
+        <th># ID</th>
+        <th>Currency</th>
+        <th>Amount</th>
+        <th>Transaction type</th>
+        <th>Budget account</th>
+        <th>Category</th>
+        <th>Creation date</th>
+        <th>Edit Delete</th>
+      </tr>
+      <tr ng-repeat="item in listInvoice">
+        <td>{{ item.id }}</td>
+        <td>{{ item.currency }}</td>
+        <td>{{ item.amount }}</td>
+        <td><span class="{{ item.transaction_type | transactionTypeIcon }}"></span></td>
+        <td>{{ item.budget_account }}</td>
+        <td>{{ item.category }}</td>
+        <td>{{ item.creation_date | date:'yyyy.MM.dd' }}</td>
+        <td><button type="button" class="btn btn-info" ng-click="editInvoice(item)">
+                    <span class="glyphicon glyphicon-pencil"></span></button>
+          <button type="button" class="btn btn-danger" ng-click="deleteInvoice(item.id)">
+                    <span class="glyphicon glyphicon-remove"></span></button></td>
+      </tr>
+    </table>
+  </div>
+  <div ng-if="addItemState || editItemState">
+    <h3>{{ edit_status }}</h3>
+    <form role="form">
+      <div class="col-md-2">
+        <select id="selected_currency">
+          <option value="" disabled="disabled" selected="selected">Select a currency</option>
+          <option ng-repeat="currency in listCurrency" value="{{ currency.id }}">{{ currency.short_name }}</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        Amount<input type="number" class="form-control" ng-model="invoice.amount">
+      </div>
+      <div class="col-md-2">
+        <select id="selected_transaction_type">
+          <option value="" disabled="disabled" selected="selected">Select transaction type</option>
+          <option value="1">Income</option>
+          <option value="0">Outcome</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <select id="selected_budget_account">
+          <option value="" disabled="disabled" selected="selected">Select a budget account</option>
+          <option ng-repeat="account in listBudgetAccount" value="{{ account.id }}">
+            {{ account.currency }} - {{ account.short_name }}</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <select id="selected_category">
+          <option value="" disabled="disabled" selected="selected">Select a category</option>
+          <option ng-repeat="category in listBudgetCategory" value="{{ category.id }}">{{ category.title }}</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        Description<input type="text" class="form-control" ng-model="invoice.description">
+      </div>
+      <button type="button" class="btn btn-success" ng-click="createInvoice()" ng-if="addItemState">
+                Add invoice</button>
+      <button type="button" class="btn btn-success" ng-click="updateInvoice()" ng-if="editItemState">
+                Save invoice</button>
+      <button type="button" class="btn btn-warning" ng-click="cancel()" ng-if="addItemState || editItemState">
+                Cancel</button>
+    </form>
+  </div>
+</body>
+</html>

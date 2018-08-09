@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>{{ vm.title }}</title>
+</head>
+
+<body>
+  <h1 class="page-header">Task <small><span class="glyphicon glyphicon-check"></span></small></h1>
+  <ul class="nav nav-tabs">
+    <li><a href="#!task/short">Short Task</a></li>
+    <li class="active"><a href="#!task">Task</a></li>
+    <li><a href="#!task/event">Event</a></li>
+    <li><a href="#!task/category">Category Task</a></li>
+  </ul>
+  <button type="button" class="btn btn-info" ng-click="listTask()">List
+        <span class="glyphicon glyphicon-refresh"></span></button>
+  <button type="button" class="btn btn-success" ng-click="addTask()">Add
+        <span class="glyphicon glyphicon-plus"></span></button>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <tr>
+        <th># ID</th>
+        <th>Title</th>
+        <th>Category</th>
+        <th>Starting date</th>
+        <th>Finishing date</th>
+        <th>Reminder date</th>
+        <th>Finished</th>
+        <th>Edit Delete</th>
+      </tr>
+      <tr ng-repeat="item in listT">
+        <td>{{ item.id }}</td>
+        <td>{{ item.title }}</td>
+        <td>{{ item.category }}</td>
+        <td>{{ item.starting_date | date:'dd.MM.yyyy HH:mm' }}</td>
+        <td>{{ item.finishing_date | date:'dd.MM.yyyy HH:mm' }}</td>
+        <td>{{ item.reminder_date | date:'dd.MM.yyyy HH:mm' }}</td>
+        <td><span class="{{ item.finished | taskFinished }}"></span></td>
+        <td><button type="button" class="btn btn-info" ng-click="editTask(item)">
+                    <span class="glyphicon glyphicon-pencil"></span></button>
+          <button type="button" class="btn btn-danger" ng-click="deleteTask(item.id)">
+                    <span class="glyphicon glyphicon-remove"></span></button></td>
+      </tr>
+    </table>
+  </div>
+  <div ng-if="addTaskState || editTaskState">
+    <h3>{{ edit_status }}</h3>
+    <form role="form">
+      <div class="form-group">
+        <div class="col-md-4">
+          Title<input type="text" class="form-control" ng-model="task.title">
+        </div>
+        <div class="col-md-6">
+          Body<textarea class="form-control" rows="8" ng-model="task.body"></textarea>
+        </div>
+        <div class="col-md-4">
+          <select id="selected_category">
+            <option value="" disabled="disabled" selected="selected">Please select a category</option>
+            <option ng-repeat="category in listCategoryForTask" value="{{ category.id }}">{{ category.title }}</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          Start date<input type="datetime-local" class="form-control" ng-model="task.starting_date">
+        </div>
+        <div class="col-md-3">
+          Finish date<input type="datetime-local" class="form-control" ng-model="task.finishing_date">
+        </div>
+        <div class="col-md-3">
+          Reminder date<input type="datetime-local" class="form-control" ng-model="task.reminder_date">
+        </div>
+        <div class="checkbox">
+          <label><input type="checkbox" ng-model="task.finished">Finished</label>
+        </div>
+        <button type="button" class="btn btn-success" ng-click="createTask()" ng-if="addTaskState">
+                  Add task</button>
+        <button type="button" class="btn btn-success" ng-click="updateTask()" ng-if="editTaskState">
+                  Save task</button>
+        <button type="button" class="btn btn-warning" ng-click="cancel()" ng-if="addTaskState || editTaskState">
+                  Cancel</button>
+      </div>
+    </form>
+  </div>
+</body>
+
+</html>

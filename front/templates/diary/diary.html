@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ vm.title }}</title>
+</head>
+<body>
+  <h1 class="page-header">Diary <small><span class="glyphicon glyphicon-pencil"></span></small></h1>
+  <button type="button" class="btn btn-info" ng-click="listDiary()">List
+        <span class="glyphicon glyphicon-refresh"></span></button>
+  <button type="button" class="btn btn-success" ng-click="addDiary()">Add
+        <span class="glyphicon glyphicon-plus"></span></button>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <tr>
+        <th># ID</th>
+        <th>Title</th>
+        <th>Creation date</th>
+        <th>Edit Delete</th>
+      </tr>
+      <tr ng-repeat="item in items">
+        <td>{{ item.id }}</td>
+        <td>{{ item.title }}</td>
+        <td>{{ item.creation_date | date:'dd.MM.yyyy' }}</td>
+        <td><button type="button" class="btn btn-info" ng-click="editDiary(item)">
+                    <span class="glyphicon glyphicon-pencil"></span></button>
+          <button type="button" class="btn btn-danger" ng-click="deleteDiary(item.id)">
+                    <span class="glyphicon glyphicon-remove"></span></button></td>
+      </tr>
+    </table>
+  </div>
+  <div ng-if="addDiaryState || editDiaryState">
+    <h3>{{ edit_status }}</h3>
+    <form role="form">
+      <div class="col-md-4">
+        Title<input type="text" class="form-control" ng-model="diary.title">
+      </div>
+      <div class="col-md-8">
+        Body<textarea rows="4" cols="100" class="form-control" ng-model="diary.body"></textarea>
+      </div>
+      <button type="button" class="btn btn-success" ng-click="createDiary()" ng-if="addDiaryState">
+                Add diary</button>
+      <button type="button" class="btn btn-success" ng-click="updateDiary()" ng-if="editDiaryState">
+                Save diary</button>
+      <button type="button" class="btn btn-warning" ng-click="cancel()" ng-if="addDiaryState || editDiaryState">
+                Cancel</button>
+    </form>
+  </div>
+</body>
+</html>

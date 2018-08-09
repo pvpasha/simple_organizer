@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Profile</title>
+</head>
+<body>
+  <h1 class="page-header">User profile <small><span class="glyphicon glyphicon-user"></span></small></h1>
+  <div class="col-md-12">
+    <div class="col-md-12">
+      <button type="button" class="btn btn-info" ng-click="userProfile()"><span class="glyphicon glyphicon-refresh">
+      </span></button>
+    </div>
+    <div class="col-md-3 text-center">
+      <img src="{{ userCurrent.avatar }}" ng-click="changeAvatar()">
+      <!--<input type="file" id="avatar">-->
+      <!--<button type="button" class="btn btn-info" ng-click="changeAvatar()">Send >></button>-->
+      <!--<h6><i>(click on picture for change)</i></h6>-->
+      <h4>Name: <span class="label label-primary" ng-click="changeName()">
+        <b>{{userCurrent.username}} {{userCurrent.second_name}}</b></span></h4>
+      <h6><i>(click on name for change)</i></h6>
+      <div class="alert alert-info" role="alert" ng-if="change_name_state"><b>Update Your name please</b><br>
+        <form role="form">
+          <input type="text" class="form-control" placeholder="Name" ng-model="newName.username"><br>
+          <input type="text" class="form-control" placeholder="Surname" ng-model="newName.second_name"><br>
+          <button type="button" class="btn btn-success" ng-click="updateName()">
+            <span class="glyphicon glyphicon-ok"></span>
+          </button>
+          <button type="button" class="btn btn-warning" ng-click="changeCancel()">
+            <span class="glyphicon glyphicon-remove"></span>
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-3 text-center">
+      <h4>Email: <span class="label label-primary" ng-click="changeEmail()"><b>{{userCurrent.email}}</b></span></h4>
+      <!--<h6><i>(click on email for change)</i></h6>-->
+      <div class="alert alert-danger" role="alert" ng-if="change_email_state">
+        <b>Do You want to change the email?</b><br>
+        <button type="button" class="btn btn-success" ng-click="">
+          <span class="glyphicon glyphicon-ok"></span>
+        </button>
+        <button type="button" class="btn btn-warning" ng-click="changeCancel()">
+          <span class="glyphicon glyphicon-remove"></span>
+        </button>
+      </div><br>
+      <h4>Password: <span class="label label-primary" ng-click="changePassword()"><b>***************</b></span></h4>
+      <!--<h6><i>(click on password for change)</i></h6>-->
+      <div class="alert alert-danger" role="alert" ng-if="change_password_state">
+        <b>Do You want to change the password?</b><br>
+        <button type="button" class="btn btn-success" ng-click="">
+          <span class="glyphicon glyphicon-ok"></span>
+        </button>
+        <button type="button" class="btn btn-warning" ng-click="changeCancel()">
+          <span class="glyphicon glyphicon-remove"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

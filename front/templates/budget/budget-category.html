@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ vm.title }}</title>
+</head>
+<body>
+  <h1 class="page-header">Category budget <small><span class="glyphicon glyphicon-usd"></span></small></h1>
+  <ul class="nav nav-tabs">
+    <li><a href="#!/budget">My budget</a></li>
+    <li><a href="#!/budget/invoice">Invoice</a></li>
+    <li><a href="#!/budget/account">Budget Account</a></li>
+    <li><a href="#!/budget/currency">Currency</a></li>
+    <li class="active"><a href="#!/budget/category">Category budget</a></li>
+  </ul>
+  <button type="button" class="btn btn-info" ng-click="listBudgetCategory()">List
+        <span class="glyphicon glyphicon-refresh"></span></button>
+  <button type="button" class="btn btn-success" ng-click="addBudgetCategory()">Add
+        <span class="glyphicon glyphicon-plus"></span></button>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <tr>
+        <th># ID</th>
+        <th>Title</th>
+        <th>Edit Delete</th>
+      </tr>
+      <tr ng-repeat="item in listBC">
+        <td>{{ item.id }}</td>
+        <td>{{ item.title }}</td>
+        <td><button type="button" class="btn btn-info" ng-click="editBudgetCategory(item)">
+                    <span class="glyphicon glyphicon-pencil"></span></button>
+          <button type="button" class="btn btn-danger" ng-click="deleteBudgetCategory(item.id)">
+                    <span class="glyphicon glyphicon-remove"></span></button></td>
+      </tr>
+    </table>
+  </div>
+  <div ng-if="addItemState || editItemState">
+    <h3>{{ edit_status }}</h3>
+    <form role="form">
+      <div class="col-md-3">
+        Currency<input type="text" class="form-control" ng-model="budgetCategory.title">
+      </div>
+      <button type="button" class="btn btn-success" ng-click="createBudgetCategory()" ng-if="addItemState">
+                Add account</button>
+      <button type="button" class="btn btn-success" ng-click="updateBudgetCategory()" ng-if="editItemState">
+                Save account</button>
+      <button type="button" class="btn btn-warning" ng-click="cancel()" ng-if="addItemState || editItemState">
+                Cancel</button>
+    </form>
+  </div>
+</body>
+</html>
